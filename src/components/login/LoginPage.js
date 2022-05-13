@@ -9,8 +9,8 @@ function LoginPage(props) {
 
     const username = useFormInput('');
     const password = useFormInput('');
-    const errMsg = useFormInput('');
-    const success = useFormInput(false);
+    const [errMsg, setErrMsg] = useState(null);
+    const [success, setSuccess] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,24 +26,20 @@ function LoginPage(props) {
             console.log(JSON.stringify(response?.data));
             const accessToken = response?.data?.token;
             setAuth({ username, password, accessToken });
-            console.log(username, success, errMsg)
+            setSuccess(true);
+            console.log(username, success, errMsg);
         } catch (err) {
-            console.log(err)
-            if (!err?.response) {
-                errMsg.value = 'No Server Response';
-            } else if (err.response?.status === 400) {
-                errMsg.value = 'Miss Username or Password';
-            } else if (err.response?.status === 401) {
-                errMsg.value = 'Unauthorize';
-            } else {
-                errMsg.value = 'Login Failed';
-            }
+            console.log(err);
+            if (err.response.status === 400 || err.response.status === 401)
+                setErrMsg(err.response.data.description);
+            else 
+                setErrMsg("Something went wrong. Please try again later.");
         }
     }
 
     return (
         <>
-            {success.value ? alert("Đăng nhập thành công") : (
+            {success ? alert("Đăng nhập thành công") : (
                 <div className='login'>
                     <div className='head'>
                         <h1 className='company'>Đại học Tôn Đức Thắng</h1>
@@ -57,7 +53,7 @@ function LoginPage(props) {
                         </div>
                         <button type="submit" className='btn btn-login'>Đăng nhập</button>
 
-                        <p className={errMsg.value ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg.value}</p>
+                        <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
                     </form>
                 </div>
             )}
