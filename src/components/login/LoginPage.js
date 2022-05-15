@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import AuthContext from '../context/AuthProvider';
-
+import { Navigate }  from "react-router-dom";
 import axios from '../../middlewares/axios';
 import { LOGIN_URL } from '../../middlewares/constant';
 
@@ -26,6 +26,7 @@ function LoginPage(props) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(username, password)
         // send request
         try {
             const response = await axios.post(LOGIN_URL,
@@ -35,7 +36,7 @@ function LoginPage(props) {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data))
+            console.log(response.data.token)
             const accessToken = response?.data?.token;
             setAuth({ username, password, accessToken })
             setSuccess(true);
@@ -57,7 +58,7 @@ function LoginPage(props) {
 
     return (
         <>
-            {success ? alert("Đăng nhập thành công") : (
+            {success ? <Navigate to ="/register"/> : (
                 <div className='login'>
                     <div className='head'>
                         <h1 className='company'>Đại học Tôn Đức Thắng</h1>
