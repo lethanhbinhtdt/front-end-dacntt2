@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from '../../middlewares/axios';
 import { useNavigate, useLocation } from 'react-router-dom'
-
-import { LOGIN_URL } from '../../middlewares/constant';
+import GoogleLogin from 'react-google-login';
+import { BASE_URL, LOGIN_URL } from '../../middlewares/constant';
 import { setUserSession } from '../../middlewares/common'
+import { useCookies } from 'react-cookie'
 
 function LoginPage(props) {
 
@@ -14,6 +15,8 @@ function LoginPage(props) {
     const navigate = useNavigate();
     const location = useLocation();
     const redirectPath = location.state?.path || '/';
+    const [cookies, setCookie] = useCookies(['access_token'])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,7 +41,19 @@ function LoginPage(props) {
                 setErrMsg("Something went wrong. Please try again later.");
         }
     }
-
+    const responseSuccessGoogle = async (reponse)=>{
+        console.log("thanh cong", reponse)
+        const dataResponseFromNode = await axios.post(BASE_URL+"account/oauth2", {tokenId:reponse.tokenId})
+        console.log(dataResponseFromNode.data.token)
+        let expires = new Date()
+        expires.setTime(expires.getTime() + (60*60*4)) // hết hạn sau 4h 
+        setCookie('access_token', dataResponseFromNode.data.token, { path: '/',  expires})
+        
+    }
+    const responseFailGoogle = (response) =>{
+        console.log(response)
+    }
+    
     return (
         // <div className='login'>
         //     <div className='head'>
@@ -72,9 +87,18 @@ function LoginPage(props) {
                                 <button type="submit" className="btn btn-primary btn-block">Đăng nhập</button>
                             </div>
                             <div className="form-group">
-                                <div>Hoặc đăng nhập bằng</div>
-                                {/*------------------------- GG-signin HERE */}
-                                {/* <div className="g-signin2 mt-4" data-onsuccess="onSignIn"></div> */}
+                                
+                                <div className="middle">Hoặc đăng nhập bằng</div>
+                                 <div  className='div-class-login-gg'>
+                                    <GoogleLogin
+                                        clientId="100847206415-rbdoqmgsbdvlik3s3nmukildi3mbpivg.apps.googleusercontent.com"
+                                        // clientId="706949691658-91aibid2urfkvl4vetckpgol4b6ina2k.apps.googleusercontent.com"
+                                        buttonText="Login"
+                                        onSuccess={responseSuccessGoogle}
+                                        onFailure={responseFailGoogle}
+                                        cookiePolicy={'single_host_origin'}
+                                    />
+                                </div>
                             </div>
                             <div className="form-group text-center"> 
                                 <div className={errMsg ? "p-3 mb-2 bg-danger text-white rounded" : "offscreen"} aria-live="assertive">{errMsg}</div>
@@ -83,6 +107,7 @@ function LoginPage(props) {
                     </div>
                 </div>
             </div>
+           
         </div>
     );
 
