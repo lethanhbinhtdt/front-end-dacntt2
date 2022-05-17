@@ -10,8 +10,8 @@ import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
 import { getToken, setUserSession, removeUserSession } from './middlewares/common';
 
-import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css';
 
 function App() {
   // const [authLoading, setAuthLoading] = useState(0);
