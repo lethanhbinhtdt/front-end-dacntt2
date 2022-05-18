@@ -2,3 +2,75 @@
     padding-top: 20px;
     padding-bottom: 20px;
 }
+body {
+    background-color: rgba(237, 242, 247, 1);
+}
+
+.text-small {
+    font-size: 14px;
+}
+
+/* Login Page */
+.login-border1 {
+    background: #667EEA;
+    box-shadow: 6px 0px 12px rgba(0, 0, 0, 0.12);
+}
+
+.login-border2 {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.12);
+}
+
+.login-button-submit {
+    font-size: 14px;
+    background: #667EEA;
+    color: white;
+}
+
+.login-button-submit:hover {
+    font-size: 14px;
+    background: #425edf;
+    color: white;
+}
+
+.login-header {
+    font-weight: bold;
+    color: #425edf;
+    text-transform: uppercase;
+}
+
+.login-input {
+    width: 100%;
+    padding: 6px;
+    background-color: rgba(237, 242, 247, 1);
+    border-top-style: hidden;
+    border-right-style: hidden;
+    border-left-style: hidden;
+    border-color: #667EEA;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+.login-input:hover {
+    border-top-style: groove;
+    border-right-style: groove;
+    border-left-style: groove;
+    border-width: 2px;
+    border-color: #5672f1;
+}
+
+.login-input:focus {
+    outline: none;
+    border-top-style: groove;
+    border-right-style: groove;
+    border-left-style: groove;
+    border-width: 2px;
+    border-color: #2b46bb;
+}
+
+.login-checkbox {
+    width: 15px;
+    height: 15px;
+}
+
+
+/* Login Page */

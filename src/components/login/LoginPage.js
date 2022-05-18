@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import axios from '../../middlewares/axios';
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login';
-import { BASE_URL, LOGIN_URL } from '../../middlewares/constant';
-import { setUserSession } from '../../middlewares/common'
-import { useCookies } from 'react-cookie'
+import { useCookies } from 'react-cookie';
+
+import axios from '../../middlewares/axios';
+import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
+import { setUserSession } from '../../middlewares/common';
 
 function LoginPage(props) {
 
     const username = useFormInput('');
     const password = useFormInput('');
     const [errMsg, setErrMsg] = useState(null);
+    const [checkbox, setCheckbox] = useState(false);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -38,70 +40,70 @@ function LoginPage(props) {
             if (err.response.status === 400 || err.response.status === 401)
                 setErrMsg(err.response.data.description);
             else
-                setErrMsg("Something went wrong. Please try again later.");
+                setErrMsg('Đã xảy ra lỗi. Thử lại sau!');
         }
     }
-    const responseSuccessGoogle = async (reponse)=>{
-        console.log("thanh cong", reponse)
-        const dataResponseFromNode = await axios.post(BASE_URL+"account/oauth2", {tokenId:reponse.tokenId})
+    const responseSuccessGoogle = async (reponse) => {
+        console.log('thanh cong', reponse)
+        const dataResponseFromNode = await axios.post(OAUTH2_URL, { tokenId: reponse.tokenId })
         console.log(dataResponseFromNode.data.token)
         let expires = new Date()
-        expires.setTime(expires.getTime() + (60*60*4)) // hết hạn sau 4h 
-        setCookie('access_token', dataResponseFromNode.data.token, { path: '/',  expires})
-        
+        expires.setTime(expires.getTime() + (60 * 60 * 4)) // hết hạn sau 4h 
+        setCookie('access_token', dataResponseFromNode.data.token, { path: '/', expires })
+
     }
-    const responseFailGoogle = (response) =>{
+    const responseFailGoogle = (response) => {
         console.log(response)
     }
-    
-    return (
-        // <div className='login'>
-        //     <div className='head'>
-        //         <h1>Đại học Tôn Đức Thắng</h1>
-        //     </div>
-        //     <form className="form" onSubmit={handleSubmit}>
-        //         <div className='form-group'>
-        //             <input type="text" name="username" {...username} autoComplete="off" required placeholder="Tài khoản" />
-        //         </div>
-        //         <div className='form-group'>
-        //             <input type="password" name="password" {...password} required placeholder="••••••••••••••" />
-        //         </div>
-        //         <button type="submit" className='btn btn-login'>Đăng nhập</button>
 
-        //         <p className={errMsg ? "errmsg" : "offscreen"} aria-live="assertive">{errMsg}</p>
-        //     </form>
-        // </div>
-        <div className="row justify-content-center">
-            <div className="col-md-10 col-lg-8 col-xl-5">
-                <div className="border p-3 rounded bg-light mt-5">
-                    <div className="login-form">
-                        <form className="form" onSubmit={handleSubmit}>
-                            <h2 className="text-center mb-3">Đăng nhập</h2>
-                            <div className="form-group">
-                                <input type="text" className="form-control my-2" name="username" {...username} autoComplete="off" placeholder="Tài khoản"/>
+    return (
+        <div className='row justify-content-center'>
+            <div className='col-md-6 col-xl-4'>
+                <div className='login-form login-border1 border rounded pe-2 pb-2'>
+                    <div className='login-border2 border rounded bg-light p-3'>
+                        <form className='form' onSubmit={handleSubmit}>
+                            <div className='logo-network text-center w-100'>
+                                <img src='http://via.placeholder.com/64x64'></img>
                             </div>
-                            <div className="form-group">
-                                <input type="password" className="form-control my-2" name="password" {...password} placeholder="Mật khẩu"/>
+                            <h2 className='text-center my-3 login-header'>Đăng nhập</h2>
+
+
+                            <div className='form-group'>
+                                <input type='text' className='login-input' name='username' {...username} autoComplete='off' placeholder='Tài khoản' />
                             </div>
-                            <div className="form-group">
-                                <button type="submit" className="btn btn-primary btn-block">Đăng nhập</button>
+                            <div className='form-group mt-2 mb-4'>
+                                <input type='password' className='login-input' name='password' {...password} placeholder='Mật khẩu' />
                             </div>
-                            <div className="form-group">
-                                
-                                <div className="middle">Hoặc đăng nhập bằng</div>
-                                 <div  className='div-class-login-gg'>
+                            <div className='text-center form-group'>
+                                <button type='submit' className='w-100 btn login-button-submit p-2'>ĐĂNG NHẬP</button>
+                            </div>
+
+
+                            <div className='form-group mt-2 d-flex justify-content-between me-2'>
+                                <div className='d-flex flex-row align-items-center text-secondary'>
+                                    <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' defaultChecked={checkbox} onChange={() => setCheckbox(!checkbox)} />
+                                    <label htmlFor='rememberCheckbox' className='text-small'>Ghi nhớ đăng nhập</label>
+                                </div>
+                                <Link to='/forgot'>Quên mật khẩu?</Link>
+                            </div>
+
+                            <div className='form-group mt-4'>
+                                <div className='div-class-login-gg border border-dark'>
                                     <GoogleLogin
-                                        clientId="100847206415-rbdoqmgsbdvlik3s3nmukildi3mbpivg.apps.googleusercontent.com"
-                                        // clientId="706949691658-91aibid2urfkvl4vetckpgol4b6ina2k.apps.googleusercontent.com"
-                                        buttonText="Login"
+                                        className='w-100 text-dark'
+                                        clientId='100847206415-rbdoqmgsbdvlik3s3nmukildi3mbpivg.apps.googleusercontent.com'
+                                        // clientId='706949691658-91aibid2urfkvl4vetckpgol4b6ina2k.apps.googleusercontent.com'
+                                        buttonText='Đăng nhập với Google'
                                         onSuccess={responseSuccessGoogle}
                                         onFailure={responseFailGoogle}
                                         cookiePolicy={'single_host_origin'}
                                     />
                                 </div>
                             </div>
-                            <div className="form-group text-center"> 
-                                <div className={errMsg ? "p-3 mb-2 bg-danger text-white rounded" : "offscreen"} aria-live="assertive">{errMsg}</div>
+
+
+                            <div className='form-group text-center'>
+                                <div className={errMsg ? 'p-2 mt-2 bg-danger text-white rounded' : 'offscreen'} aria-live='assertive'>{errMsg}</div>
                             </div>
                         </form>
                     </div>
