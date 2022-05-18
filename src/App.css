@@ -2,7 +2,11 @@ body {
     background-color: rgba(237, 242, 247, 1);
 }
 
+.text-small {
+    font-size: 14px;
+}
 
+/* Login Page */
 .login-border1 {
     background: #667EEA;
     box-shadow: 6px 0px 12px rgba(0, 0, 0, 0.12);
@@ -17,6 +21,7 @@ body {
     background: #667EEA;
     color: white;
 }
+
 .login-button-submit:hover {
     font-size: 14px;
     background: #425edf;
@@ -40,6 +45,7 @@ body {
     border-width: 1px;
     border-radius: 3px;
 }
+
 .login-input:hover {
     border-top-style: groove;
     border-right-style: groove;
@@ -47,7 +53,8 @@ body {
     border-width: 2px;
     border-color: #5672f1;
 }
-.login-input:focus{
+
+.login-input:focus {
     outline: none;
     border-top-style: groove;
     border-right-style: groove;
@@ -55,10 +62,11 @@ body {
     border-width: 2px;
     border-color: #2b46bb;
 }
-.login-checkbox{
+
+.login-checkbox {
     width: 15px;
     height: 15px;
 }
-.text-small{
-    font-size: 14px;
-}
+
+
+/* Login Page */

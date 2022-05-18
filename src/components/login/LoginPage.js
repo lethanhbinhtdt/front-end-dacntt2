@@ -79,7 +79,7 @@ function LoginPage(props) {
                             </div>
 
 
-                            <div className='form-group mt-2 d-flex justify-content-between'>
+                            <div className='form-group mt-2 d-flex justify-content-between me-2'>
                                 <div className='d-flex flex-row align-items-center text-secondary'>
                                     <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' defaultChecked={checkbox} onChange={() => setCheckbox(!checkbox)} />
                                     <label htmlFor='rememberCheckbox' className='text-small'>Ghi nhớ đăng nhập</label>
@@ -90,7 +90,7 @@ function LoginPage(props) {
                             <div className='form-group mt-4'>
                                 <div className='div-class-login-gg border border-dark'>
                                     <GoogleLogin
-                                        className='w-100 text-dark fw-bold'
+                                        className='w-100 text-dark'
                                         clientId='100847206415-rbdoqmgsbdvlik3s3nmukildi3mbpivg.apps.googleusercontent.com'
                                         // clientId='706949691658-91aibid2urfkvl4vetckpgol4b6ina2k.apps.googleusercontent.com'
                                         buttonText='Đăng nhập với Google'
