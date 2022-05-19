@@ -1,14 +1,3 @@
-body {
-    background-color: rgba(237, 242, 247, 1);
-}
-
-.fs-smaller {
-    font-size: smaller;
-}
-input::placeholder{
-    font-size: smaller;
-}
-/* Login Page */
 .login-border1 {
     background: #667EEA;
     box-shadow: 6px 0px 12px rgba(0, 0, 0, 0.12);
@@ -40,7 +29,7 @@ input::placeholder{
 .login-input {
     width: 100%;
     padding: 6px;
-    background-color: rgba(237, 242, 247, 1);
+    background-color: #F0EEF3;
     border-top-style: hidden;
     border-right-style: hidden;
     border-left-style: hidden;
@@ -70,6 +59,3 @@ input::placeholder{
     width: 15px;
     height: 15px;
 }
-
-
-/* Login Page */

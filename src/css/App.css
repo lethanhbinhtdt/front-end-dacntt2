@@ -1,0 +1,12 @@
+body {
+    background-color: #F0EEF3;
+}
+
+.fs-smaller {
+    font-size: smaller;
+}
+
+input::placeholder {
+    font-size: smaller;
+}
+

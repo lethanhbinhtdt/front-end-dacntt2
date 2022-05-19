@@ -3,8 +3,8 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
 import LoginPage from './components/login/LoginPage';
-import HomePage from './components/network/HomePage';
-import PersonalPage from './components/network/PersonalPage';
+import HomePage from './components/home/HomePage';
+import PersonalPage from './components/personal/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 
 import PublicRoute from './middlewares/PublicRoute';
@@ -12,7 +12,7 @@ import PrivateRoute from './middlewares/PrivateRoute';
 import { getToken, setUserSession, removeUserSession } from './middlewares/common';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css';
+import './css/App.css';
 
 function App() {
   // const [authLoading, setAuthLoading] = useState(0);

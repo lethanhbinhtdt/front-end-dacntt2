@@ -7,6 +7,8 @@ import axios from '../../middlewares/axios';
 import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
 import { setUserSession } from '../../middlewares/common';
 
+import '../../css/LoginPage.css';
+
 function LoginPage(props) {
 
     const username = useFormInput('');
@@ -69,17 +71,26 @@ function LoginPage(props) {
 
 
                             <div className='form-group'>
-                                <input type='text' className='login-input' name='username' {...username} autoComplete='off' placeholder='Tài khoản' />
+                                <input type='text'
+                                    className='login-input'
+                                    name='username' {...username}
+                                    autoComplete='off'
+                                    placeholder='Tài khoản'
+                                />
                             </div>
                             <div className='form-group mt-2 mb-4'>
-                                <input type='password' className='login-input' name='password' {...password} placeholder='Mật khẩu' />
+                                <input type='password'
+                                    className='login-input'
+                                    name='password' {...password}
+                                    placeholder='Mật khẩu'
+                                />
                             </div>
                             <div className='text-center form-group'>
                                 <button type='submit' className='w-100 btn login-button-submit p-2'>ĐĂNG NHẬP</button>
                             </div>
 
 
-                            <div className='form-group mt-2 d-flex justify-content-between me-2 fs-smaller'>
+                            <div className='form-group mt-2 me-2 d-flex justify-content-between fs-smaller'>
                                 <div className='d-flex flex-row align-items-center text-secondary'>
                                     <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' defaultChecked={checkbox} onChange={() => setCheckbox(!checkbox)} />
                                     <label htmlFor='rememberCheckbox'>Ghi nhớ đăng nhập</label>
