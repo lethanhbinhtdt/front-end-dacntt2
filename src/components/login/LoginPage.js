@@ -57,9 +57,9 @@ function LoginPage(props) {
     }
 
     return (
-        <div className='row justify-content-center'>
-            <div className='col-md-6 col-xl-4'>
-                <div className='login-form login-border1 border rounded pe-2 pb-2'>
+        <div className='row justify-content-center mt-5'>
+            <div className='col-sm-8 col-md-6 col-xl-3'>
+                <div className='login-form login-border1 border rounded'>
                     <div className='login-border2 border rounded bg-light p-3'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='logo-network text-center w-100'>
@@ -79,10 +79,10 @@ function LoginPage(props) {
                             </div>
 
 
-                            <div className='form-group mt-2 d-flex justify-content-between me-2'>
+                            <div className='form-group mt-2 d-flex justify-content-between me-2 fs-smaller'>
                                 <div className='d-flex flex-row align-items-center text-secondary'>
                                     <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' defaultChecked={checkbox} onChange={() => setCheckbox(!checkbox)} />
-                                    <label htmlFor='rememberCheckbox' className='text-small'>Ghi nhớ đăng nhập</label>
+                                    <label htmlFor='rememberCheckbox'>Ghi nhớ đăng nhập</label>
                                 </div>
                                 <Link to='/forgot'>Quên mật khẩu?</Link>
                             </div>

@@ -5,6 +5,7 @@ import axios from './middlewares/axios';
 import LoginPage from './components/login/LoginPage';
 import HomePage from './components/network/HomePage';
 import PersonalPage from './components/network/PersonalPage';
+import ErrorPage from './components/ErrorPage';
 
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
@@ -35,16 +36,18 @@ function App() {
             </div>
             <div className="content">
               <Routes>
-                <Route path="/" element={<HomePage />} />
 
                 <Route element={<PublicRoute />}>
+                  {/* <Route path='/login' element={<HomePage />} /> */}
                   <Route path='/login' element={<LoginPage />} />
                 </Route>
 
                 <Route element={<PrivateRoute />}>
+                  <Route path="/" element={<HomePage />} />
                   <Route path='/personal' element={<PersonalPage />} />
-                  <Route path='/personal2' element={<PersonalPage />} />
                 </Route>
+
+                <Route path='*' element={<ErrorPage />} />
               </Routes>
             </div>
           </div>
