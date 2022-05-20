@@ -29,11 +29,11 @@ function App() {
       <BrowserRouter>
         <Fragment>
           <div>
-            <div className="header">
+            {/* <div className="header">
               <NavLink to="/" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Home Page /</NavLink>
               <NavLink to="/login" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Login Page /</NavLink>
               <NavLink to="/personal" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Personal Page</NavLink>
-            </div>
+            </div> */}
             <div className="content">
               <Routes>
 

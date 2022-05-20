@@ -86,7 +86,7 @@ function LoginPage(props) {
                                 />
                             </div>
                             <div className='text-center form-group'>
-                                <button type='submit' className='w-100 btn login-button-submit p-2'>ĐĂNG NHẬP</button>
+                                <button type='submit' className='login-button-submit'>ĐĂNG NHẬP</button>
                             </div>
 
 
