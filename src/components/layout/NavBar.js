@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import '../css/NavBar.css';
+import '../../css/NavBar.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 function NavBar(props) {
     const navigate = useNavigate();
@@ -10,12 +12,13 @@ function NavBar(props) {
 
     return (
         <>
-            <nav className='navbar navbar-expand-lg navbar-light bg-light mt-4'>
+            <div className='bg-top-color'></div>
+            <nav className='navbar navbar-expand-lg navbar-light bg-light'>
                 <div className='d-flex justify-content-between w-100 mx-3 '>
                     <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
 
                     <form className='d-flex rounded-pill px-3 search-bar'>
-                        <i className='mx-3 my-auto'>@</i>
+                        <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/>
                         <input type='text' className='search-input py-2' placeholder='Tìm kiếm...'></input>
                     </form>
 

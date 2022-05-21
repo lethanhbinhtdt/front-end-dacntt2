@@ -7,6 +7,8 @@ import HomePage from './components/home/HomePage';
 import PersonalPage from './components/personal/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 
+import NavBar from './components/layout/NavBar';
+
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
 import { getToken, setUserSession, removeUserSession } from './middlewares/common';
@@ -36,9 +38,9 @@ function App() {
             </div> */}
             <div className="content">
               <Routes>
-
+              
                 <Route element={<PublicRoute />}>
-                  {/* <Route path='/login' element={<HomePage />} /> */}
+                  <Route path='/login' element={<><NavBar/> <HomePage /></>} />
                   <Route path='/login' element={<LoginPage />} />
                 </Route>
 

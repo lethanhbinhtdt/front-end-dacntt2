@@ -5,7 +5,10 @@ import { useCookies } from 'react-cookie';
 
 import axios from '../../middlewares/axios';
 import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
-import { setUserSession } from '../../middlewares/common';
+import { setUserSession } from '../../middlewares/common'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser, faKey } from '@fortawesome/free-solid-svg-icons'
 
 import '../../css/LoginPage.css';
 
@@ -70,17 +73,17 @@ function LoginPage(props) {
                             <h2 className='text-center my-3 login-header'>Đăng nhập</h2>
 
 
-                            <div className='form-group'>
+                            <div className='form-group d-flex login-input-bar'>
+                                <FontAwesomeIcon icon={faUser} className='my-auto me-2'/>
                                 <input type='text'
-                                    className='login-input'
                                     name='username' {...username}
                                     autoComplete='off'
                                     placeholder='Tài khoản'
                                 />
                             </div>
-                            <div className='form-group mt-2 mb-4'>
+                            <div className='form-group d-flex mt-2 mb-4 login-input-bar'>
+                                <FontAwesomeIcon icon={faKey} className='my-auto me-2'/>
                                 <input type='password'
-                                    className='login-input'
                                     name='password' {...password}
                                     placeholder='Mật khẩu'
                                 />
