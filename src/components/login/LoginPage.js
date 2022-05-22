@@ -8,7 +8,8 @@ import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
 import { setUserSession } from '../../middlewares/common'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faKey } from '@fortawesome/free-solid-svg-icons'
+import { faKey } from '@fortawesome/free-solid-svg-icons'
+import { faUser as farUser } from '@fortawesome/free-regular-svg-icons'
 
 import '../../css/LoginPage.css';
 
@@ -48,6 +49,7 @@ function LoginPage(props) {
                 setErrMsg('Đã xảy ra lỗi. Thử lại sau!');
         }
     }
+    
     const responseSuccessGoogle = async (reponse) => {
         console.log('thanh cong', reponse)
         const dataResponseFromNode = await axios.post(OAUTH2_URL, { tokenId: reponse.tokenId })
@@ -74,7 +76,7 @@ function LoginPage(props) {
 
 
                             <div className='form-group d-flex login-input-bar'>
-                                <FontAwesomeIcon icon={faUser} className='my-auto me-2'/>
+                                <FontAwesomeIcon icon={farUser} className='my-auto me-2'/>
                                 <input type='text'
                                     name='username' {...username}
                                     autoComplete='off'
