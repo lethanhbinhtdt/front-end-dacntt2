@@ -7,7 +7,18 @@ body {
     font-size: smaller;
 }
 
+.fs-small {
+    font-size: small;
+}
+
+.fs-larger{
+    font-size: larger;
+}
+
 input::placeholder {
     font-size: smaller;
 }
 
+.cursor-pointer{
+    cursor: pointer;
+}

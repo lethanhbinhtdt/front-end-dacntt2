@@ -1,0 +1,49 @@
+.post-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.post-img {
+    border-radius: 10px;
+}
+
+.post-auth-img {
+    width: 35px;
+    height: 35px;
+    margin-block: auto;
+}
+
+.post-auth-name {
+    text-decoration: none;
+    color: black;
+}
+
+.post-ytb {
+    border-radius: 10px;
+    width: 498px;
+    height: 280px;
+    max-width: 100%;
+}
+
+.dropdown-toggle::after {
+    /* hide arrow */
+    display: none !important;
+}
+
+.post-cmt-info img {
+    width: 20px;
+    height: 20px;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.transfer-x--8{
+    transform:translateX(-8px);
+}
+.transfer-x--16{
+    transform:translateX(-16px);
+}

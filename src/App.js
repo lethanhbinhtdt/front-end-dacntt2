@@ -40,7 +40,7 @@ function App() {
               <Routes>
               
                 <Route element={<PublicRoute />}>
-                  <Route path='/login' element={<> <NavBar/> <HomePage /> </>} />
+                  <Route path='/login' element={<> <NavBar/> <PersonalPage /> </>} />
                   <Route path='/login' element={<LoginPage />} />
                 </Route>
 
