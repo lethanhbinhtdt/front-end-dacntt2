@@ -1,6 +1,6 @@
 // return the user data from the session storage
-// import { useCookies } from 'react-cookie'
-
+import { Cookies  } from 'react-cookie'
+const cookies = new Cookies();
 
 export const getUser = () => {
     const userStr = sessionStorage.getItem('user');
@@ -32,3 +32,7 @@ export const setUserSession = (token, user) => {
 //     expires.setTime(expires.getTime() + (60*60*4)) // hết hạn sau 4h 
 //     setCookie('access_token', token, { path: '/',  expires})
 // }
+
+export const getCookieToken = () => {
+    return cookies.get('access_token') || null;
+}
