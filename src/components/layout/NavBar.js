@@ -9,7 +9,7 @@ import '../../css/NavBar.css';
 function NavBar(props) {
     const navigate = useNavigate();
     const imageClick = () => {
-        navigate('/personal', { replace: true });
+        navigate('/personal/post', { replace: true });
     }
 
     return (

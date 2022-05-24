@@ -46,7 +46,7 @@ function App() {
 
                 <Route element={<PrivateRoute />}>
                   <Route path="/" element={<HomePage />} />
-                  <Route path='/personal' element={<PersonalPage />} />
+                  <Route path='/personal/*' element={<PersonalPage />} />
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />

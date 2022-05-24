@@ -1,9 +1,10 @@
 import React from 'react';
+import PersonalInfor from './PersonalInfor'
 
 function PersonalPage() {
     return (
         <div>
-            Welcome to the Personal Page!
+          <PersonalInfor/>
         </div>
     );
 }
