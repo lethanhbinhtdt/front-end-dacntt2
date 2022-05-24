@@ -1,0 +1,11 @@
+.notification-user-avatar {
+    width: 32px;
+    height: 32px;
+    margin-right: 4px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.notification-user-avatar img {
+    border-radius: 16px;
+}
