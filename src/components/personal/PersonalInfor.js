@@ -8,7 +8,7 @@ import '../../css/PersonalInfor.css';
 
 function PersonalInfor() {
     return (
-        <>
+        <div className='container'>
         <div className="card bg-light listcard">
             <div className="card-body h-100">
                 <div className="header">
@@ -83,14 +83,15 @@ function PersonalInfor() {
                 </div>
 
             </div>
-        </div>
-        <Routes>
+            <Routes>
             <Route path = "/post" element ={<PostCard/>}></Route>
             <Route path = "/friend" element = {<Friend/>}></Route>
             <Route path = "/infomation" element ={<Infor/>}></Route>
             </Routes>
+        </div>
+        </div>
+      
 
-        </>
     )
 }
 
