@@ -1,3 +1,20 @@
 .send-friend-request{
     margin:10px
 }
+
+.btn-dot{
+
+    background-color: rgba(201, 198, 198, 0.192);
+    position: absolute;
+    left:90%;
+    border-radius: 20%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border:none;
+}
+
+.btn-dot:hover{
+     background-color:rgba(167, 163, 163, 0.26);
+}

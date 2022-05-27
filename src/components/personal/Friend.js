@@ -2,7 +2,7 @@
 import React from "react"
 import '../../css/Friend.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faCoffee } from '@fortawesome/fontawesome-free-solid';
+import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import { Dropdown, IconButton } from 'rsuite';
 import Popup from 'reactjs-popup';
 function Friend() {
@@ -12,10 +12,15 @@ function Friend() {
     //     );
     // };
     return (
+        
+        <div className="card">
+
 
 
         <div className="container">
+
             <div className="row">
+            <h4 className="tag-name">Bạn bè</h4>
                 <div className="d-flex justify-content-center">
 
                     <div className="col-5 mt-3 card-info">
@@ -147,7 +152,7 @@ function Friend() {
 
         </div>
 
-
+        </div>
     )
 }
 

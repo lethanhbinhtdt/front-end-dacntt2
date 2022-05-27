@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { Routes, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-
+import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { Dropdown } from 'react-bootstrap';
 import '../../css/NavBar.css';
 
 function NavBar(props) {
@@ -24,9 +24,23 @@ function NavBar(props) {
                         <input type='text' className='search-input py-2' placeholder='Tìm kiếm...'></input>
                     </form>
 
-                    <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img>
+                    <div>
+                        <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img>
+                        <Dropdown>
+                            <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
+                                <FontAwesomeIcon icon={faCaretDown} />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item> <Link  id='edit-info' to='/account/setting'>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
+                                <Dropdown.Item> <Link  id='logout' to='/logout'>Đăng xuất</Link> </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+           
+                    </div> 
                 </div>
-                
+
+
             </nav>
         </>
     );

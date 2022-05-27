@@ -31,3 +31,9 @@
   .three-dot-icon{
       margin-right: 25px;
   }
+
+  .tag-name{
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 30px;
+  }
