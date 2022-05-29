@@ -1,17 +1,54 @@
-import React, { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import PostCard from "../postCard/PostCard"
 import Friend from "./Friend"
 import Infor from "./Infor"
+import { BASE_URL } from '../../middlewares/constant';
+import {getCookieToken} from '../../middlewares/common'
 import '../../css/PersonalInfor.css';
 
 
-function PersonalInfor() {
+function PersonalInfor(props) {
 
     const [activeMenu, setActiveMenu] = useState()
+    const [info, setInfo] = useState()
+    const token = getCookieToken()
+    const location = useLocation();
+    const data = location.state;
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa", data.id);
 
+    useEffect(()=>{
+
+        // console.log(token)
+        fetch(`${BASE_URL}api/profile/${data.id}`, 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+                // body: JSON.stringify(yourNewData)
+            }
+         
+        )
+        .then((res)=>{
+          if(res.ok){
+              return res.json()
+          }
+        })
+        .then(data=>{
+            setInfo(data)
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+    })
+    
+    function SendFriendRequest(e){
+        console.log(e.target)
+    }
     return (
         <div className='container'>
             <div className="card bg-light listcard">
@@ -28,25 +65,26 @@ function PersonalInfor() {
 
 
                                         <div className="avatar avatar-xxl header-avatar-top">
-                                            <img src='http://via.placeholder.com/200x200' width="256" hight="256" className="avatar-img rounded-circle border border-4 border-body"></img>
+                                            <img src={info?.picture} width="256" hight="256" className="avatar-img rounded-circle border border-4 border-body"></img>
                                         </div>
 
                                     </div>
                                     <div className="col mb-3 ml-n3 ml-md-n2">
 
 
-                                        <h1 className="header-title">
-                                            NGUYỄN XUÂN THỊNH
+                                            <h1 className="header-title">
+                                            {info?.fullname}
                                         </h1>
                                         <h6 className="header-pretitle">
-                                            Class:
+                                            Class: {info?.className}
                                         </h6>
 
                                     </div>
+                    
                                     <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
 
 
-                                        <a className="btn btn-primary d-block d-md-inline-block lift send-friend-request">
+                                        <a  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onclick= {SendFriendRequest}>
                                             Gửi lời mời
                                         </a>
 
