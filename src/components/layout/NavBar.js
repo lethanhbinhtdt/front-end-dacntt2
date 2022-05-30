@@ -41,11 +41,13 @@ function NavBar(props) {
         .catch(err=>{
             console.error(err)
         })
-    })
+    }, [])
 
     const data = {
         "id": info?.id
     }
+    const id = info?.id
+    const urlString = `/personal/${id}/post/`
     return (
         <>
             <div className='bg-top-color'></div>
@@ -61,7 +63,7 @@ function NavBar(props) {
                     <div>
                         {/* <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img> */}
                         <img src={info?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
-                        <Link to='/personal/post' state={data}> {info?.fullname}</Link>
+                        <Link to={urlString} state={data}> {info?.fullname}</Link>
                         <Dropdown>
                             <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
                                 <FontAwesomeIcon icon={faCaretDown} />

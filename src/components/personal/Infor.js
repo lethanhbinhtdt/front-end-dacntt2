@@ -9,18 +9,7 @@ function Infor() {
 
         <div className='container'>
             <div className='row'>
-                {/* <div className='col-4'>
-                    Thông tin cá nhân
-                </div>
-                <div className='col-8'>
-                <div class="card">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><FontAwesomeIcon  icon={faPhone}/> 0339471446</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-                </div> */}
+
 
 
                 <div className="card mb-3">
@@ -30,12 +19,12 @@ function Infor() {
                         </div>
                         <div className="col-6 md-6  d-flex align-items-center">
                             <div className="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faUser} /> Nguyển Xuân Thịnh</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faTransgender} /> Nam</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faPhone} /> 0339471446</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faBirthdayCake} /> 07/05/2000</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faEnvelope} /> 51800123@gmail.com</li>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faUser} /> Nguyển Xuân Thịnh</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faTransgender} /> Nam</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faPhone} /> 0339471446</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faBirthdayCake} /> 07/05/2000</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faEnvelope} /> 51800123@gmail.com</li>
                                 </ul>
                             </div>
                         </div>

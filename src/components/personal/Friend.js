@@ -1,11 +1,14 @@
 
 import React from "react"
 import '../../css/Friend.css';
+import { Routes, Route, Link, useLocation, useParams  } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import { Dropdown, IconButton } from 'rsuite';
 import Popup from 'reactjs-popup';
-function Friend() {
+function Friend(props) {
+    let { id } = useParams();
+    console.log("oooooooooooooooooooo", id)
     // const renderIconButton = (props, ref) => {
     //     return (
     //         <IconButton {...props} ref={ref} icon={<FontAwesomeIcon icon={faEllipsisH} />} circle color="blue" appearance="primary" />
@@ -14,8 +17,6 @@ function Friend() {
     return (
         
         <div className="card">
-
-
 
         <div className="container">
 
