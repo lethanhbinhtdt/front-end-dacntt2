@@ -1,3 +1,8 @@
+.sidebar {
+    background: white;
+    border-radius: 8px;
+}
+
 .notification-user-avatar {
     width: 32px;
     height: 32px;
@@ -8,4 +13,92 @@
 
 .notification-user-avatar img {
     border-radius: 16px;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    height: 64px;
+    translate: all 300ms ease;
+    position: relative;
+}
+
+.active {
+    background: #EDF2F7;
+}
+
+.menu-item:hover{
+    background: #EDF2F7;
+}
+
+.sidebar svg {
+    font-size: 24px;
+    margin-left: 32px;
+    position: relative;
+    color: grey;
+}
+
+.notification-count {
+    background: rgb(233, 75, 75);
+    color: white;
+    font-size: 12px;
+    width: fit-content;
+    border-radius: 8px;
+    padding: 2px 6px;
+    position: absolute;
+    top: 8px;
+    left: 46px;
+}
+
+h5 {
+    margin-left: 24px;
+    align-items: center;
+}
+
+.active svg, .active h5 {
+    color: blueviolet;
+}
+
+.active::before{
+    content: "";
+    display: block;
+    width: 8px;
+    height: 100%;
+    position: absolute;
+    background: blueviolet;
+}
+
+.menu-item:first-child.active {
+    border-top-left-radius: 8px;
+    overflow: hidden;
+}
+
+.menu-item:last-child.active {
+    border-bottom-left-radius: 8px;
+    overflow: hidden;
+}
+
+.notifications-popup {
+    position: absolute;
+    top: 0;
+    left: 110%;
+    width: 480px;
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 0 32px hsl(271, 70%, 91%);
+    /* z-index: 8; */
+    /* display: none; */
+}
+
+.notifications-popup::before{
+    content: "";
+    width: 18px;
+    height: 18px;
+    display: block;
+    background: white;
+    position: absolute;
+    top: 16px;
+    left: -8px;
+    transform: rotate(45deg);
 }
