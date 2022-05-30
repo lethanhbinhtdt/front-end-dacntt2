@@ -10,8 +10,9 @@ function HomePage(props) {
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
-                <div className='col-md-3'>
-                    {/* <SideBar/> */}
+                <div className='col-md-1 ms-2'></div>
+                <div className='col-md-2 ms-2'>
+                    <SideBar/>
                 </div>
                 <div className='col-md-6'>
                     <div className='mb-3 mx-2'><PostCard/></div>
