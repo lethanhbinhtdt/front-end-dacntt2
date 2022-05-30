@@ -55,7 +55,7 @@ function LoginPage(props) {
         const dataResponseFromNode = await axios.post(OAUTH2_URL, { tokenId: reponse.tokenId })
         console.log(dataResponseFromNode.data.token)
         let expires = new Date()
-        expires.setTime(expires.getTime() + (60 * 60 * 4)) // hết hạn sau 4h 
+        expires.setTime(expires.getTime() + (60 * 60 * 4*1000)) // hết hạn sau 4h 
         setCookie('access_token', dataResponseFromNode.data.token, { path: '/', expires })
         navigate(redirectPath, { replace: true });
 

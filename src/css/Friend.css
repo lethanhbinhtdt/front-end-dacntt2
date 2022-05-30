@@ -1,0 +1,39 @@
+.card-info{
+    margin-left: 10px;
+    margin-right: 10x;
+}
+
+.menu {
+    margin: 25px;
+    width: 200px;
+    height: 70px;
+    /* display: flex; */
+    /* flex-direction: column; */
+    background: #fffffff3;
+    border-radius:10%;
+
+  }
+  .menu-item {
+
+    width: auto;
+    height: auto;
+    padding: 5px;
+    height: 28px;
+    border-radius:10%;
+    /* border-bottom: 1px solid rgb(187, 187, 187); */
+  }
+  .menu-item:hover {
+    background-color:darkgrey ;
+    /* color: #2980b9; */
+  }
+
+
+  .three-dot-icon{
+      margin-right: 25px;
+  }
+
+  .tag-name{
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 30px;
+  }

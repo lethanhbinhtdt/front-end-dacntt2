@@ -6,7 +6,7 @@ import LoginPage from './components/login/LoginPage';
 import HomePage from './components/home/HomePage';
 import PersonalPage from './components/personal/PersonalPage';
 import ErrorPage from './components/ErrorPage';
-
+import SettingPage from './components/personal/SettingPage';
 import NavBar from './components/layout/NavBar';
 
 import PublicRoute from './middlewares/PublicRoute';
@@ -46,7 +46,8 @@ function App() {
 
                 <Route element={<PrivateRoute />}>
                   <Route path="/" element={<HomePage />} />
-                  <Route path='/personal' element={<PersonalPage />} />
+                  <Route path='/personal/*' element={<PersonalPage />}></Route>
+                  <Route path='/account/setting' element={<SettingPage/>}> </Route> 
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />
