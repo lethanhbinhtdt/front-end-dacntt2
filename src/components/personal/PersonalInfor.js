@@ -15,7 +15,7 @@ function PersonalInfor(props) {
     const [activeMenu, setActiveMenu] = useState()
     const [info, setInfo] = useState()
     const location = useLocation();
-    const [idUser, setIdUser] =  useState(location.state ? location.state.id : ""); 
+    const [idUser, setIdUser] =  useState(location.state ? location.state.id : null); 
     console.log("id:", id)
     // const [idUser, setIdUser] =  useState(id ? id : ""); 
     const token = getCookieToken()
@@ -55,7 +55,8 @@ function PersonalInfor(props) {
     function SendFriendRequest(e){
         console.log(e.target)
     }
-    console.log("eeeeeeeeeeeeeee",idUser)
+
+    // if(idUser != )
 
     return (
         <div className='container'>

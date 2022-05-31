@@ -63,7 +63,7 @@ function NavBar(props) {
                     <div>
                         {/* <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img> */}
                         <img src={info?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
-                        <Link to={urlString} state={data}> {info?.fullname}</Link>
+                        <Link to={ `/personal/${id}/post/`} state={data}> {info?.fullname}</Link>
                         <Dropdown>
                             <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
                                 <FontAwesomeIcon icon={faCaretDown} />
