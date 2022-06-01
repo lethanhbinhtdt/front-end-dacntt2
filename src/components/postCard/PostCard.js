@@ -3,8 +3,9 @@ import React from 'react';
 import AuthorPost from './AuthorPost';
 import ContentPost from './ContentPost';
 import ReactionPost from './ReactionPost';
+import Comments from './Comments';
 
-import '../../css/PostCard.css'
+import '../../css/PostCard.css';
 
 function PostCard(props) {
 
@@ -19,6 +20,8 @@ function PostCard(props) {
 
                 {/* like/comment/share */}
                 <ReactionPost/>
+                {/* comments temp */}
+                <Comments/>
             </div>
         </div>
     );
