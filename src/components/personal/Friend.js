@@ -10,7 +10,7 @@ import { Dropdown, IconButton } from 'rsuite';
 import Popup from 'reactjs-popup';
 function Friend(props) {
     let { id } = useParams();
-    console.log("llfgfgrfgfg", id)
+
     const [friendInfo, setFriendInfo] = useState("")
     const token = getCookieToken()
     var listFriend = []
@@ -34,8 +34,6 @@ function Friend(props) {
             })
             .then((data) => {
 
-                console.log(data.length, data)
-             
                 setFriendInfo(data)
             })
             .catch(err => {

@@ -70,7 +70,7 @@ function NavBar(props) {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item> <Link  id='edit-info' to='/account/setting'>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
+                                <Dropdown.Item> <Link  id='edit-info' to={`/account/${id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
                                 <Dropdown.Item> <Link  id='logout' to='/logout'>Đăng xuất</Link> </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
