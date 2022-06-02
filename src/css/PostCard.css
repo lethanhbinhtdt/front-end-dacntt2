@@ -47,3 +47,17 @@
 .transfer-x--16{
     transform:translateX(-16px);
 }
+
+
+.comment-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 32px;
+    margin-right: 8px;
+}
+
+.comment-content {
+    border-radius: 16px;
+    background-color: #EDF2F7;
+    padding: 8px 16px 8px 16px;
+}
