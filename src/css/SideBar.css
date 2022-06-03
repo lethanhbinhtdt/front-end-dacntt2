@@ -23,11 +23,11 @@
     position: relative;
 }
 
-.active {
+.sidebar .active {
     background: #EDF2F7;
 }
 
-.menu-item:hover{
+.sidebar .menu-item:hover{
     background: #EDF2F7;
 }
 
@@ -50,16 +50,16 @@
     left: 46px;
 }
 
-h5 {
+.sidebar h5 {
     margin-left: 24px;
     align-items: center;
 }
 
-.active svg, .active h5 {
+.sidebar .active svg, .sidebar .active h5 {
     color: blueviolet;
 }
 
-.active::before{
+.sidebar .active::before{
     content: "";
     display: block;
     width: 8px;
