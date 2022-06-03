@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useLocation, useParams  } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import PostCard from "../postCard/PostCard"
@@ -11,18 +11,24 @@ import '../../css/PersonalInfor.css';
 
 
 function PersonalInfor(props) {
-
+    const { id } = useParams();
     const [activeMenu, setActiveMenu] = useState()
     const [info, setInfo] = useState()
-    const token = getCookieToken()
     const location = useLocation();
-    const data = location.state;
-    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaa", data.id);
+    const [idUser, setIdUser] =  useState(location.state ? location.state.id : null); 
+    console.log("id:", id)
+    // const [idUser, setIdUser] =  useState(id ? id : ""); 
+    const token = getCookieToken()
+    // const location = useLocation();
+    // setIdUser(location.state)
+    // const data = location.state
+
 
     useEffect(()=>{
+        // setIdUser(data)
 
-        // console.log(token)
-        fetch(`${BASE_URL}api/profile/${data.id}`, 
+        console.log("hahahahaahh", idUser)
+        fetch(`${BASE_URL}api/profile/${idUser}`, 
             {
                 method: 'GET',
                 headers: {
@@ -44,17 +50,20 @@ function PersonalInfor(props) {
         .catch(err=>{
             console.error(err)
         })
-    })
+    }, []) // [] để useEffect ko load lại mỗi khi có sự thay đổi ==> khi gọi vào component này thì chỉ fetch 1 lần
     
     function SendFriendRequest(e){
         console.log(e.target)
     }
+
+    // if(idUser != )
+
     return (
         <div className='container'>
+
             <div className="card bg-light listcard">
                 <div className="card-body h-100">
                     <div className="header">
-
                         <img src='http://via.placeholder.com/1000x200' alt='Blog img' className='header-img-top' width="100%" height="100%"></img>
 
                         <div className="container-fluid">
@@ -84,7 +93,7 @@ function PersonalInfor(props) {
                                     <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
 
 
-                                        <a  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onclick= {SendFriendRequest}>
+                                        <a  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick= {SendFriendRequest}>
                                             Gửi lời mời
                                         </a>
 
@@ -105,19 +114,19 @@ function PersonalInfor(props) {
                                                 {/* <a href="/personal/post" className="nav-link  active" onClick={()=>handleClickItem()}>
                                                 Bài đăng
                                             </a> */}
-                                                <Link id='post' to='/personal/post' className={activeMenu === 'post' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('post') }}>Bài đăng</Link>
+                                                <Link id='post' to={`/personal/${idUser}/post`} className={activeMenu === 'post' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('post') }}>Bài đăng</Link>
                                             </li>
                                             <li className="nav-item">
                                                 {/* <a href="/personal/friend" className="nav-link">
                                                 Bạn bè
                                             </a> */}
-                                                <Link id='friend' to='/personal/friend' className={activeMenu === 'friend' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('friend') }}>Bạn bè</Link>
+                                                <Link id='friend' to={`/personal/${idUser}/friend`} className={activeMenu === 'friend' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('friend') }}>Bạn bè</Link>
                                             </li>
                                             <li className="nav-item">
                                                 {/* <a href="/personal/infomation" className="nav-link">
                                                 Thông tin 
                                             </a> */}
-                                                <Link id='infomation' to='/personal/infomation' className={activeMenu === 'infomation' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('infomation') }}>Thông tin</Link>
+                                                <Link id='infomation' to={`/personal/${idUser}/infomation`} className={activeMenu === 'infomation' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('infomation') }}>Thông tin</Link>
                                             </li>
 
                                             <button type="button" className="btn-dot"><FontAwesomeIcon icon={faEllipsisH}/> </button>
@@ -132,12 +141,13 @@ function PersonalInfor(props) {
 
                         </div>
                     </div>
-
+    
                 </div>
                 <Routes>
-                    <Route path="/post" element={<PostCard />}></Route>
-                    <Route path="/friend" element={<Friend />}></Route>
-                    <Route path="/infomation" element={<Infor />}></Route>
+                    <Route path="/:id/post"  element={<PostCard/>}></Route>
+                    {/* <Route path="/post"     component={() =><PostCard id={idUser} />}></Route> */}
+                    <Route path="/:id/friend" element={<Friend/>}></Route>
+                    <Route path="/:id/infomation" element={<Infor />}></Route>
                 </Routes>
             </div>
         </div>

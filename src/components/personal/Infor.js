@@ -1,26 +1,42 @@
 
-import React from "react"
+import React, { useState, useEffect } from "react"
+import { Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BASE_URL } from '../../middlewares/constant';
 import { faPhone, faBirthdayCake, faEnvelope, faTransgender, faUser } from '@fortawesome/fontawesome-free-solid';
-
+import { getCookieToken } from '../../middlewares/common'
 import Friend from "./Friend";
 function Infor() {
+    var { id } = useParams()
+    const token = getCookieToken()
+    const [info, setInfo] = useState("")
+    useEffect(() => {
+        fetch(`${BASE_URL}api/profile/${id}`,
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+
+            })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
+                }
+            })
+            .then(data => {
+                setInfo(data)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }, [])
     return (
 
         <div className='container'>
             <div className='row'>
-                {/* <div className='col-4'>
-                    Thông tin cá nhân
-                </div>
-                <div className='col-8'>
-                <div class="card">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><FontAwesomeIcon  icon={faPhone}/> 0339471446</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-            </div>
-                </div> */}
+
 
 
                 <div className="card mb-3">
@@ -30,12 +46,12 @@ function Infor() {
                         </div>
                         <div className="col-6 md-6  d-flex align-items-center">
                             <div className="card-body">
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faUser} /> Nguyển Xuân Thịnh</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faTransgender} /> Nam</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faPhone} /> 0339471446</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faBirthdayCake} /> 07/05/2000</li>
-                                    <li class="list-group-item"><FontAwesomeIcon icon={faEnvelope} /> 51800123@gmail.com</li>
+                                <ul className="list-group list-group-flush">
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faUser} />{info?.fullname}</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faTransgender} />{info?.gender}</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faPhone} />{info?.phone}</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faBirthdayCake} />{info?.birthday}</li>
+                                    <li className="list-group-item"><FontAwesomeIcon icon={faEnvelope} /> {info?.username}</li>
                                 </ul>
                             </div>
                         </div>
@@ -44,16 +60,16 @@ function Infor() {
                 </div>
 
             </div>
-            
+
 
             {/* phần bạn bè  */}
             <div className='row'>
-                    <Friend/>
+                <Friend />
             </div>
-   
+
 
         </div>
-    
+
     );
 }
 

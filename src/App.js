@@ -40,14 +40,14 @@ function App() {
               <Routes>
               
                 <Route element={<PublicRoute />}>
-                  <Route path='/login' element={<> <NavBar/> <HomePage /> </>} />
+                  {/* <Route path='/login' element={<> <NavBar/> <HomePage /> </>} /> */}
                   <Route path='/login' element={<LoginPage />} />
                 </Route>
 
                 <Route element={<PrivateRoute />}>
                   <Route path="/" element={<HomePage />} />
                   <Route path='/personal/*' element={<PersonalPage />}></Route>
-                  <Route path='/account/setting' element={<SettingPage/>}> </Route> 
+                  <Route path='/account/:id/setting' element={<SettingPage/>}> </Route> 
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />
