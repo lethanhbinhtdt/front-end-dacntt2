@@ -4,12 +4,12 @@
     background-color: #eff2f4;
 }
 
-.search-bar {
+.navbar .search-bar {
     background-color: #EDF2F7;
     border: none;
 }
 
-.search-input {
+.navbar .search-input {
     width: 100%;
     border: none;
     background-color: transparent;
@@ -17,22 +17,22 @@
     outline: none;
 }
 
-.nav-avatar {
+.navbar .nav-avatar {
     width: 32px;
     height: 32px;
 }
 
-.navbar-brand {
+.navbar .navbar-brand {
     font-weight: bold;
 }
 
 @media screen and (min-width: 768px) {
-    .search-bar {
+    .navbar .search-bar {
         width: 400px;
     }
 }
 @media screen and (min-width: 992px) {
-    .search-bar {
+    .navbar .search-bar {
         width: 600px;
     }
 }
