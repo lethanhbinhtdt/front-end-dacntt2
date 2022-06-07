@@ -65,7 +65,7 @@ function LoginPage(props) {
     }
 
     return (
-        <div className='row justify-content-center mt-5'>
+        <div className='login row justify-content-center mt-5'>
             <div className='col-sm-8 col-md-6 col-xl-3'>
                 <div className='login-form login-border1 border rounded'>
                     <div className='login-border2 border rounded bg-light p-3'>
