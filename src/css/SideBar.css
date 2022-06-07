@@ -3,7 +3,7 @@
     border-radius: 8px;
 }
 
-.notification-user-avatar {
+.sidebar .notification-user-avatar {
     width: 32px;
     height: 32px;
     margin-right: 4px;
@@ -11,11 +11,11 @@
     margin-bottom: auto;
 }
 
-.notification-user-avatar img {
+.sidebar .notification-user-avatar img {
     border-radius: 16px;
 }
 
-.menu-item {
+.sidebar .menu-item {
     display: flex;
     align-items: center;
     height: 64px;
@@ -23,11 +23,11 @@
     position: relative;
 }
 
-.active {
+.sidebar .active {
     background: #EDF2F7;
 }
 
-.menu-item:hover{
+.sidebar .menu-item:hover{
     background: #EDF2F7;
 }
 
@@ -38,7 +38,7 @@
     color: grey;
 }
 
-.notification-count {
+.sidebar .notification-count {
     background: rgb(233, 75, 75);
     color: white;
     font-size: 12px;
@@ -50,16 +50,16 @@
     left: 46px;
 }
 
-h5 {
+.sidebar h5 {
     margin-left: 24px;
     align-items: center;
 }
 
-.active svg, .active h5 {
+.sidebar .active svg, .sidebar .active h5 {
     color: blueviolet;
 }
 
-.active::before{
+.sidebar .active::before{
     content: "";
     display: block;
     width: 8px;
@@ -68,17 +68,17 @@ h5 {
     background: blueviolet;
 }
 
-.menu-item:first-child.active {
+.sidebar .menu-item:first-child.active {
     border-top-left-radius: 8px;
     overflow: hidden;
 }
 
-.menu-item:last-child.active {
+.sidebar .menu-item:last-child.active {
     border-bottom-left-radius: 8px;
     overflow: hidden;
 }
 
-.notifications-popup {
+.sidebar .notifications-popup {
     position: absolute;
     top: 0;
     left: 110%;
@@ -91,7 +91,7 @@ h5 {
     /* display: none; */
 }
 
-.notifications-popup::before{
+.sidebar .notifications-popup::before{
     content: "";
     width: 18px;
     height: 18px;

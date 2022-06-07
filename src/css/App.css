@@ -26,3 +26,8 @@ input::placeholder {
 .cursor-pointer{
     cursor: pointer;
 }
+
+.text-link:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
