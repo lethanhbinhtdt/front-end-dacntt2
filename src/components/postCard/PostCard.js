@@ -43,9 +43,9 @@ function PostCard(props) {
                 <ContentPost dataPostInfo = {dataPostInfo}/>
 
                 {/* like/comment/share */}
-                <ReactionPost />
+                <ReactionPost dataReactionPost = {dataPostInfo}/>
                 {/* comments temp */}
-                <Comments />
+                <Comments dataComment = {dataPostInfo}/>
             </div>
         </div>
     );
