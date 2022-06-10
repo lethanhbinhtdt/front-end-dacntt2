@@ -2,9 +2,9 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
-import LoginPage from './components/login/LoginPage';
-import HomePage from './components/home/HomePage';
-import PersonalPage from './components/personal/PersonalPage';
+import LoginPage from './components/loginPage/LoginPage';
+import HomePage from './components/homePage/HomePage';
+import PersonalPage from './components/personalPage/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 
 import NavBar from './components/layout/NavBar';
@@ -27,16 +27,16 @@ function App() {
   // })
 
   return (
-    <div className="App">
+    <div className='App'>
       <BrowserRouter>
         <Fragment>
           <div>
-            {/* <div className="header">
-              <NavLink to="/" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Home Page /</NavLink>
-              <NavLink to="/login" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Login Page /</NavLink>
-              <NavLink to="/personal" className={({ isActive }) => (isActive ? "active-style" : 'none')}>Personal Page</NavLink>
+            {/* <div className='header'>
+              <NavLink to='/' className={({ isActive }) => (isActive ? 'active-style' : 'none')}>Home Page /</NavLink>
+              <NavLink to='/login' className={({ isActive }) => (isActive ? 'active-style' : 'none')}>Login Page /</NavLink>
+              <NavLink to='/personal' className={({ isActive }) => (isActive ? 'active-style' : 'none')}>Personal Page</NavLink>
             </div> */}
-            <div className="content">
+            <div className='content'>
               <Routes>
               
                 <Route element={<PublicRoute />}>
@@ -45,7 +45,7 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute />}>
-                  <Route path="/" element={<HomePage />} />
+                  <Route path='/' element={<HomePage />} />
                   <Route path='/personal' element={<PersonalPage />} />
                 </Route>
 

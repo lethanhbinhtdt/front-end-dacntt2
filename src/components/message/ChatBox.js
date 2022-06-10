@@ -6,7 +6,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 import MessageList from './MessageList';
 
-import '../../css/MessageBox.css'
+import '../../css/ChatBox.css'
 
 function ChatBox(props) {
 

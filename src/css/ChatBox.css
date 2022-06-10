@@ -31,14 +31,14 @@
 }
 
 .message-box .message-user-avatar {
-    width: 32px;
-    height: 32px;
     margin-right: 8px;
     margin-top: auto;
     margin-bottom: auto;
 }
 
 .message-box .message-user-avatar img {
+    width: 32px;
+    height: 32px;
     border-radius: 16px;
 }
 
