@@ -11,7 +11,10 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
-
+    const [state,setState] = useState(dataPostInfo)
+   
+    function ()
+    setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // const token = getCookieToken()
     // const [postInfo, setPostInfo] = useState()
     // useEffect(() => {
@@ -37,7 +40,7 @@ function PostCard(props) {
         <div>
             <div className='post-card'>
                 {/* Người đăng */}
-                <AuthorPost dataAuthorInfo = {dataPostInfo}/>
+                <AuthorPost dataAuthorInfo = {dataPostInfo??"o"}/>
 
                 {/* Nội dung */}
                 <ContentPost dataPostInfo = {dataPostInfo}/>
@@ -45,7 +48,7 @@ function PostCard(props) {
                 {/* like/comment/share */}
                 <ReactionPost dataReactionPost = {dataPostInfo}/>
                 {/* comments temp */}
-                <Comments dataComment = {dataPostInfo}/>
+                <Comments onloadmore={()=>{}} dataComment = {dataPostInfo}/>
             </div>
         </div>
     );

@@ -8,6 +8,7 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 function Comments(props) {
+    const {onloadmore, dataComment} = props
     const [numberComment, setNumberComment] = useState(5)
     const [postInfo, setPostInfo] = useState(props ? props.dataComment : "");
     const refPostId = useRef('')
