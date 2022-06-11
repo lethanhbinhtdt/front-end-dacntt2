@@ -18,9 +18,7 @@ function HomePage(props) {
                 </div>
                 <div className='col-md-5'>
                     {/* Đăng bài mới */}
-                    
                     <div className='mb-3'><PostBox /></div>
-
 
                     {/* hiển thị các bài đăng */}
                     <div className='mb-3'><PostCard/></div>

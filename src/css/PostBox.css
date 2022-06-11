@@ -4,13 +4,13 @@
     padding: 8px 8px 8px 12px;
 }
 
-.post-box .user-avatar {
+.post-box .user-avatar, .post-modal .user-avatar{
     margin-right: 12px;
     margin-top: auto;
     margin-bottom: auto;
 }
 
-.post-box .user-avatar img {
+.post-box .user-avatar img, .post-modal .user-avatar img {
     width: 32px;
     height: 32px;
     border-radius: 20px;
@@ -25,4 +25,31 @@
 
 .post-box .btn-post:hover{
     background-color: #dcebf9;
+}
+
+.post-modal {
+    background-color: white;
+    border-radius: 16px;
+    padding: 16px;
+    width: 500px;
+    min-height: 380px;
+    box-shadow: 0 0 32px hsl(238, 70%, 91%);
+}
+
+.post-modal .close-button {
+    cursor: pointer;
+    display: block;
+    line-height: 20px;
+    font-size: 24px;
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #cfcece;
+}
+
+.post-modal textarea {
+    font-size: 20px;
+    border: none;
+}
+.post-modal textarea:focus {
+    outline: none;
 }

@@ -2,7 +2,10 @@ import React from 'react';
 
 import '../../css/PostBox.css'
 
+import PostModal from './PostModal';
+
 function PostBox() {
+
     return (
         <div className='post-box'>
             <div className='d-flex'>
@@ -10,7 +13,7 @@ function PostBox() {
                     <img alt='user avatar' src='http://via.placeholder.com/24x24'></img>
                 </div>
                 <div className='w-100'>
-                    <button type='button' className='btn btn-post'>Bạn đang nghĩ gì?</button>
+                    <PostModal />
                 </div>
             </div>
         </div>
