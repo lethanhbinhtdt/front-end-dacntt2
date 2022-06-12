@@ -31,19 +31,46 @@ function FriendRequestList(props) {
                 console.error(err)
             })
     }, [])
+
+    const onAccepOrDeleteRequest = (e) =>{
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        fetch(`${BASE_URL}api/requestFriend/reply/${idUserInQueue}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+
+    )
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        })
+        .then(data => {
+            console.log("data accept nef ", data)
+            setFriendRequest(data)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
     console.log("fasasdfasfasdfasd", friendRequest)
     var listFriendRequest = []
     for (var i = 0; i < friendRequest?.length; i++) {
+
         listFriendRequest.push(
             <div className="col-3 mt-3 card text-dark bg-light mb-3" iduser={friendRequest[i]?._id}>
-                <img src="http://via.placeholder.com/200x200" className="card-img-top" alt="..." />
+                <img src={friendRequest[i]?.userRequest?.picture} className="card-img-top" alt="..." />
                 <div className="card-body">
-                    <h5 className="card-title">{friendRequest?.fullname}</h5>
+                    <h5 className="card-title">{friendRequest[i]?.userRequest?.fullname}</h5>
 
                 </div>
                 <div className="card-body">
                     <div className='row'>
-                        <button type="button" className="button btn btn-primary">Xác nhận</button>
+                        <button  iduser={friendRequest[i]?.userRequest?._id} type="button" className="button btn btn-primary" onClick={onAccepOrDeleteRequest}>Xác nhận</button>
                     </div>
 
                     <div className='row'>
@@ -55,9 +82,7 @@ function FriendRequestList(props) {
     }
     var listRow = []
     for (var index = 0; index < listFriendRequest?.length; index++) {
-        console.log("rtyrtyrtyrtyrtyrty", 1%4)
-
-        if(index%4== 0) {
+        if(index%4===0) {
             var startColumInRow = listFriendRequest[index]
             listRow.push(<div className="row">
 
@@ -70,11 +95,11 @@ function FriendRequestList(props) {
             </div>)
 
         }
-        else if (index+1 % 4 == 1) {
+        else if (index+1 % 4 === 1) {
             console.log("da vao 1")
-            var startColumInRow = listFriendRequest[index]
+            startColumInRow = listFriendRequest[index]
 
-            if (index == listFriendRequest.length - 1) {
+            if (index === listFriendRequest.length - 1) {
                 console.log("da vao ")
                 listRow.push(<div className="row">
 
