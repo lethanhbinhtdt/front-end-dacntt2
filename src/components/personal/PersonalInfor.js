@@ -8,6 +8,7 @@ import Infor from "./Infor"
 import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 import '../../css/PersonalInfor.css';
+import { data } from 'autoprefixer';
 
 
 function PersonalInfor(props) {
@@ -16,6 +17,7 @@ function PersonalInfor(props) {
     const [info, setInfo] = useState()
     const location = useLocation();
     const [idUser, setIdUser] =  useState(location.state ? location.state.id : null); 
+    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState("Gửi lời mời")
     console.log("id:", id)
     // const [idUser, setIdUser] =  useState(id ? id : ""); 
     const token = getCookieToken()
@@ -25,9 +27,7 @@ function PersonalInfor(props) {
 
 
     useEffect(()=>{
-        // setIdUser(data)
-
-        console.log("hahahahaahh", idUser)
+        console.log("da cahy der lay du lieu usser")
         fetch(`${BASE_URL}api/profile/${idUser}`, 
             {
                 method: 'GET',
@@ -54,14 +54,38 @@ function PersonalInfor(props) {
     
     function SendFriendRequest(e){
         console.log(e.target)
+        var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduserrequest').value;
+
+        fetch(`${BASE_URL}api/requestFriend/${idUserWantoSendRequest}`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+            // body: JSON.stringify(yourNewData)
+        })
+        .then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        })
+        .then(textOfButton=>{
+            console.log(textOfButton)
+            setButtonTextSendRequestFriend(textOfButton)
+        })
+        .catch(err=>{
+            console.error(err)
+        })
     }
     const sendRequestFriendAndChat = []
     if( !info?.isCurrentUserLoginPage){
-        sendRequestFriendAndChat.push(              <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
+        sendRequestFriendAndChat.push(              
+        <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
 
 
-        <a  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick= {SendFriendRequest}>
-            Gửi lời mời
+        <a iduserrequest = {info?._id}  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick= {SendFriendRequest}>
+            gui loiw moifs
         </a>
 
         <a className="btn btn-primary d-block d-md-inline-block lift">

@@ -16,7 +16,7 @@ function Friend(props) {
     var listFriend = []
     var listRow = []
     useEffect(() => {
-        fetch(`${BASE_URL}api/requestFriend/${id}`,
+        fetch(`${BASE_URL}api/friend/${id}`,
             {
                 method: 'GET',
                 headers: {
@@ -41,18 +41,18 @@ function Friend(props) {
             })
     }, [])
 
-    if (friendInfo.length == 0) {
+    if (friendInfo?.length == 0) {
         listRow.push(<h3>Bạn chưa có người bạn nào, hãy kết bạn thêm nhé</h3>)
     }
     else {
-        for (var i = 0; i < friendInfo.length; i++) {
+        for (var i = 0; i < friendInfo?.length; i++) {
             listFriend.push(
-                 <div id={friendInfo[i]._id} className="col-5 mt-3 card-info">
+                 <div id={friendInfo[i]?._id} className="col-5 mt-3 card-info">
                 
                    <div className="card mb-3">
                         <div className="row no-gutters">
                             <div className="col-4 md-4">
-                                <img src={friendInfo[i].picture} className="card-img" alt="..."></img>
+                                <img src={friendInfo[i]?.picture} className="card-img" alt="..."></img>
                             </div>
                             <div className="col-6 md-6  d-flex align-items-center">
                                 <div className="card-body">
@@ -92,12 +92,12 @@ function Friend(props) {
 
         // })
         console.log("hhhhhhhhhh", (listFriend))
-        for (var index = 0; index < listFriend.length; index++) {
+        for (var index = 0; index < listFriend?.length; index++) {
             if (index % 2 == 0) {
                 console.log("da vao 1")
                 var firstColumn = listFriend[index]
 
-                if (index == listFriend.length-1){
+                if (index == listFriend?.length-1){
                     console.log("da vao ")
                     listRow.push(<div className="row">
     
