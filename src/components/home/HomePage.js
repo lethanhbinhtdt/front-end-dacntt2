@@ -23,15 +23,21 @@ function HomePage(props) {
                 return res.json()
             }
         }).then(dataPost=>{
+
             console.log(dataPost)
             setPostInfo(dataPost)
 
         })
     },[])
     var listPost = []
+    const indexId = {}
     for(var i =0 ;i<=postInfo?.length;i++){
+        indexId[i] = postInfo[i]?._id
+    }
+    for(var i =0 ;i<=postInfo?.length;i++){
+ 
         listPost.push(       
-        <div className='mb-3 mx-2'><PostCard dataPostInfo = {postInfo[i]}/></div>
+        <div className='mb-3 mx-2'><PostCard indexId= {indexId} dataPostInfo = {postInfo[i]}/></div>
   )
     }
     return (
