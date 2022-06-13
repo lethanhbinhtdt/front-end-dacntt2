@@ -9,10 +9,14 @@ import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 function Comments(props) {
     const {onloadmoreComment, dataComment} = props
-    const [datacomment, setDataComment] = useState(dataComment? dataComment: " ")
+    const [datacomment1, setDataComment] = useState(dataComment? dataComment: " ")
 
     const [postInfo, setPostInfo] = useState(props ? props.dataComment : "");
     // setPostInfo(commentData)
+
+    useEffect(() => {
+        dataComment === datacomment1 || setDataComment(dataComment) // dùng useEffect kiểm tra nếu props thay đổi giá trị mới 
+    },  [ dataComment ])
 
     console.log("du lieu nhan tuwf pparent trong comment",datacomment )
     var listComment = []
