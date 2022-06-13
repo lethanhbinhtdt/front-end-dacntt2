@@ -12,21 +12,39 @@ import '../../css/PostCard.css';
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
-    const [secondcomment, setSecondComment] = useState()
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
     const [numberComment,setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
 
-    console.log("stattatataat", commentInfo)
    
     // function ()
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
-    var dataCommentAferLoadMore =""
-    
+    // var dataCommentAferLoadMore =""
+    const token = getCookieToken()
+    const  postId = postInfo?._id
+
+    const handleLikePost = () =>{
+        console.log("da vao function like")
+        fetch(`${BASE_URL}api/post/${postId}/like`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+
+        })
+        .then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        })
+        .then(infoLike=>{
+
+        })
+    }
     
     const onloadmoreComment = () => {
-        console.log("vao  comment get data ")
-        var postId = postInfo?._id
-        const token = getCookieToken()
+
+
         // const [postInfo, setPostInfo] = useState()
         console.log(postId, "+ ", numberComment)
         fetch(`${BASE_URL}api/post/${postId}/comment/?start=${numberComment}`, {
@@ -35,7 +53,6 @@ function PostCard(props) {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${token}`
             }
-            // body: JSON.stringify(yourNewData)
         })
         .then((res)=>{
             if(res.ok){
@@ -43,14 +60,9 @@ function PostCard(props) {
             }
         })
         .then(data =>{
-            console.log(data?.length)
-            setNumberComment(numberComment + data?.length)
 
-            dataCommentAferLoadMore =data
-            console.log("hhhhhhhhhhhh", data, numberComment)
-            console.log("222222222222", commentInfo)
-            console.log(dataCommentAferLoadMore)
-            setCommentInfo([...commentInfo,...dataCommentAferLoadMore])
+            setNumberComment(numberComment + data?.length)
+            setCommentInfo([...commentInfo,...data])
             
         })
         .catch(e=>{
@@ -74,8 +86,8 @@ function PostCard(props) {
                 <ContentPost dataPostInfo = {dataPostInfo}/>
 
                 {/* like/comment/share */}
-                <ReactionPost dataReactionPost = {dataPostInfo}/>
-                {numberComment}
+                <ReactionPost handleLikePost = {handleLikePost} dataReactionPost = {dataPostInfo}/>
+
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
 
                 <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/>
