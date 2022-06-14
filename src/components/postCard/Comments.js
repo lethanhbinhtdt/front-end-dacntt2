@@ -30,7 +30,7 @@ function Comments(props) {
     for (var i = 0; i < datacommentState?.length; i++) {
         listComment.push(
             <div key = {datacommentState[i]?._id} className='mb-3 d-flex d-row'>
-                <img className='comment-img' src='http://via.placeholder.com/32x32' alt='Avatar user'></img>
+                <img className='comment-img' src={datacommentState[i]?.createdBy?.picture} alt='Avatar user'></img>
                 <div className='flex-column comment-content'>
                     <div className='d-flex justify-content-between'>
                         <div>

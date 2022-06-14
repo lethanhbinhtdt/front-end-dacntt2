@@ -37,8 +37,10 @@ function LoginPage(props) {
                     withCredentials: true
                 }
             );
-            console.log(JSON.stringify(response?.data));
-            setUserSession(response?.data?.token, response?.data?.userInfo)
+            let expires = new Date()
+            expires.setTime(expires.getTime() + (60 * 60 * 4*1000))
+            setCookie('access_token', response?.data?.token, { path: '/', expires })
+            // setCookie(response?.data?.token, response?.data?.userInfo)
             navigate(redirectPath, { replace: true });
 
         } catch (err) {

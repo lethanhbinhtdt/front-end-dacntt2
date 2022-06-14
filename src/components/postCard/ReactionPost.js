@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faCommentDots, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHeart, faCommentDots, faShareFromSquare} from '@fortawesome/free-regular-svg-icons'
 
 function ReactionPost(props) {
     const {handleLikePost, dataReactionPost} = props
@@ -62,7 +62,8 @@ function ReactionPost(props) {
                 <button
                     className='btn btn-outline-dark border-0 rounded-circle fs-larger'
                     onClick={handleLikePost}>
-                    <FontAwesomeIcon icon={faHeart} />
+                        {isLiked?     <FontAwesomeIcon icon="fa-solid fa-heart" />  :  <FontAwesomeIcon icon={faHeart} />}
+     
                 </button>
                 {/* comment button */}
                 <button
