@@ -7,6 +7,8 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 function AuthorPost(props) {
     const [text, setText] = useState('');
+    const author = props.dataAuthorInfo?.createdBy
+    console.log("author 123123", author?.fullname)
     useEffect(() => {
         console.log(text)
     });
@@ -14,17 +16,17 @@ function AuthorPost(props) {
     return (
         <div>
             {/* Người đăng */}
-            <div className='d-flex justify-content-between'>
+            <div id ={author?._id} className='d-flex justify-content-between'>
                 <div className='d-flex d-row'>
                     <img className='post-auth-img rounded-circle'
                         src='http://via.placeholder.com/35x35'
                         alt='Avatar user'></img>
                     <div className='flex-column ms-2'>
-                        <Link to='/user/profile/' className='post-auth-name'>
-                            <b>username </b>
+                        <Link to= {`/personal/${author?._id}/post/`} className='post-auth-name' state={{"id": author?._id}}>
+                            <b> {author?.fullname}</b>
                         </Link>
                         <p className='text-secondary fs-small'>
-                            18/05/2022
+                            {author?.createdAt}
                         </p>
                     </div>
                 </div>

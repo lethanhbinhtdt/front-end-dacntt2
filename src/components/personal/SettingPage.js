@@ -6,7 +6,7 @@ import {getCookieToken} from '../../middlewares/common'
 import { Form } from "react-bootstrap";
 
 import axios from '../../middlewares/axios';
-import { faPray } from "@fortawesome/free-solid-svg-icons";
+
 function SettingPage() {
     const [familyName, setFamalyName] = useState("")
     const [givenName, setGivenName] = useState("")

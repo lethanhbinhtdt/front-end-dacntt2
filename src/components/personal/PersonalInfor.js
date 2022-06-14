@@ -8,6 +8,7 @@ import Infor from "./Infor"
 import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 import '../../css/PersonalInfor.css';
+import { data } from 'autoprefixer';
 
 
 function PersonalInfor(props) {
@@ -16,6 +17,7 @@ function PersonalInfor(props) {
     const [info, setInfo] = useState()
     const location = useLocation();
     const [idUser, setIdUser] =  useState(location.state ? location.state.id : null); 
+    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState("Gửi lời mời")
     console.log("id:", id)
     // const [idUser, setIdUser] =  useState(id ? id : ""); 
     const token = getCookieToken()
@@ -25,9 +27,7 @@ function PersonalInfor(props) {
 
 
     useEffect(()=>{
-        // setIdUser(data)
-
-        console.log("hahahahaahh", idUser)
+        console.log("da cahy der lay du lieu usser")
         fetch(`${BASE_URL}api/profile/${idUser}`, 
             {
                 method: 'GET',
@@ -54,9 +54,48 @@ function PersonalInfor(props) {
     
     function SendFriendRequest(e){
         console.log(e.target)
-    }
+        var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduserrequest').value;
 
-    // if(idUser != )
+        fetch(`${BASE_URL}api/requestFriend/${idUserWantoSendRequest}`, 
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+            // body: JSON.stringify(yourNewData)
+        })
+        .then(res=>{
+            if(res.ok){
+                return res.json()
+            }
+        })
+        .then(textOfButton=>{
+            console.log(textOfButton)
+            setButtonTextSendRequestFriend(textOfButton)
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+    }
+    const sendRequestFriendAndChat = []
+    if( !info?.isCurrentUserLoginPage){
+        sendRequestFriendAndChat.push(              
+        <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
+
+
+        <a iduserrequest = {info?._id}  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick= {SendFriendRequest}>
+            gui loiw moifs
+        </a>
+
+        <a className="btn btn-primary d-block d-md-inline-block lift">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+            </svg> Nhắn tin
+        </a>
+
+    </div>)
+    }
 
     return (
         <div className='container'>
@@ -89,21 +128,8 @@ function PersonalInfor(props) {
                                         </h6>
 
                                     </div>
-                    
-                                    <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
-
-
-                                        <a  className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick= {SendFriendRequest}>
-                                            Gửi lời mời
-                                        </a>
-
-                                        <a className="btn btn-primary d-block d-md-inline-block lift">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                                                <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                            </svg> Nhắn tin
-                                        </a>
-
-                                    </div>
+                                    {sendRequestFriendAndChat}
+                      
                                 </div>
                                 <div className="row align-items-center">
                                     <div className="col">

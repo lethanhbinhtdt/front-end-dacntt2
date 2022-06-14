@@ -8,6 +8,7 @@ import PersonalPage from './components/personal/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 import SettingPage from './components/personal/SettingPage';
 import NavBar from './components/layout/NavBar';
+import FriendRequestList from './components/friend/FriendRequestList'
 
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
@@ -48,6 +49,7 @@ function App() {
                   <Route path="/" element={<HomePage />} />
                   <Route path='/personal/*' element={<PersonalPage />}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage/>}> </Route> 
+                  <Route path='/friendrequests/' element={<FriendRequestList/>}> </Route> 
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />
