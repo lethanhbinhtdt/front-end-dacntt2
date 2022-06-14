@@ -51,14 +51,15 @@ function HomePage(props) {
                 <div className='col-md-2'>
                     <SideBar/>
                 </div>
-                <div className='col-md-6'>
+                <div className='col-md-5'>
                 <div className='mb-3'><PostBox /></div>
                 {listPost}
                 </div>
-                <div className='col-md-3'>
+                <div className='col-md-4'>
                     <ChatBox />
                     <FriendRequestBox/>
                 </div>
+                
             </div>
         </div>
     );

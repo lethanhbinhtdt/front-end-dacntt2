@@ -55,3 +55,21 @@
     background-color: #EDF2F7;
     padding: 8px 16px 8px 16px;
 }
+
+.post-card .comment-send {
+    background-color: #EDF2F7;
+    border: none;
+    border-radius: 8px;
+}
+
+.post-card .comment-input {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    resize: none;
+    outline: none;
+}
+
+.post-card .btn-send-cmt {
+    background-color: transparent;
+}
