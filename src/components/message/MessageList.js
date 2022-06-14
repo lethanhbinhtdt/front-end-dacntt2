@@ -5,7 +5,7 @@ function MessageList(props) {
     return (
         <div>
             {/* 1 */}
-            <div className='d-flex mt-2 fs-smaller'>
+            <div className='d-flex mt-2'>
                 <div className='message-user-avatar'>
                     <img alt='user avatar' src='http://via.placeholder.com/32x32'></img>
                 </div>
@@ -16,7 +16,7 @@ function MessageList(props) {
             </div>
 
             {/* 2 */}
-            <div className='d-flex mt-2 fs-smaller'>
+            <div className='d-flex mt-2'>
                 <div className='message-user-avatar'>
                     <img alt='user avatar' src='http://via.placeholder.com/32x32'></img>
                 </div>
@@ -27,7 +27,7 @@ function MessageList(props) {
             </div>
 
             {/* 2 */}
-            <div className='d-flex mt-2 fs-smaller'>
+            <div className='d-flex mt-2'>
                 <div className='message-user-avatar'>
                     <img alt='user avatar' src='http://via.placeholder.com/32x32'></img>
                 </div>

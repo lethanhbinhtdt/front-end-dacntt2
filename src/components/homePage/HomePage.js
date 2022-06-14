@@ -6,6 +6,8 @@ import ChatBox from '../message/ChatBox';
 import { useState, useEffect } from 'react'
 import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
+import FriendRequestBox from '../friend/FriendRequestBox';
+import PostBox from '../post/PostBox'
 function HomePage(props) {
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
@@ -50,10 +52,12 @@ function HomePage(props) {
                     <SideBar/>
                 </div>
                 <div className='col-md-6'>
+                <div className='mb-3'><PostBox /></div>
                 {listPost}
                 </div>
                 <div className='col-md-3'>
                     <ChatBox />
+                    <FriendRequestBox/>
                 </div>
             </div>
         </div>
