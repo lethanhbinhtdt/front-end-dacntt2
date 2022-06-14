@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsis, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
@@ -64,6 +65,11 @@ function Comments(props) {
     return (
         <div>
             <hr></hr>
+            <form className='d-flex comment-send px-1 mb-2'>
+                <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
+                <input type='text' className='comment-input py-2 pe-3' placeholder='Bình luận...'></input>
+                <button type="submit" class="btn"><FontAwesomeIcon icon={faPaperPlane} className='my-auto'/></button>
+            </form>
             {listComment}
             <div className='text-link text-secondary fs-smaller' onClick={onloadmoreComment}>{textLoadMoreCommentOrNot} </div>
         </div>
