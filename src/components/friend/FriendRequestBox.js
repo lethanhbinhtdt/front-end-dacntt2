@@ -95,6 +95,7 @@ function FriendRequestBox(props) {
 
             friendRequestBox.push(
                 <div key={friendRequest[i]?._id} className='request-card py-2 mt-2' >
+                 {/* <div  className='request-card py-2 mt-2' > */}
                     <div className='d-flex mb-2'>
                         <div className='user-avatar'>
                             <img alt='user avatar' src={friendRequest[i]?.userRequest?.picture}></img>

@@ -11,6 +11,24 @@ import PostBox from '../post/PostBox'
 function HomePage(props) {
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
+    const [notificationInfo, setNotificationInfo] = useState()
+    useEffect(() => {
+        fetch(`${BASE_URL}api/notification`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(notification=>{
+            setNotificationInfo(notification)
+
+        })
+    }, [])
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',
@@ -25,8 +43,6 @@ function HomePage(props) {
                 return res.json()
             }
         }).then(dataPost=>{
-
-            console.log(dataPost)
             setPostInfo(dataPost)
 
         })
@@ -49,7 +65,7 @@ function HomePage(props) {
             <div className='row mt-3'>
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
-                    <SideBar/>
+                    <SideBar notificationInfo = {notificationInfo}/>
                 </div>
                 <div className='col-md-5'>
                 <div className='mb-3'><PostBox /></div>
