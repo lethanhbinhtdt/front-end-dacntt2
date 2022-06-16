@@ -16,13 +16,14 @@ function PostCard(props) {
     const [numberComment,setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
     const [isLiked, setIsLike] = useState(dataPostInfo? dataPostInfo.isLikePost:false);
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
+    const [postId, setPostId] = useState(props?.dataPostInfo?._id)
 
    
     // function ()
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
-    const  postId = postInfo?._id
+    // const  postId = postInfo?._id
     console.log("is like ost ", isLiked)
     const handleLikePost = () =>{
         console.log("da vao function like")
@@ -40,7 +41,6 @@ function PostCard(props) {
             }
         })
         .then(infoLike=>{
-            console.log("infoLike",infoLike)
             setIsLike(infoLike?.status)
             setTotolLike(infoLike?.length)
         })
@@ -64,7 +64,6 @@ function PostCard(props) {
             }
         })
         .then(data =>{
-
             setNumberComment(numberComment + data?.length)
             setCommentInfo([...commentInfo,...data])
             
@@ -93,8 +92,8 @@ function PostCard(props) {
                 <ReactionPost handleLikePost = {handleLikePost} isLiked = {isLiked} totolLike={totolLike} />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
-
-                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/>
+                {postId}
+                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId}/>
             </div>
         </div>
     );
