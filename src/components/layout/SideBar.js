@@ -9,10 +9,10 @@ import NotificationList from '../notification/NotificationList';
 
 import '../../css/SideBar.css'
 
-function SideBar(props) {
-    const {notificationInfo} = props
+function SideBar() {
+
     const navigate = useNavigate();
-    console.log('6666666666666666666666666666666666', notificationInfo)
+
     function navigateChat() {
         navigate('/chat', { replace: true });
     }
@@ -25,7 +25,7 @@ function SideBar(props) {
                 <span><FontAwesomeIcon icon={faBell}/> <small className='notification-count'>9+</small> </span><h5>Thông báo</h5>
                 {/* popup hiển thị thông báo */}
                 <div className='notifications-popup'>
-                    <NotificationList notificationInfo = {notificationInfo}/>
+                    <NotificationList/>
                 </div>
                 {/* END popup thông báo */}
             </div>

@@ -8,7 +8,6 @@ function NotificationList(props) {
     const [notificationInfos, setNotificationInfo] = useState()
     const [lenNotification, setlenNotification] = useState(0)
     useEffect(() => {
-        console.log(" davoa noti")
         fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
             method: 'GET',
             headers: {
