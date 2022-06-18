@@ -85,7 +85,7 @@ function Comments(props) {
                         </Dropdown>
                     </div>
                     <div className='text-justify'>
-                        {datacommentState[i].content}
+                        {datacommentState[i]?.content}
                     </div>
                 </div>
 

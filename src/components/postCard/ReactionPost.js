@@ -27,7 +27,7 @@ function ReactionPost(props) {
     
        
     }
-    else if(totolLikeInChild-1 == 0){
+    else if(totolLikeInChild-1 === 0){
         if(isLikedPost){
             infoTotalLikeByUser =<><b className='text-link'> <span>Bạn</span></b>&nbsp;đã yêu thích</>
         }

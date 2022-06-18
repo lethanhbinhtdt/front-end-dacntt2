@@ -16,21 +16,21 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
-// import socketIOClient from "socket.io-client";
+import io from "socket.io-client";
 
-// const host = "http://localhost:8080";
+const socket = io.connect("http://localhost:8080");
+
 function App() {
-  // const [authLoading, setAuthLoading] = useState(0);
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      console.log(data)
+    });
+  }, [socket]);
 
-  // useEffect(() => {
-  //   const token = getToken();
-  //   if (!token) {
-  //     return;
-  //   }
-  // })
+
   // const socketRef = useRef();
   // useEffect(() => {
-  //   socketRef.current = socketIOClient.connect(host)
+  //   // socketRef.current = socketIOClient.connect(host)
   // }, []);
   return (
     <div className='App'>
