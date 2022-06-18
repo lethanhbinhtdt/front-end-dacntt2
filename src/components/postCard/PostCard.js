@@ -51,7 +51,7 @@ function PostCard(props) {
 
         // const [postInfo, setPostInfo] = useState()
         console.log(postId, "+ ", numberComment)
-        fetch(`${BASE_URL}api/post/${postId}/comment/?start=${numberComment}`, {
+        fetch(`${BASE_URL}api/post/${postId}/comment/?skip=${numberComment}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',

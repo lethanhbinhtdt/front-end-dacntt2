@@ -56,7 +56,7 @@ function NotificationList(props) {
                 </div>
                 <div className='notification-content'>
                     <div><b>Username</b> thích bài đăng của bạn</div>
-                    <div className='fs-smaller text-secondary'>2 giờ trước</div>
+                    <div className='fs-smaller text-secondary'></div>
                 </div>
             </div>
 

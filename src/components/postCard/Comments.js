@@ -11,8 +11,6 @@ import { getCookieToken } from '../../middlewares/common'
 import {NUMBER_NEXT_LOAD} from '../../middlewares/constant'
 function Comments(props) {
     const {onloadmoreComment, dataComment, postId} = props
-    console.log("dataComment", dataComment)
-    console.log("thoiong tin id cuar post ", postId)
     const [datacommentState, setDataComment] = useState(dataComment? dataComment: " ")
     const [textLoadMoreCommentOrNot, SetTextLoadMoreCommentOrNot] = useState("Xem thêm 5 bình luận khác")
 
@@ -53,15 +51,17 @@ function Comments(props) {
             }
         })
         .then(newComment=>{
-            setDataComment([...datacommentState,...[newComment]])
+            setCommentText("")
+            setDataComment([...[newComment],...datacommentState])
         })
         .catch(err=>{
             console.error(err)
         })
     }
-    for (var i = 0; i < datacommentState?.length; i++) {
+    for (var i = datacommentState?.length - 1; i >=0 ; i--) {
         listComment.push(
             <div key = {datacommentState[i]?._id} className='mb-3 d-flex d-row'>
+            {/* <div className='mb-3 d-flex d-row'> */}
                 <img className='comment-img' src={datacommentState[i]?.createdBy?.picture} alt='Avatar user'></img>
                 <div className='flex-column comment-content'>
                     <div className='d-flex justify-content-between'>
@@ -99,7 +99,7 @@ function Comments(props) {
             <hr></hr>
             <form className='d-flex comment-send px-1 mb-2'>
                 <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
-                <input  onChange={handleInputChange} type='text' className='comment-input py-2 pe-3' placeholder='Bình luận...'></input>
+                <input  onChange={handleInputChange} type='text' className='comment-input py-2 pe-3' placeholder='Bình luận...' value = {commentText}></input>
                 <button type="button" className="btn"><FontAwesomeIcon icon={faPaperPlane} className='my-auto' onClick={createNewComment}/></button>
             </form>
             {listComment}
