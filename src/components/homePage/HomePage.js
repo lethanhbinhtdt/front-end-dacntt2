@@ -30,6 +30,9 @@ function HomePage(props) {
             setPostInfo(dataPost)
 
         })
+        .catch(err=>{
+            console.error(err)
+        })
     },[])
     var listPost = []
     const indexId = {}

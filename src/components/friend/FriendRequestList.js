@@ -43,7 +43,7 @@ function FriendRequestList(props) {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({"start":friendRequest?.length})
+            body: JSON.stringify({'start':friendRequest?.length})
         }
 
     )

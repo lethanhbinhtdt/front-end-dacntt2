@@ -22,7 +22,7 @@ function LoginPage(props) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const redirectPath = location.state?.path || '/';
+    const redirectPath =""
     const [cookies, setCookie] = useCookies(['access_token'])
 
 

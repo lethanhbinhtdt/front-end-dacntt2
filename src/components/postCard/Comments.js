@@ -55,6 +55,9 @@ function Comments(props) {
         .then(newComment=>{
             setDataComment([...datacommentState,...[newComment]])
         })
+        .catch(err=>{
+            console.error(err)
+        })
     }
     for (var i = 0; i < datacommentState?.length; i++) {
         listComment.push(

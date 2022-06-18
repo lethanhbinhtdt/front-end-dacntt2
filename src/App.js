@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef  } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
@@ -16,7 +16,9 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
+// import socketIOClient from "socket.io-client";
 
+// const host = "http://localhost:8080";
 function App() {
   // const [authLoading, setAuthLoading] = useState(0);
 
@@ -26,7 +28,10 @@ function App() {
   //     return;
   //   }
   // })
-
+  // const socketRef = useRef();
+  // useEffect(() => {
+  //   socketRef.current = socketIOClient.connect(host)
+  // }, []);
   return (
     <div className='App'>
       <BrowserRouter>
