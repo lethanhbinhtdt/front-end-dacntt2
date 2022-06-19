@@ -38,9 +38,9 @@ function Comments(props) {
     var token = getCookieToken()
 
     const createNewComment = (e) =>{
-        var userIdPost = e.target.attributes.getNamedItem('userid')?.value;
-        console.log("socket 123123123123", userIdPost)
-        socket.emit("createNewNoti", userIdPost);
+        // var userIdPost = e.target.attributes.getNamedItem('userid')?.value;
+        // console.log("socket 123123123123", userIdPost)
+        // socket.emit("createNewNoti", userIdPost);
         fetch(`${BASE_URL}api/post/${postId}/comment/`, {
             method: 'POST',
             headers: {
