@@ -17,8 +17,9 @@ function PostCard(props) {
     const [isLiked, setIsLike] = useState(dataPostInfo? dataPostInfo.isLikePost:false);
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
     const [postId, setPostId] = useState(props?.dataPostInfo?._id)
+    const [userIdOfPost, setUserIdOfPost] = useState(dataPostInfo?.createdBy?._id)
 
-   
+    console.log("4545454545454545454545", userIdOfPost)
     // function ()
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
@@ -50,7 +51,7 @@ function PostCard(props) {
 
 
         // const [postInfo, setPostInfo] = useState()
-        console.log(postId, "+ ", numberComment)
+        // console.log(postId, "+ ", numberComment)
         fetch(`${BASE_URL}api/post/${postId}/comment/?skip=${numberComment}`, {
             method: 'GET',
             headers: {
@@ -72,7 +73,6 @@ function PostCard(props) {
             console.error(e)
         })
     }
-    console.log("commentinfo", commentInfo)
 
     // useEffect(()=>{
     //     a.push(<div className='post-card'><AuthorPost dataAuthorInfo = {dataPostInfo}/><ContentPost dataPostInfo = {dataPostInfo}/><ReactionPost dataReactionPost = {dataPostInfo}/>{numberComment}<Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/></div>)
@@ -93,7 +93,7 @@ function PostCard(props) {
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
                 {postId}
-                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId}/>
+                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId} userId = {userIdOfPost}/>
             </div>
         </div>
     );

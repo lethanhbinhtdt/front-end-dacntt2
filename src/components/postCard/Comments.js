@@ -9,13 +9,18 @@ import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import {NUMBER_NEXT_LOAD} from '../../middlewares/constant'
+import io from "socket.io-client";
+
+const socket = io.connect(BASE_URL);
 function Comments(props) {
-    const {onloadmoreComment, dataComment, postId} = props
+    const {onloadmoreComment, dataComment, postId, userId} = props
     const [datacommentState, setDataComment] = useState(dataComment? dataComment: " ")
     const [textLoadMoreCommentOrNot, SetTextLoadMoreCommentOrNot] = useState("Xem thêm 5 bình luận khác")
 
     // const [postInfo, setPostInfo] = useState(props ? props.dataComment : "");
     const [commentText, setCommentText] = useState("")
+    const [userIdOfPost, setUserIdOfPost]  = useState(userId)
+
 
     useEffect(() => {
         // if(datacommentState?.length !== dataComment?.length){
@@ -25,14 +30,17 @@ function Comments(props) {
         setDataComment(dataComment)
     },  [ dataComment ])
 
-    console.log("du lieu nhan tuwf pparent trong comment",datacommentState )
 
     const handleInputChange = (e)=>{
         setCommentText(e.target.value)
     }
     var listComment = []
     var token = getCookieToken()
-    const createNewComment = () =>{
+
+    const createNewComment = (e) =>{
+        var userIdPost = e.target.attributes.getNamedItem('userid')?.value;
+        console.log("socket 123123123123", userIdPost)
+        socket.emit("createNewNoti", userIdPost);
         fetch(`${BASE_URL}api/post/${postId}/comment/`, {
             method: 'POST',
             headers: {
@@ -100,10 +108,10 @@ function Comments(props) {
             <form className='d-flex comment-send px-1 mb-2'>
                 <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
                 <input  onChange={handleInputChange} type='text' className='comment-input py-2 pe-3' placeholder='Bình luận...' value = {commentText}></input>
-                <button type="button" className="btn"><FontAwesomeIcon icon={faPaperPlane} className='my-auto' onClick={createNewComment}/></button>
+                <button type="button" className="btn"><FontAwesomeIcon icon={faPaperPlane}  userid = {userIdOfPost} className='my-auto' onClick={createNewComment}/></button>
             </form>
             {listComment}
-            <div className='text-link text-secondary fs-smaller' onClick={onloadmoreComment}>{textLoadMoreCommentOrNot} </div>
+            <div   className='text-link text-secondary fs-smaller' onClick={onloadmoreComment}>{textLoadMoreCommentOrNot}</div>
         </div>
     );
 }

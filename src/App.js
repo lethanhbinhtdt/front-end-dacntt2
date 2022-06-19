@@ -17,16 +17,18 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
 import io from "socket.io-client";
-
-const socket = io.connect("http://localhost:8080");
+import { BASE_URL } from './middlewares/constant';
+const socket = io.connect(BASE_URL);
 
 function App() {
+  const [socketdata, setSocketData] = useState()
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      console.log(data)
+      console.log("dataatatataatatatatat", data)
+      setSocketData(data)
     });
   }, [socket]);
-
+  console.log("sdfgsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", socketdata)
 
   // const socketRef = useRef();
   // useEffect(() => {
