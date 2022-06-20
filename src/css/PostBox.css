@@ -32,8 +32,9 @@
     border-radius: 16px;
     padding: 16px;
     width: 500px;
-    min-height: 380px;
+    max-height: 480px;
     box-shadow: 0 0 32px hsl(238, 70%, 91%);
+    overflow-y: auto;
 }
 
 .post-modal .close-button {
@@ -51,5 +52,38 @@
     border: none;
 }
 .post-modal textarea:focus {
+    outline: none;
+}
+
+.post-modal .btn-upload{
+    width: 36px;
+    height: 36px;
+    padding: auto;
+    margin: auto;
+    font-size: 24px;
+    border-radius: 12px;
+}
+
+.post-modal .btn-upload:hover{
+    background-color: #dbdbdb;
+}
+
+.post-modal .btn-img{
+    color: rgb(67, 175, 67);
+}
+
+.post-modal .btn-ytb{
+    color: red;
+}
+
+.form-upload-ytb{
+    background-color: white;
+    border-radius: 8px;
+    padding: 8px;
+    width: 360px;
+    box-shadow: 0 0 32px hsl(0, 78%, 82%);
+}
+
+.form-upload-ytb > input:focus{
     outline: none;
 }

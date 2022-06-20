@@ -63,18 +63,7 @@ function NavBar(props) {
                     <div>
                         {/* <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img> */}
                         <img src={info?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
-                        <Link to={ `/personal/${id}/post/`} state={data}> {info?.fullname}</Link>
-                        <Dropdown>
-                            <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
-                                <FontAwesomeIcon icon={faCaretDown} />
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item> <Link  id='edit-info' to={`/account/${id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
-                                <Dropdown.Item> <Link  id='logout' to='/logout'>Đăng xuất</Link> </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-           
+                        <Link to={ `/personal/${id}/post/`} state={data} className='text-decoration-none text-dark fw-bold'> {info?.fullname}</Link>
                     </div> 
                 </div>
 

@@ -1,19 +1,9 @@
 .sidebar {
     background: white;
     border-radius: 8px;
+    position: fixed;
 }
 
-.sidebar .notification-user-avatar {
-    margin-right: 4px;
-    margin-top: auto;
-    margin-bottom: auto;
-}
-
-.sidebar .notification-user-avatar img {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-}
 
 .sidebar .menu-item {
     display: flex;
@@ -27,7 +17,7 @@
     background: #EDF2F7;
 }
 
-.sidebar .menu-item:hover{
+.sidebar .menu-item:hover {
     background: #EDF2F7;
 }
 
@@ -55,11 +45,12 @@
     align-items: center;
 }
 
-.sidebar .active svg, .sidebar .active h5 {
+.sidebar .active svg,
+.sidebar .active h5 {
     color: blueviolet;
 }
 
-.sidebar .active::before{
+.sidebar .active::before {
     content: "";
     display: block;
     width: 8px;
@@ -78,7 +69,36 @@
     overflow: hidden;
 }
 
-.sidebar .notifications-popup {
+.menu-popup {
+    background-color: white;
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 0 32px hsl(238, 70%, 91%);
+}
+
+.notifications-popup .notification-user-avatar {
+    margin-right: 4px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.notifications-popup .notification-user-avatar img {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+}
+
+.notifications-popup{
+    height: 190px;
+    overflow: auto;
+}
+
+.popup-arrow {
+    color: rgb(156, 97, 223);
+}
+
+
+/* .sidebar .notifications-popup {
     position: absolute;
     top: 0;
     left: 110%;
@@ -87,8 +107,8 @@
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 0 32px hsl(271, 70%, 91%);
-    /* z-index: 8; */
-    /* display: none; */
+    z-index: 8;
+    display: none;
 }
 
 .sidebar .notifications-popup::before{
@@ -101,4 +121,4 @@
     top: 16px;
     left: -8px;
     transform: rotate(45deg);
-}
+} */

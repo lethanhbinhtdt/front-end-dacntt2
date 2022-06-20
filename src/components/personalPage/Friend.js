@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react"
-import '../../css/Friend.css';
 import { Routes, Route, Link, useLocation, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
@@ -8,6 +7,9 @@ import { getCookieToken } from '../../middlewares/common'
 import { BASE_URL } from '../../middlewares/constant';
 import { Dropdown, IconButton } from 'rsuite';
 import Popup from 'reactjs-popup';
+
+import '../../css/Friend.css';
+
 function Friend(props) {
     let { id } = useParams();
 
@@ -130,7 +132,7 @@ function Friend(props) {
 
     return (
 
-        <div className="card">
+        <div className="card personal-friend">
 
             <div className="container">
                 <div className = "row">
