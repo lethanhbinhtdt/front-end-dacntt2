@@ -66,7 +66,9 @@ function PersonalInfor(props) {
             // body: JSON.stringify(yourNewData)
         })
         .then(res=>{
+            
             if(res.ok){
+                console.log("da ket bạnh thanh công")
                 return res.json()
             }
         })

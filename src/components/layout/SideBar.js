@@ -10,7 +10,7 @@ import NotificationList from '../notification/NotificationList';
 
 import '../../css/SideBar.css'
 
-function SideBar(props) {
+function SideBar() {
 
     const navigate = useNavigate();
 

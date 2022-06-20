@@ -7,6 +7,7 @@ import { getCookieToken } from '../../middlewares/common'
 
 function FriendRequestList(props) {
     const [friendRequest, setFriendRequest] = useState()
+    const [message, setMessage] = useState()
     const token = getCookieToken()
     useEffect(() => {
         fetch(`${BASE_URL}api/requestFriend/`,
@@ -15,7 +16,8 @@ function FriendRequestList(props) {
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
-                }
+                },
+            
             }
 
         )
@@ -32,7 +34,7 @@ function FriendRequestList(props) {
             })
     }, [])
 
-    const onAccepOrDeleteRequest = (e) =>{
+    const onAcceptRequest = (e) =>{
         var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
         fetch(`${BASE_URL}api/requestFriend/reply/${idUserInQueue}`,
         {
@@ -40,7 +42,8 @@ function FriendRequestList(props) {
             headers: {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${token}`
-            }
+            },
+            body: JSON.stringify({'start':friendRequest?.length})
         }
 
     )
@@ -50,8 +53,31 @@ function FriendRequestList(props) {
             }
         })
         .then(data => {
-            console.log("data accept nef ", data)
             setFriendRequest(data)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
+    const onDeleteRequest = (e) =>{
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        fetch(`${BASE_URL}api/requestFriend/deny/${idUserInQueue}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        })
+        .then(mess => {
+            setMessage(mess)
         })
         .catch(err => {
             console.error(err)
@@ -70,11 +96,11 @@ function FriendRequestList(props) {
                 </div>
                 <div className="card-body">
                     <div className='row'>
-                        <button  iduser={friendRequest[i]?.userRequest?._id} type="button" className="button btn btn-primary" onClick={onAccepOrDeleteRequest}>Xác nhận</button>
+                        <button  iduser={friendRequest[i]?.userRequest?._id} type="button" className="button btn btn-primary" onClick={onAcceptRequest}>Xác nhận</button>
                     </div>
 
                     <div className='row'>
-                        <button type="button" className="button btn btn-secondary">Xóa</button>
+                        <button type="button" className="button btn btn-secondary" onClick={onDeleteRequest} >Xóa</button>
                     </div>
 
                 </div>

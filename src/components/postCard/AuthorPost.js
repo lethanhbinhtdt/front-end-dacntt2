@@ -8,10 +8,6 @@ import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 function AuthorPost(props) {
     const [text, setText] = useState('');
     const author = props.dataAuthorInfo?.createdBy
-    console.log("author 123123", author?.fullname)
-    useEffect(() => {
-        console.log(text)
-    });
 
     return (
         <div>

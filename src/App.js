@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useRef  } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
@@ -16,17 +16,24 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
+import io from "socket.io-client";
+import { BASE_URL } from './middlewares/constant';
+const socket = io.connect(BASE_URL);
 
 function App() {
-  // const [authLoading, setAuthLoading] = useState(0);
+  const [socketdata, setSocketData] = useState()
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      console.log("dataatatataatatatatat", data)
+      setSocketData(data)
+    });
+  }, [socket]);
+  console.log("sdfgsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", socketdata)
 
+  // const socketRef = useRef();
   // useEffect(() => {
-  //   const token = getToken();
-  //   if (!token) {
-  //     return;
-  //   }
-  // })
-
+  //   // socketRef.current = socketIOClient.connect(host)
+  // }, []);
   return (
     <div className='App'>
       <BrowserRouter>

@@ -14,14 +14,18 @@ function PostCard(props) {
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
     const [numberComment,setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
+    const [isLiked, setIsLike] = useState(dataPostInfo? dataPostInfo.isLikePost:false);
+    const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
+    const [postId, setPostId] = useState(props?.dataPostInfo?._id)
+    const [userIdOfPost, setUserIdOfPost] = useState(dataPostInfo?.createdBy?._id)
 
-   
+    console.log("4545454545454545454545", userIdOfPost)
     // function ()
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
-    const  postId = postInfo?._id
-
+    // const  postId = postInfo?._id
+    console.log("is like ost ", isLiked)
     const handleLikePost = () =>{
         console.log("da vao function like")
         fetch(`${BASE_URL}api/post/${postId}/like`, {
@@ -38,7 +42,8 @@ function PostCard(props) {
             }
         })
         .then(infoLike=>{
-
+            setIsLike(infoLike?.status)
+            setTotolLike(infoLike?.length)
         })
     }
     
@@ -46,8 +51,8 @@ function PostCard(props) {
 
 
         // const [postInfo, setPostInfo] = useState()
-        console.log(postId, "+ ", numberComment)
-        fetch(`${BASE_URL}api/post/${postId}/comment/?start=${numberComment}`, {
+        // console.log(postId, "+ ", numberComment)
+        fetch(`${BASE_URL}api/post/${postId}/comment/?skip=${numberComment}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -60,7 +65,6 @@ function PostCard(props) {
             }
         })
         .then(data =>{
-
             setNumberComment(numberComment + data?.length)
             setCommentInfo([...commentInfo,...data])
             
@@ -69,7 +73,6 @@ function PostCard(props) {
             console.error(e)
         })
     }
-    console.log("commentinfo", commentInfo)
 
     // useEffect(()=>{
     //     a.push(<div className='post-card'><AuthorPost dataAuthorInfo = {dataPostInfo}/><ContentPost dataPostInfo = {dataPostInfo}/><ReactionPost dataReactionPost = {dataPostInfo}/>{numberComment}<Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/></div>)
@@ -86,11 +89,11 @@ function PostCard(props) {
                 <ContentPost dataPostInfo = {dataPostInfo}/>
 
                 {/* like/comment/share */}
-                <ReactionPost handleLikePost = {handleLikePost} dataReactionPost = {dataPostInfo}/>
+                <ReactionPost handleLikePost = {handleLikePost} isLiked = {isLiked} totolLike={totolLike} />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
-
-                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/>
+                {postId}
+                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId} userId = {userIdOfPost}/>
             </div>
         </div>
     );

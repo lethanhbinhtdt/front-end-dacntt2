@@ -11,6 +11,7 @@ import PostBox from '../post/PostBox'
 function HomePage(props) {
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
+
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',
@@ -25,10 +26,11 @@ function HomePage(props) {
                 return res.json()
             }
         }).then(dataPost=>{
-
-            console.log(dataPost)
             setPostInfo(dataPost)
 
+        })
+        .catch(err=>{
+            console.error(err)
         })
     },[])
     var listPost = []

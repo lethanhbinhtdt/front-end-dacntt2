@@ -36,3 +36,7 @@ export const setUserSession = (token, user) => {
 export const getCookieToken = () => {
     return cookies.get('access_token') || null;
 }
+
+// export const removeCookieToken = () =>{
+//     return removeCookie("access_token")||null;
+// }

@@ -4,7 +4,6 @@ import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 function ContentPost(props) {
     const dataPost = props.dataPostInfo
-    console.log("da co data", dataPost)
     var listPost = []
     // for(var i = 0; i< dataPost?.length ; i++){
 

@@ -25,7 +25,6 @@ function SettingPage() {
     //     setGender(e.target.value)
     // }
     let { id } = useParams();
-    console.log("id nef ",id)
     const token = getCookieToken()
      
     useEffect(() => {

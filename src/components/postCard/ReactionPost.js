@@ -1,36 +1,38 @@
 import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faCommentDots, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import { faHeart, faCommentDots, faShareFromSquare} from '@fortawesome/free-regular-svg-icons'
 
 function ReactionPost(props) {
-    const {handleLikePost, dataReactionPost} = props
+    const {handleLikePost,totolLike, isLiked} = props
     const [text, setText] = useState('');
     const [infoCurrentUser, setInfoCurrentUser] = useState()
-    const [isLiked, setIsLike] = useState(dataReactionPost? dataReactionPost.isLikePost:false);
-    const [totolLike, setTotolLike] = useState(dataReactionPost?.likedBy.length)
+    const [isLikedPost, setIsLike] = useState(isLiked? isLiked:false);
+    const [totolLikeInChild, setTotolLike] = useState(totolLike?totolLike*1:0)
 
-    // useEffect(() => {
-    //     console.log(text)
-    // });
+    useEffect(() => {
+        setTotolLike(totolLike?totolLike:0)
+        setIsLike(isLiked? isLiked:false)
+    });
     var infoTotalLikeByUser = ""
-    if(totolLike-1 > 0){
-        if(isLiked){
-            infoTotalLikeByUser =<><b className='text-link'> <span>Bạn</span></b>&nbsp;và&nbsp; <b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLike-1}</span> người khác</b>&nbsp; đã yêu thích</>
+
+    if(totolLikeInChild-1 > 0){
+        if(isLikedPost){
+            infoTotalLikeByUser =<><b className='text-link'> <span>Bạn</span></b>&nbsp;và&nbsp; <b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLikeInChild-1}</span> người khác</b>&nbsp; đã yêu thích</>
             
         }
         else{
-            infoTotalLikeByUser =<><b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLike}</span> người</b>&nbsp;đã yêu thích</>
+            infoTotalLikeByUser =<><b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLikeInChild}</span> người</b>&nbsp;đã yêu thích</>
         }
     
        
     }
-    else if(totolLike-1 === 0){
-        if(isLiked){
+    else if(totolLikeInChild-1 === 0){
+        if(isLikedPost){
             infoTotalLikeByUser =<><b className='text-link'> <span>Bạn</span></b>&nbsp;đã yêu thích</>
         }
         else{
-            infoTotalLikeByUser =<><b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLike}</span> người</b>&nbsp;đã yêu thích</>
+            infoTotalLikeByUser =<><b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLikeInChild}</span> người</b>&nbsp;đã yêu thích</>
         }
     }
 
@@ -62,7 +64,8 @@ function ReactionPost(props) {
                 <button
                     className='btn btn-outline-dark border-0 rounded-circle fs-larger'
                     onClick={handleLikePost}>
-                    <FontAwesomeIcon icon={faHeart} />
+                        {isLiked?     <FontAwesomeIcon icon="fa-solid fa-heart" />  :  <FontAwesomeIcon icon={faHeart} />}
+     
                 </button>
                 {/* comment button */}
                 <button

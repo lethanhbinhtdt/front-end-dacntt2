@@ -4,19 +4,34 @@ import { Navigate } from "react-router-dom";
 import { Routes, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { useCookies } from 'react-cookie';
 import { Dropdown } from 'react-bootstrap';
 import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
+import axios from '../../middlewares/axios';
 import '../../css/NavBar.css';
-
+import io from "socket.io-client";
+const socket = io.connect(BASE_URL);
 function NavBar(props) {
     const navigate = useNavigate();
+    // const [removeCookie] = useCookies(['access_token'])
+    const [cookies, setCookie, removeCookie] = useCookies(['access_token'])
     const imageClick = () => {
         navigate('/personal/post', { replace: true });
     }
     const [info, setInfo] = useState()
-    const token = getCookieToken()
+
+    const [socketdata, setSocketData] = useState()
     useEffect(()=>{
+        const token = getCookieToken()
+        // axios.get(`${BASE_URL}api/account`,
+        // {
+        //     headers: {
+        //         'Content-type': 'application/json',
+        //         'Authorization': `Bearer ${token}`
+        //     }
+        //     // body: JSON.stringify(yourNewData)
+        // } )
         fetch(`${BASE_URL}api/account`, 
             {
                 method: 'GET',
@@ -34,20 +49,45 @@ function NavBar(props) {
           }
         })
         .then(data=>{
-
-            console.log(data)
+            console.log("123123123213", data)
             setInfo(data)
+           
         })
         .catch(err=>{
             console.error(err)
         })
     }, [])
 
-    const data = {
-        "id": info?.id
+
+    // useEffect(() => {
+    //     socket.on("receive_message", (data) => {
+    //       console.log("dataatatataatatatatat", data)
+    //       setSocketData(data)
+    //     });
+    //   }, [socket]);
+    //   console.log("sdfgsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", socketdata)
+    useEffect(() => {
+        if(info){
+            socket.emit("newUser", info?.id);
+        }
+        socket.on("receive_message", (data) => {
+                  console.log("dataatatataatatatatat", data)
+                  setSocketData(data)
+                });
+
+      }, [socket, info]);
+    // if(info){
+    //     console.log("777777777777777777777", info?.id)
+    //     socket.emit("newUser", info?._id);
+    // }
+    // const data = {
+    //     "id": info?.id
+    // }
+    // const id = info?.id
+    const logout = () =>{
+        removeCookie("access_token")
+        socket.disconnect()
     }
-    const id = info?.id
-    const urlString = `/personal/${id}/post/`
     return (
         <>
             <div className='bg-top-color'></div>
@@ -63,7 +103,18 @@ function NavBar(props) {
                     <div>
                         {/* <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img> */}
                         <img src={info?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
-                        <Link to={ `/personal/${id}/post/`} state={data} className='text-decoration-none text-dark fw-bold'> {info?.fullname}</Link>
+                        <Link to={ `/personal/${info?.id}/post/`} state={{"id": info?.id}}> {info?.fullname}</Link>
+                        <Dropdown>
+                            <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
+                                <FontAwesomeIcon icon={faCaretDown} />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item> <Link  id='edit-info' to={`/account/${info?.id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
+                                <Dropdown.Item> <Link  onClick={logout} id='logout' to='/login'>Đăng xuất</Link> </Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+           
                     </div> 
                 </div>
 
