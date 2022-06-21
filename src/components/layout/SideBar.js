@@ -1,22 +1,79 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-regular-svg-icons'
 import { faBell, faEnvelope, faHouse, faGear } from '@fortawesome/free-solid-svg-icons'
-
+import { BASE_URL } from '../../middlewares/constant';
 import NotificationList from '../notification/NotificationList';
+import { getCookieToken } from '../../middlewares/common'
 
 import '../../css/SideBar.css'
+import io from "socket.io-client";
+const socket = io.connect(BASE_URL);
 
-function SideBar() {
-
+function SideBar(props) {
+    const {numberNotification} = props
     const navigate = useNavigate();
+    const [socketdata, setSocketData] = useState()
+    const [numberNotiNotChecked, setNumberNotiNotChecked] = useState(0)
 
+    const [notificationInfos, setNotificationInfo] = useState()
+    const [lenNotification, setlenNotification] = useState(0)
     function navigateChat() {
         navigate('/chat', { replace: true });
     }
+    console.log("numberNotificationnumberNotification", numberNotification)
+    useEffect(() => {
+        
+        // console.log("da vao nef ")
+        // socket.on("receive_message", (data) => {
+        //           console.log("hhahahahaahahah", data)
+        //           setNumberNotiNotChecked(1)
+        //         });
+        setNumberNotiNotChecked(numberNotiNotChecked+1)
+
+      }, [numberNotification]);
+
+    const token = getCookieToken()
+
+
+    useEffect(() => {
+        fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(notification => {
+                setNotificationInfo(notification)
+                setlenNotification(notification.length)
+                var numberNotCheck = 0 
+                for(var i = 0; i<=notification?.length; i++){
+                    if(!notification[i]?.isChecked){
+                        numberNotCheck = numberNotCheck +1
+                    }
+                }
+                setNumberNotiNotChecked(numberNotCheck)
+
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }, [])
+
+    // var numberNotCheck = 0 
+
+    // useEffect(()=>{
+       
+    // },[numberNotiNotChecked])
+    console.log("numberNotiNotChecked",numberNotiNotChecked)
     return (
         <div className='sidebar cursor-pointer'>
             {/* trang chủ */}
@@ -28,13 +85,13 @@ function SideBar() {
             <Popup
                 trigger={
                     <div className='menu-item active' id='notifications'>
-                        <span><FontAwesomeIcon icon={faBell} /> <small className='notification-count'>9+</small> </span><h5>Thông báo</h5>
+                        <span><FontAwesomeIcon icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
                     </div>
                 }
                 position='right center'
             >
                 <div className='menu-popup notifications-popup'>
-                    <NotificationList />
+                    <NotificationList noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
                 </div>
             </Popup>
 
