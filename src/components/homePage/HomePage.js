@@ -9,6 +9,7 @@ import {getCookieToken} from '../../middlewares/common'
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox'
 function HomePage(props) {
+    const {numberNoti, setNumberNotiRealTime} = props
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
 
@@ -44,6 +45,7 @@ function HomePage(props) {
         <div className='mb-3 mx-2'><PostCard indexId= {indexId} dataPostInfo = {postInfo[i]}/></div>
   )
     }
+    console.log('numberNoti', numberNoti)
     return (
         <div className = 'container'>
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
@@ -51,7 +53,7 @@ function HomePage(props) {
             <div className='row mt-3'>
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
-                    <SideBar/>
+                    <SideBar numberNotification = {numberNoti}/>
                 </div>
                 <div className='col-md-5'>
                 <div className='mb-3'><PostBox /></div>

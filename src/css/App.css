@@ -3,7 +3,7 @@ body {
     /* background-color: #F0EDF5; */
 }
 
-.bg-my-color{
+.bg-my-color {
     background-color: #EDF2F7 !important;
 }
 
@@ -15,7 +15,7 @@ body {
     font-size: small;
 }
 
-.fs-larger{
+.fs-larger {
     font-size: larger;
 }
 
@@ -23,11 +23,21 @@ input::placeholder {
     font-size: smaller;
 }
 
-.cursor-pointer{
+.cursor-pointer {
     cursor: pointer;
 }
 
 .text-link:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+
+.btn-link-text {
+    text-decoration: none;
+    color: white;
+}
+
+.btn-link-text:hover {
+    text-decoration: none;
+    color: white;
 }

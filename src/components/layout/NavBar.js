@@ -16,6 +16,7 @@ function NavBar(props) {
     const navigate = useNavigate();
     // const [removeCookie] = useCookies(['access_token'])
     const [cookies, setCookie, removeCookie] = useCookies(['access_token'])
+    const {currentUserIdState} = props
     const imageClick = () => {
         navigate('/personal/post', { replace: true });
     }
@@ -50,6 +51,7 @@ function NavBar(props) {
         })
         .then(data=>{
             console.log("123123123213", data)
+            currentUserIdState(data?.id)
             setInfo(data)
            
         })
@@ -58,32 +60,6 @@ function NavBar(props) {
         })
     }, [])
 
-
-    // useEffect(() => {
-    //     socket.on("receive_message", (data) => {
-    //       console.log("dataatatataatatatatat", data)
-    //       setSocketData(data)
-    //     });
-    //   }, [socket]);
-    //   console.log("sdfgsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf", socketdata)
-    useEffect(() => {
-        if(info){
-            socket.emit("newUser", info?.id);
-        }
-        socket.on("receive_message", (data) => {
-                  console.log("dataatatataatatatatat", data)
-                  setSocketData(data)
-                });
-
-      }, [socket, info]);
-    // if(info){
-    //     console.log("777777777777777777777", info?.id)
-    //     socket.emit("newUser", info?._id);
-    // }
-    // const data = {
-    //     "id": info?.id
-    // }
-    // const id = info?.id
     const logout = () =>{
         removeCookie("access_token")
         socket.disconnect()
