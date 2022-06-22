@@ -15,7 +15,7 @@ function AuthorPost(props) {
             <div id ={author?._id} className='d-flex justify-content-between'>
                 <div className='d-flex d-row'>
                     <img className='post-auth-img rounded-circle'
-                        src='http://via.placeholder.com/35x35'
+                        src={author?.picture}
                         alt='Avatar user'></img>
                     <div className='flex-column ms-2'>
                         <Link to= {`/personal/${author?._id}/post/`} className='post-auth-name' state={{"id": author?._id}}>

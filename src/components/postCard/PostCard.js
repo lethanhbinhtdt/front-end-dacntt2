@@ -18,8 +18,7 @@ function PostCard(props) {
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
     const [postId, setPostId] = useState(props?.dataPostInfo?._id)
     const [userIdOfPost, setUserIdOfPost] = useState(dataPostInfo?.createdBy?._id)
-
-    console.log("4545454545454545454545", userIdOfPost)
+    const [checkDeleteComment, setCheckDeleteComment] = useState(numberComment)
     // function ()
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
@@ -74,9 +73,30 @@ function PostCard(props) {
         })
     }
 
-    // useEffect(()=>{
-    //     a.push(<div className='post-card'><AuthorPost dataAuthorInfo = {dataPostInfo}/><ContentPost dataPostInfo = {dataPostInfo}/><ReactionPost dataReactionPost = {dataPostInfo}/>{numberComment}<Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}/></div>)
-    // })
+    const onLoadAfterDeleteComment = ()=>{
+        console.log("vao sau khi xoas ", numberComment)
+        fetch(`${BASE_URL}api/post/${postId}/comment/?limit=${numberComment}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then((res)=>{
+            if(res.ok){
+                return res.json()
+            }
+        })
+        .then(data =>{
+            setNumberComment(data.length)
+            setCommentInfo(data)
+            
+        })
+        .catch(e=>{
+            console.error(e)
+        })
+    }
+
     return (
 
         <div>
@@ -92,8 +112,7 @@ function PostCard(props) {
                 <ReactionPost handleLikePost = {handleLikePost} isLiked = {isLiked} totolLike={totolLike} />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
-                {postId}
-                <Comments onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId} userId = {userIdOfPost}/>
+                <Comments onLoadAfterDeleteComment = {onLoadAfterDeleteComment} onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId} userId = {userIdOfPost}/>
             </div>
         </div>
     );
