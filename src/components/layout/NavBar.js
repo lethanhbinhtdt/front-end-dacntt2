@@ -3,9 +3,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Navigate } from "react-router-dom";
 import { Routes, Route, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faCaretDown , faPaperPlane, faSend} from '@fortawesome/free-solid-svg-icons'
 import { useCookies } from 'react-cookie';
-import { Dropdown } from 'react-bootstrap';
+import { Button, Dropdown } from 'react-bootstrap';
 import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 import axios from '../../middlewares/axios';
@@ -21,7 +21,7 @@ function NavBar(props) {
         navigate('/personal/post', { replace: true });
     }
     const [info, setInfo] = useState()
-
+    const [nameUserFind, setNameUserFind] = useState()
     const [socketdata, setSocketData] = useState()
     useEffect(()=>{
         const token = getCookieToken()
@@ -42,7 +42,6 @@ function NavBar(props) {
                 }
                 // body: JSON.stringify(yourNewData)
             }
-         
         )
         .then((res)=>{
           if(res.ok){
@@ -50,7 +49,6 @@ function NavBar(props) {
           }
         })
         .then(data=>{
-            console.log("123123123213", data)
             currentUserIdState(data?.id)
             setInfo(data)
            
@@ -60,6 +58,9 @@ function NavBar(props) {
         })
     }, [])
 
+    const findFriend = ()=>{
+        navigate(`/search/?name=${nameUserFind}`, { replace: true });
+    }
     const logout = () =>{
         removeCookie("access_token")
         socket.disconnect()
@@ -72,8 +73,9 @@ function NavBar(props) {
                     <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
 
                     <form className='d-flex rounded-pill px-3 search-bar'>
-                        <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/>
-                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm...'></input>
+                  {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}
+                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm...' onChange={(e)=>{setNameUserFind(e.target.value)}}></input>
+                        <button type="button" className="btn"><FontAwesomeIcon icon={faSearch} onClick={findFriend} className='my-auto' /></button>
                     </form>
 
                     <div>

@@ -11,6 +11,7 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
+    var {setCheckMess, setMess} = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
     const [numberComment,setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
@@ -97,6 +98,30 @@ function PostCard(props) {
         })
     }
 
+    // share post 
+    const handleSharePost= () =>{
+        fetch(`${BASE_URL}api/post/${postId}/share`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+            // body: JSON.stringify(yourNewData)
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(dataPost=>{
+            setCheckMess(true)
+            setMess(dataPost['description'])
+            console.log(dataPost['description'])
+
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+    }
     return (
 
         <div>
@@ -109,7 +134,7 @@ function PostCard(props) {
                 <ContentPost dataPostInfo = {dataPostInfo}/>
 
                 {/* like/comment/share */}
-                <ReactionPost handleLikePost = {handleLikePost} isLiked = {isLiked} totolLike={totolLike} />
+                <ReactionPost  handleSharePost = {handleSharePost} handleLikePost = {handleLikePost} isLiked = {isLiked} totolLike={totolLike} />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
                 <Comments onLoadAfterDeleteComment = {onLoadAfterDeleteComment} onloadmoreComment={onloadmoreComment} dataComment = {commentInfo}  postId = {postId} userId = {userIdOfPost}/>

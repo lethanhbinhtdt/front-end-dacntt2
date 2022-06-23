@@ -28,6 +28,11 @@ function Comments(props) {
         //     setDataComment(dataComment)
         // }
         // check thêm nếu đã hết comment thiof ko hiển thị chữ nữa
+        // if(dataComment?.length == datacommentState.length){
+        //     SetTextLoadMoreCommentOrNot('')
+        // }
+         
+        console.log("da at comment ", dataComment)
         setDataComment(dataComment)
     },  [ dataComment ])
 

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faCommentDots, faShareFromSquare} from '@fortawesome/free-regular-svg-icons'
+import { BASE_URL } from '../../middlewares/constant';
+import {getCookieToken} from '../../middlewares/common'
 
 function ReactionPost(props) {
-    const {handleLikePost,totolLike, isLiked} = props
+    const {handleLikePost,totolLike, isLiked, handleSharePost} = props
     const [text, setText] = useState('');
     const [infoCurrentUser, setInfoCurrentUser] = useState()
     const [isLikedPost, setIsLike] = useState(isLiked? isLiked:false);
@@ -35,10 +37,6 @@ function ReactionPost(props) {
             infoTotalLikeByUser =<><b className='text-link' onClick={() => setText('Xem tất cả người thích')}> <span>{totolLikeInChild}</span> người</b>&nbsp;đã yêu thích</>
         }
     }
-
-    var likedPost = ""
-
-    var showCurrentUserLike = ""
     // const handleShowCurrentUserLike = ()=>{
 
         // console.log("da bam vao ")
@@ -56,6 +54,8 @@ function ReactionPost(props) {
 
 
     // }
+
+
     return (
         <div>
             {/* like/comment/share */}
@@ -76,7 +76,7 @@ function ReactionPost(props) {
                 {/* share button */}
                 <button
                     className='btn btn-outline-dark border-0 rounded-circle fs-larger'
-                    onClick={() => setText('Chia sẽ bài đăng')}>
+                    onClick={handleSharePost}>
                     <FontAwesomeIcon icon={faShareFromSquare} />
                 </button>
             </div>
