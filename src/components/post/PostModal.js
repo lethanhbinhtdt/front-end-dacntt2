@@ -1,29 +1,91 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup'
 
+import { BASE_URL, CREATE_POST_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
+import axios from '../../middlewares/axios';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-regular-svg-icons'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 import PostModalContent from './PostModalContent';
 
 function PostModal() {
+    const token = getCookieToken()
+
     // thông tin bài đăng: postContent, postVideo, postImages
     const [postContent, setPostContent] = useState('');
     const [postVideo, setPostVideo] = useState('');
-    const [idYtb, setIdYtb] = useState('');
+    const [postImages, setPostImages] = useState();
 
     //-- post modal --//
     const [openModal, setOpenModal] = useState(false);
+    const [idYtb, setIdYtb] = useState('');
+
     const closeModal = () => {
         resetForm();
         setOpenModal(false);
     };
 
+    // display a image selected from file input
+    const [img, setImg] = useState();
+    const onImageChange = (e) => {
+        const [file] = e.target.files;
+        setPostImages(e.target.files[0]);
+        setImg(URL.createObjectURL(file));
+    };
+
+    // submit form
     const handleSubmitPost = (e) => {
         e.preventDefault();
-        console.log(postContent, postVideo);
-        resetForm();
-        setOpenModal(false);
+        console.log(postContent, postVideo, postImages);
+
+        var formData = new FormData();
+        formData.append('postContent', postContent);
+        formData.append('postVideo', postVideo);
+        formData.append('postImages', postImages);
+        // TODO: send multiple image
+
+        axios.post(CREATE_POST_URL, formData,
+        {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                console.log(res);
+                resetForm();
+                setOpenModal(false);
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
+        // fetch('http://localhost:8080/api/post',
+        //     {
+        //         method: 'POST',
+        //         headers: {
+        //             // 'Content-type': 'multipart/form-data',
+        //             'Authorization': `Bearer ${token}`
+        //         },
+        //         body: formData
+        //     }
+
+        // )
+        //     .then((res) => {
+        //         if (res.ok) {
+        //             return res.json()
+        //         }
+        //     })
+        //     .then(data => {
+        //         console.log(data)
+
+        //         resetForm();
+        //         setOpenModal(false);
+        //     })
+        //     .catch(err => {
+        //         console.error(err)
+        //     })
     }
 
     //-- popup thêm video youtube --//
@@ -56,9 +118,10 @@ function PostModal() {
     const resetForm = () => {
         setPostContent('');
         setPostVideo('');
+        setIdYtb('');
+        setImg();
 
         setAddPostVideo('');
-        setIdYtb('');
         setLinkIsValid(true);
         //TODO: rs img
         setOpenModal(false);
@@ -98,16 +161,22 @@ function PostModal() {
                             rows='4'
                             className='w-100'
                             placeholder='Bạn đang nghĩ gì?'
-                            name='postContent' 
+                            name='postContent'
                             value={postContent}
                             onChange={(e) => setPostContent(e.target.value)}>
                         </textarea>
 
                         {/* Hiển thị hình ảnh/video upload */}
-                        {/* <img src='http://via.placeholder.com/600x200' width='100%' height='100%' alt='Blog img'></img> */}
+                        {/* TODO: hiển thị 1 lúc nhiều hình ảnh */}
+                        <div className='text-center mt-2'>
+                            {(img != null) && <img src={img} width='75%' alt='Blog img' className='rounded'></img>}
+                        </div>
 
                         <div className='text-center mt-2'>
-                            {(postVideo.length > 0) && <iframe title='post ytb video' src={'https://www.youtube.com/embed/' + idYtb} frameBorder='0' allowFullScreen></iframe>}
+                            {
+                                (idYtb.length > 0) &&
+                                <iframe title='post ytb video' src={'https://www.youtube.com/embed/' + idYtb} frameBorder='0' allowFullScreen className='rounded'></iframe>
+                            }
                         </div>
 
                         {/* button upload img, video */}
@@ -117,7 +186,7 @@ function PostModal() {
                                 {/* img */}
                                 <div>
                                     <label htmlFor='input-img' className='cursor-pointer btn-upload btn-img'><FontAwesomeIcon icon='fa-solid fa-images' className='mx-auto w-100' /></label>
-                                    <input hidden type='file' id='input-img' name='img' accept='image/*'></input>
+                                    <input hidden onChange={onImageChange} type='file' id='input-img' accept='image/*'></input>
                                 </div>
                                 {/* video youtube */}
                                 <div>
