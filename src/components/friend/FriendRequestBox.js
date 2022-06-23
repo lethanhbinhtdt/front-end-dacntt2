@@ -28,8 +28,8 @@ function FriendRequestBox(props) {
                 </div>
 
                 <div>
-                    <button type='button' class='btn btn-primary rounded-pill'>Chấp nhận</button>
-                    <button type='button' class='btn btn-refuse rounded-pill'>Xóa</button>
+                    <button type='button' className='btn btn-primary rounded-pill'>Chấp nhận</button>
+                    <button type='button' className='btn btn-refuse rounded-pill'>Xóa</button>
                 </div>
             </div>
 
@@ -46,8 +46,8 @@ function FriendRequestBox(props) {
                 </div>
 
                 <div>
-                    <button type='button' class='btn btn-primary rounded-pill'>Chấp nhận</button>
-                    <button type='button' class='btn btn-refuse rounded-pill'>Xóa</button>
+                    <button type='button' className='btn btn-primary rounded-pill'>Chấp nhận</button>
+                    <button type='button' className='btn btn-refuse rounded-pill'>Xóa</button>
                 </div>
             </div>
             {/* End danh sách kết bạn */}

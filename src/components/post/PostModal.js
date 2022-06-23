@@ -8,33 +8,34 @@ import PostModalContent from './PostModalContent';
 
 function PostModal() {
     // thông tin bài đăng: postContent, postVideo, postImages
-    const postContent = useFormInput('');
+    const [postContent, setPostContent] = useState('');
     const [postVideo, setPostVideo] = useState('');
     const [idYtb, setIdYtb] = useState('');
 
     //-- post modal --//
     const [openModal, setOpenModal] = useState(false);
     const closeModal = () => {
-        setOpenModal(false)
-        // TODO: reset form
+        resetForm();
+        setOpenModal(false);
     };
 
     const handleSubmitPost = (e) => {
         e.preventDefault();
         console.log(postContent, postVideo);
-        setOpenModal(false)
+        resetForm();
+        setOpenModal(false);
     }
 
     //-- popup thêm video youtube --//
-    const [openYtb, setOpenYtb] = useState(false);
-    const closeModalYtb = () => {
-        setOpenYtb(false);
-        
-        // TODO: reset form
-    };
-
-    const addPostVideo = useFormInput('');
+    const [addPostVideo, setAddPostVideo] = useState('');
     const [linkIsValid, setLinkIsValid] = useState(true);
+    const [openYtb, setOpenYtb] = useState(false);
+
+    const closeModalYtb = () => {
+        setAddPostVideo('');
+        setLinkIsValid(true);
+        setOpenYtb(false);
+    };
 
     const handleSubmitVideo = (e) => {
         e.preventDefault();
@@ -42,16 +43,27 @@ function PostModal() {
         if (id) {
             setLinkIsValid(true);
             setIdYtb(id);
-            setPostVideo(addPostVideo.value);
-            addPostVideo.value = '';
+            setPostVideo(addPostVideo);
+            setAddPostVideo('');
 
-            // TODO: reset form
             setOpenYtb(false);
         } else {
             setLinkIsValid(false);
         }
     }
-    
+
+    // reset form
+    const resetForm = () => {
+        setPostContent('');
+        setPostVideo('');
+
+        setAddPostVideo('');
+        setIdYtb('');
+        setLinkIsValid(true);
+        //TODO: rs img
+        setOpenModal(false);
+    }
+
     return (
         <div>
             <button onClick={() => setOpenModal(o => !o)} type='button' className='btn btn-post'>Bạn đang nghĩ gì?</button>
@@ -86,14 +98,16 @@ function PostModal() {
                             rows='4'
                             className='w-100'
                             placeholder='Bạn đang nghĩ gì?'
-                            name='postContent' {...postContent}>
+                            name='postContent' 
+                            value={postContent}
+                            onChange={(e) => setPostContent(e.target.value)}>
                         </textarea>
 
                         {/* Hiển thị hình ảnh/video upload */}
                         {/* <img src='http://via.placeholder.com/600x200' width='100%' height='100%' alt='Blog img'></img> */}
 
                         <div className='text-center mt-2'>
-                            {(postVideo.length>0) && <iframe title='post ytb video' src={'https://www.youtube.com/embed/'+idYtb} frameBorder='0' allowFullScreen></iframe> }
+                            {(postVideo.length > 0) && <iframe title='post ytb video' src={'https://www.youtube.com/embed/' + idYtb} frameBorder='0' allowFullScreen></iframe>}
                         </div>
 
                         {/* button upload img, video */}
@@ -129,7 +143,8 @@ function PostModal() {
                                                     placeholder='Nhập đường dẫn video YouTube'
                                                     className='w-100 border border-danger rounded-pill py-1 px-3 mb-2'
                                                     name='addPostVideo'
-                                                    {...addPostVideo}>
+                                                    value={addPostVideo}
+                                                    onChange={(e) => setAddPostVideo(e.target.value)}>
                                                 </input>
 
                                                 <div className='text-center mb-1'>
@@ -157,24 +172,10 @@ function PostModal() {
     );
 }
 
-// example: username.value = 'hello react'; console.log(username.value); 
-const useFormInput = initialValue => {
-    const [value, setValue] = useState(initialValue);
-
-    const handleChange = e => {
-        setValue(e.target.value);
-    }
-    return {
-        value,
-        onChange: handleChange
-    }
-}
-
-
 const getIdLinkYoutube = (url) => {
     // use regExp to split link id
     let regExp = new RegExp(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/);
-    let match = url.value.match(regExp);
+    let match = url.match(regExp);
     let id = (match && match[7].length == 11) ? match[7] : false;
     return id
 }
