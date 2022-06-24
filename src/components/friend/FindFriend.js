@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from "react-router-dom";
+import { useLocation, Link} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { } from '@fortawesome/free-regular-svg-icons'
 import { } from '@fortawesome/free-solid-svg-icons'
-
 import FriendRequestList from './FriendRequestList';
 import '../../css/findFriend.css'
 import { Button } from 'react-bootstrap';
@@ -42,10 +41,22 @@ function FindFriend(props) {
     }, [])
 
     const listUserFind = []
+    var buttonType = ''
     for (var i = 0; i < users?.length; i++) {
         console.log(users[i]._id)
         if (users[i]._id === currentUserId) {
             continue
+        }
+        if(users[i].friendStatus){
+            buttonType = <Button disabled variant='success' className='position-absolute top-50 end-0 translate-middle-y'>Bạn bè</Button>
+        }
+        else if (users[i].friendStatus === false){
+            buttonType = <Button disabled variant='light' className='position-absolute top-50 end-0 translate-middle-y'>Đã gửi lời mời</Button>
+
+        }
+        else if(users[i].friendStatus == null){
+            buttonType = <Button className='position-absolute top-50 end-0 translate-middle-y'>Kết bạn</Button>
+
         }
         listUserFind.push(
             <div class="card mb-3">
@@ -55,12 +66,12 @@ function FindFriend(props) {
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <h5 class="card-title">{users[i]?.fullname}</h5>
-                            {/* <p class="card-text">This is a wider card with supporting text below as a natural lead-i</p> */}
+                            <h5 class="card-title"></h5>
+                            <h5 class="card-text"><Link to= {`/personal/${users[i]?._id}/post/`}>{users[i]?.fullname}</Link></h5>
                         </div>
                     </div>
                     <div class="col-md-2">
-                        <Button className='position-absolute top-50 end-0 translate-middle-y'>thêm bạn</Button>
+                        {buttonType}
                     </div>
                 </div>
             </div>
