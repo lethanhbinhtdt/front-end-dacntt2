@@ -10,8 +10,9 @@ import { } from '@fortawesome/free-regular-svg-icons'
 import { faYoutube } from '@fortawesome/free-brands-svg-icons'
 import PostModalContent from './PostModalContent';
 
-function PostModal() {
+function PostModal(props) {
     const token = getCookieToken()
+    const {onCreatePost} = props
 
     // thông tin bài đăng: postContent, postVideo, postImages
     const [postContent, setPostContent] = useState('');
@@ -53,39 +54,13 @@ function PostModal() {
             }
         })
             .then(res => {
-                console.log(res);
+                onCreatePost(res.data.data);
                 resetForm();
                 setOpenModal(false);
             })
             .catch(err => {
                 console.error(err)
             })
-
-        // fetch('http://localhost:8080/api/post',
-        //     {
-        //         method: 'POST',
-        //         headers: {
-        //             // 'Content-type': 'multipart/form-data',
-        //             'Authorization': `Bearer ${token}`
-        //         },
-        //         body: formData
-        //     }
-
-        // )
-        //     .then((res) => {
-        //         if (res.ok) {
-        //             return res.json()
-        //         }
-        //     })
-        //     .then(data => {
-        //         console.log(data)
-
-        //         resetForm();
-        //         setOpenModal(false);
-        //     })
-        //     .catch(err => {
-        //         console.error(err)
-        //     })
     }
 
     //-- popup thêm video youtube --//
