@@ -59,7 +59,8 @@ function NavBar(props) {
     }, [])
 
     const findFriend = ()=>{
-        navigate(`/search/?name=${nameUserFind}`, { replace: true });
+        const id = info?.id
+        navigate(`/search/?name=${nameUserFind}`, {state:{"currentUserId": id}}, { replace: true });
     }
     const logout = () =>{
         removeCookie("access_token")
