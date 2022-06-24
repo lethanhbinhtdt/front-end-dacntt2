@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { BASE_URL, POST_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
 
 import PostCard from '../postCard/PostCard';
 import SideBar from '../layout/SideBar';
 import ChatBox from '../message/ChatBox';
-import { useState, useEffect } from 'react'
-import { BASE_URL } from '../../middlewares/constant';
-import { getCookieToken } from '../../middlewares/common'
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox'
+import axios from '../../middlewares/axios';
+
 function HomePage(props) {
     const token = getCookieToken()
-    const [postInfo, setPostInfo] = useState([])
+    const [postList, setPostList] = useState([])
+
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',
@@ -27,27 +30,40 @@ function HomePage(props) {
             }).then(dataPost => {
 
                 console.log(dataPost)
-                setPostInfo(dataPost)
+                setPostList(dataPost)
 
             })
     }, [])
 
+    // delete item
+    const deletePost = (idPost) => {
+        axios.delete(`${POST_URL}/${idPost}`, {
+            headers: {'Authorization': `Bearer ${token}`}
+        })
+        .then(res => {
+            // cập nhật lại danh sách
+            if (res.status === 200)
+                setPostList(oldList => oldList.filter(item => item._id !== idPost));
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+
     // var listPost = []
     // const indexId = {}
-    // for (let i = 0; i <= postInfo?.length; i++) {
-    //     indexId[i] = postInfo[i]?._id
+    // for (let i = 0; i <= postList?.length; i++) {
+    //     indexId[i] = postList[i]?._id
     // }
-    // for (let i = 0; i <= postInfo?.length; i++) {
+    // for (let i = 0; i <= postList?.length; i++) {
     //     listPost.push(
-    //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
+    //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postList[i]} /></div>
     //     )
     // }
 
     const onCreatePost = (newPost) => {
-        console.log('create new post success', newPost);
         // *note: thêm vào đầu danh sách để hiển thị
-        console.log('create',postInfo[2]);
-        setPostInfo([newPost, ...postInfo]);
+        setPostList([newPost, ...postList]);
     }
 
     return (
@@ -61,8 +77,8 @@ function HomePage(props) {
                 </div>
                 <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
-                    {postInfo && postInfo.map((item) => (
-                        <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} /></div>
+                    {postList && postList.map((item) => (
+                        <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
                     ))}
                     {/* {listPost} */}
                 </div>

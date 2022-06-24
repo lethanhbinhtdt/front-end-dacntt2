@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, Link, useLocation, useParams  } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
+
+import { BASE_URL } from '../../middlewares/constant';
+import {getCookieToken} from '../../middlewares/common'
+import { data } from 'autoprefixer';
+
 import PostCard from "../postCard/PostCard"
 import Friend from "./Friend"
 import Infor from "./Infor"
-import { BASE_URL } from '../../middlewares/constant';
-import {getCookieToken} from '../../middlewares/common'
-import '../../css/PersonalInfor.css';
-import { data } from 'autoprefixer';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
+
+import '../../css/PersonalInfor.css';
 
 function PersonalInfor(props) {
     const { id } = useParams();
@@ -169,8 +172,9 @@ function PersonalInfor(props) {
                     </div>
     
                 </div>
+
                 <Routes>
-                    <Route path="/:id/post"  element={<PostCard/>}></Route>
+                    <Route path="/:id/post" element={<PostCard/>}></Route>
                     {/* <Route path="/post"     component={() =><PostCard id={idUser} />}></Route> */}
                     <Route path="/:id/friend" element={<Friend/>}></Route>
                     <Route path="/:id/infomation" element={<Infor />}></Route>

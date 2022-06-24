@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 function AuthorPost(props) {
+    const {deletePost, dataPostInfo} = props
     const [text, setText] = useState('');
     const author = props.dataAuthorInfo?.createdBy
     console.log("author 123123", author?.fullname)
@@ -13,6 +14,10 @@ function AuthorPost(props) {
         console.log(text)
     });
 
+    const handleDeletePost = (e) => {
+        e.preventDefault();
+        deletePost(dataPostInfo._id);
+    }
     return (
         <div>
             {/* Người đăng */}
@@ -38,7 +43,7 @@ function AuthorPost(props) {
 
                     <Dropdown.Menu>
                         <Dropdown.Item onClick={() => setText('Sửa bài đăng')}>Sửa</Dropdown.Item>
-                        <Dropdown.Item onClick={() => setText('Xóa bài đăng')}>Xóa</Dropdown.Item>
+                        <Dropdown.Item onClick={handleDeletePost}>Xóa</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>

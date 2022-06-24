@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup'
 
-import { BASE_URL, CREATE_POST_URL } from '../../middlewares/constant';
+import { POST_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import axios from '../../middlewares/axios';
 
@@ -47,7 +47,7 @@ function PostModal(props) {
         formData.append('postImages', postImages);
         // TODO: send multiple image
 
-        axios.post(CREATE_POST_URL, formData,
+        axios.post(POST_URL, formData,
         {
             headers: {
                 'Authorization': `Bearer ${token}`
