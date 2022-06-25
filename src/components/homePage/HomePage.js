@@ -34,8 +34,7 @@ function HomePage(props) {
         }).then(dataPost=>{
             setPostInfo(dataPost)
 
-        })
-        .catch(err=>{
+        }).catch(err=>{
             console.error(err)
         })
     },[])
