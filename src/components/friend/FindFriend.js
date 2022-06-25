@@ -67,7 +67,7 @@ function FindFriend(props) {
                     <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title"></h5>
-                            <h5 class="card-text"><Link to= {`/personal/${users[i]?._id}/post/`}>{users[i]?.fullname}</Link></h5>
+                            <h5 class="card-text"><Link to= {`/personal/${users[i]?._id}/post/`} state={{"id": users[i]?._id}}>{users[i]?.fullname}</Link></h5>
                         </div>
                     </div>
                     <div class="col-md-2">

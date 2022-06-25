@@ -17,7 +17,7 @@ function PersonalInfor(props) {
     const [info, setInfo] = useState()
     const location = useLocation();
     const [idUser, setIdUser] = useState(location.state ? location.state.id : null);
-    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState("Gửi lời mời")
+    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState()
     console.log("id:", id)
     // const [idUser, setIdUser] =  useState(id ? id : ""); 
     const token = getCookieToken()
@@ -54,7 +54,7 @@ function PersonalInfor(props) {
 
     function SendFriendRequest(e) {
         console.log(e.target)
-        var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduserrequest').value;
+        var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduser').value;
 
         fetch(`${BASE_URL}api/requestFriend/${idUserWantoSendRequest}`,
             {
@@ -63,7 +63,6 @@ function PersonalInfor(props) {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-                // body: JSON.stringify(yourNewData)
             })
             .then(res => {
 
@@ -73,45 +72,101 @@ function PersonalInfor(props) {
                 }
             })
             .then(textOfButton => {
-                console.log(textOfButton)
-                setButtonTextSendRequestFriend(textOfButton)
+                setButtonTextSendRequestFriend(<a className="btn btn-light disabled d-block d-md-inline-block lift send-friend-request">Đã gửi lời mời </a>)
             })
             .catch(err => {
                 console.error(err)
             })
     }
+
+
+    const onAcceptRequest = (e) =>{
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        fetch(`${BASE_URL}api/requestFriend/reply/${idUserInQueue}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            // body: JSON.stringify({'start':friendRequest?.length})
+        }
+
+    )
+    .then((res) => {
+        if (res.ok) {
+            setButtonTextSendRequestFriend(<a className="btn btn-success disabled d-block d-md-inline-block lift send-friend-request">Bạn bè </a>)
+
+        }
+    })
+    // .then(data => {
+
+    // })
+    .catch(err => {
+        console.error(err)
+    })
+    }
+
+    const onDeleteRequest = (e) =>{
+        console.log("da vao xóa")
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        fetch(`${BASE_URL}api/requestFriend/deny/${idUserInQueue}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+    )
+        .then((res) => {
+            if (res.ok) {
+                setButtonTextSendRequestFriend(<a iduser={idUserInQueue} className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick={SendFriendRequest}>Gửi lời mời</a>)
+            }
+        })
+        // .then(mess => {
+        //     setMessage(mess)
+        // })
+        .catch(err => {
+            console.error(err)
+        })
+    }
     const sendRequestFriendAndChat = []
     var statusButton = ''
-
-    if (!info?.isCurrentUserLoginPage) {
-        console.log("(info?.friendStatus", info?.friendStatus)
-        if (info?.friendStatus === null) {
-            statusButton = <a iduserrequest={info?._id} className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick={SendFriendRequest}>Gửi lời mời</a>
+    
+    useEffect(()=>{
+        if (!info?.isCurrentUserLoginPage) {
+            if (info?.friendStatus === null) {
+                setButtonTextSendRequestFriend(<a iduser={info?._id} className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick={SendFriendRequest}>Gửi lời mời</a>)
+            }
+            if (info?.friendStatus === true) {
+                setButtonTextSendRequestFriend(<a className="btn btn-success disabled d-block d-md-inline-block lift send-friend-request">Bạn bè </a>)
+    
+            }
+            else if (info?.friendStatus===false) {
+                setButtonTextSendRequestFriend(<a className="btn btn-light disabled d-block d-md-inline-block lift send-friend-request">Đã gửi lời mời </a>)
+            }
+            else if (info?.friendStatus==='other') { // TODO: làm xác nhận
+                setButtonTextSendRequestFriend(<><a iduser={info?._id} className="btn btn-primary d-block d-md-inline-block lift send-friend-request" onClick = {onAcceptRequest} >Xác nhận</a><a onClick = {onDeleteRequest} iduser={info?._id} className="btn btn-secondary d-block d-md-inline-block lift send-friend-request">Xóa</a></>)
+            }
         }
-        if (info?.friendStatus === true) {
-            statusButton = <a iduserrequest={info?._id} className="btn btn-success disabled d-block d-md-inline-block lift send-friend-request">Bạn bè </a>
 
-        }
-        else if (info?.friendStatus===false) {
-            statusButton = <a iduserrequest={info?._id} className="btn btn-light disabled d-block d-md-inline-block lift send-friend-request">Đã gửi lời mời </a>
-        }
-        else if (info?.friendStatus==='other') {
-            statusButton = <a iduserrequest={info?._id} className="btn btn-primary d-block d-md-inline-block lift send-friend-request" >Xác nhận</a>
-        }
-        sendRequestFriendAndChat.push(
-            <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
+    },[info])
+  
+     
+    sendRequestFriendAndChat.push(
+        <div className="col-12 col-md-auto mt-2 mt-md-0 mb-md-3">
 
 
-                {statusButton}
+            {buttonTextSendRequestFriend}
 
-                <a className="btn btn-primary d-block d-md-inline-block lift">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
-                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                    </svg> Nhắn tin
-                </a>
+            <a className="btn btn-primary d-block d-md-inline-block lift">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-chat-square-dots-fill" viewBox="0 0 16 16">
+                    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.5a1 1 0 0 0-.8.4l-1.9 2.533a1 1 0 0 1-1.6 0L5.3 12.4a1 1 0 0 0-.8-.4H2a2 2 0 0 1-2-2V2zm5 4a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm4 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                </svg> Nhắn tin
+            </a>
 
-            </div>)
-    }
+        </div>)
 
     return (
         <div className='container'>

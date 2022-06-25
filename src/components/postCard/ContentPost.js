@@ -21,7 +21,7 @@ function ContentPost(props) {
         contents.push(<SharePost infoPostShare={dataPost?.rootPost} />)
     }
     else {
-        contents.push(<><p>dataPost?.content</p>
+        contents.push(<><p>{dataPost?.content}</p>
             {imageField}
             {videoField}
         </>)
