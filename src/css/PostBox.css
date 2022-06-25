@@ -84,6 +84,6 @@
     box-shadow: 0 0 32px hsl(0, 78%, 82%);
 }
 
-.form-upload-ytb > input:focus{
+.form-upload-ytb > form > input:focus{
     outline: none;
 }

@@ -13,7 +13,8 @@ import io from "socket.io-client";
 
 const socket = io.connect(BASE_URL);
 function Comments(props) {
-    const {onloadmoreComment, dataComment, postId, userId} = props
+    const {onloadmoreComment, dataComment, postId, userId, onLoadAfterDeleteComment} = props
+    const [postIdState, setPostId] = useState(postId)
     const [datacommentState, setDataComment] = useState(dataComment? dataComment: " ")
     const [textLoadMoreCommentOrNot, SetTextLoadMoreCommentOrNot] = useState("Xem thêm 5 bình luận khác")
 
@@ -27,6 +28,11 @@ function Comments(props) {
         //     setDataComment(dataComment)
         // }
         // check thêm nếu đã hết comment thiof ko hiển thị chữ nữa
+        // if(dataComment?.length == datacommentState.length){
+        //     SetTextLoadMoreCommentOrNot('')
+        // }
+         
+        console.log("da at comment ", dataComment)
         setDataComment(dataComment)
     },  [ dataComment ])
 
@@ -41,7 +47,7 @@ function Comments(props) {
         // var userIdPost = e.target.attributes.getNamedItem('userid')?.value;
         // console.log("socket 123123123123", userIdPost)
         // socket.emit("createNewNoti", userIdPost);
-        fetch(`${BASE_URL}api/post/${postId}/comment/`, {
+        fetch(`${BASE_URL}api/post/${postIdState}/comment/`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
@@ -66,9 +72,28 @@ function Comments(props) {
             console.error(err)
         })
     }
+
+    const deleteComment = (e) =>{
+        var commentId =  e.target.attributes.getNamedItem('commentid')?.value;
+        fetch(`${BASE_URL}api/post/${postIdState}/comment/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        .then((res)=>{
+            if(res.ok){
+                onLoadAfterDeleteComment()
+            }
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+    }
     for (var i = datacommentState?.length - 1; i >=0 ; i--) {
         listComment.push(
-            <div key = {datacommentState[i]?._id} className='mb-3 d-flex d-row'>
+            <div  className='mb-3 d-flex d-row'>
             {/* <div className='mb-3 d-flex d-row'> */}
                 <img className='comment-img' src={datacommentState[i]?.createdBy?.picture} alt='Avatar user'></img>
                 <div className='flex-column comment-content'>
@@ -87,8 +112,8 @@ function Comments(props) {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item >Sửa</Dropdown.Item>
-                                <Dropdown.Item >Xóa</Dropdown.Item>
+                                <Dropdown.Item  commentid ={datacommentState[i]?._id}>Sửa</Dropdown.Item>
+                                <Dropdown.Item commentid ={datacommentState[i]?._id} onClick={deleteComment}>Xóa</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     </div>

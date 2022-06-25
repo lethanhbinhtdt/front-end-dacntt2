@@ -9,7 +9,7 @@ import ErrorPage from './components/ErrorPage';
 import SettingPage from './components/personalPage/SettingPage';
 import NavBar from './components/layout/NavBar';
 import FriendRequestList from './components/friend/FriendRequestList'
-
+import FindFriend from './components/friend/FindFriend';
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
 import { getToken, setUserSession, removeUserSession } from './middlewares/common';
@@ -70,6 +70,7 @@ function App() {
                   <Route path='/personal/*' element={<PersonalPage />}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
+                  <Route path='/search/' element={<FindFriend />}> </Route>
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />

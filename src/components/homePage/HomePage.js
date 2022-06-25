@@ -8,10 +8,15 @@ import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox'
+import { Alert } from 'react-bootstrap';
+import '../../css/alert.css'
 function HomePage(props) {
     const {numberNoti, setNumberNotiRealTime} = props
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
+    const [checkShowMess, setCheckShowMess] = useState(false)
+    const [message, setMessage] = useState('')
+
 
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
@@ -42,9 +47,18 @@ function HomePage(props) {
     for(var i =0 ;i<=postInfo?.length;i++){
  
         listPost.push(       
-        <div className='mb-3 mx-2'><PostCard indexId= {indexId} dataPostInfo = {postInfo[i]}/></div>
+        <div className='mb-3 mx-2'><PostCard setMess = {setMessage} setCheckMess = {setCheckShowMess} indexId= {indexId} dataPostInfo = {postInfo[i]}/></div>
   )
     }
+    useEffect(() => {
+        if(checkShowMess){
+            setTimeout(() => {
+                setCheckShowMess(false);
+            }, 3000);
+        }
+    
+      }, [checkShowMess]);     
+        
     console.log('numberNoti', numberNoti)
     return (
         <div className = 'container'>
@@ -54,6 +68,7 @@ function HomePage(props) {
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
                     <SideBar numberNotification = {numberNoti}/>
+                    <div className='notification'><Alert className='fade-out-noti' show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
                 <div className='col-md-5'>
                 <div className='mb-3'><PostBox /></div>
@@ -62,6 +77,7 @@ function HomePage(props) {
                 <div className='col-md-4'>
                     <ChatBox />
                     <FriendRequestBox/>
+
                 </div>
                 
             </div>
