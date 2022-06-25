@@ -14,7 +14,7 @@ function FindFriend(props) {
     const { state } = useLocation();
     const token = getCookieToken()
     const search = useLocation().search;
-
+    const [isChangeTypeAfterClickRequestFriend, setisChangeTypeAfterClickRequestFriend] = useState(false)
     const currentUserId = state["currentUserId"]
     console.log("currentUserId", currentUserId)
     const name = new URLSearchParams(search).get('name');
@@ -31,23 +31,71 @@ function FindFriend(props) {
                     return res.json()
                 }
             }).then(dataUser => {
-                console.log(dataUser)
                 setUser(dataUser)
+                setisChangeTypeAfterClickRequestFriend(false)
 
             })
             .catch(err => {
                 console.error(err)
             })
-    }, [])
+    }, [isChangeTypeAfterClickRequestFriend])
 
+
+    function SendFriendRequest(e) {
+        console.log(e.target)
+        var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduser').value;
+
+        fetch(`${BASE_URL}api/requestFriend/${idUserWantoSendRequest}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(res => {
+
+                if (res.ok) {
+                    console.log("da ket bạn thanh công")
+                    return res.json()
+                }
+            })
+            .then(textOfButton => {
+                setisChangeTypeAfterClickRequestFriend(true)
+            })
+            .catch(err => {
+                console.error(err)
+            })
+    }
+    const onAcceptRequest = (e) =>{
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        fetch(`${BASE_URL}api/requestFriend/reply/${idUserInQueue}`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        }
+
+    )
+    .then((res) => {
+        if (res.ok) {
+            setisChangeTypeAfterClickRequestFriend(true)
+        }
+    })
+    .catch(err => {
+        console.error(err)
+    })
+    }
     const listUserFind = []
     var buttonType = ''
     for (var i = 0; i < users?.length; i++) {
-        console.log(users[i]._id)
+        console.log(users[i])
         if (users[i]._id === currentUserId) {
             continue
         }
-        if(users[i].friendStatus){
+        if(users[i].friendStatus===true){
             buttonType = <Button disabled variant='success' className='position-absolute top-50 end-0 translate-middle-y'>Bạn bè</Button>
         }
         else if (users[i].friendStatus === false){
@@ -55,22 +103,26 @@ function FindFriend(props) {
 
         }
         else if(users[i].friendStatus == null){
-            buttonType = <Button className='position-absolute top-50 end-0 translate-middle-y'>Kết bạn</Button>
+            buttonType = <Button className='position-absolute top-50 end-0 translate-middle-y' iduser={users[i]._id} onClick={SendFriendRequest}>Kết bạn</Button>
+
+        }
+        else if(users[i].friendStatus == 'other'){
+            buttonType = <Button className='position-absolute top-50 end-0 translate-middle-y' iduser={users[i]._id} onClick={onAcceptRequest}>Xác nhận</Button>
 
         }
         listUserFind.push(
-            <div class="card mb-3">
-                <div class="row no-gutters">
-                    <div class="col-md-4">
-                        <img src={users[i]?.picture} class="card-img" alt="..."></img>
+            <div className="card mb-3">
+                <div className="row no-gutters">
+                    <div className="col-md-4">
+                        <img src={users[i]?.picture} className="card-img" alt="..."></img>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card-body">
-                            <h5 class="card-title"></h5>
-                            <h5 class="card-text"><Link to= {`/personal/${users[i]?._id}/post/`} state={{"id": users[i]?._id}}>{users[i]?.fullname}</Link></h5>
+                    <div className="col-md-6">
+                        <div className="card-body">
+                            <h5 className="card-title"></h5>
+                            <h5 className="card-text"><Link to= {`/personal/${users[i]?._id}/post/`} state={{"id": users[i]?._id}}>{users[i]?.fullname}</Link></h5>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div className="col-md-2">
                         {buttonType}
                     </div>
                 </div>
