@@ -12,7 +12,7 @@ import axios from '../../middlewares/axios';
 
 function HomePage(props) {
     const token = getCookieToken()
-    const [postList, setPostList] = useState([])
+    const [postInfo, setPostInfo] = useState([])
 
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
@@ -30,7 +30,7 @@ function HomePage(props) {
             }).then(dataPost => {
 
                 console.log(dataPost)
-                setPostList(dataPost)
+                setPostInfo(dataPost)
 
             })
     }, [])
@@ -43,7 +43,7 @@ function HomePage(props) {
         .then(res => {
             // cập nhật lại danh sách
             if (res.status === 200)
-                setPostList(oldList => oldList.filter(item => item._id !== idPost));
+                setPostInfo(oldList => oldList.filter(item => item._id !== idPost));
         })
         .catch(err => {
             console.error(err)
@@ -52,18 +52,18 @@ function HomePage(props) {
 
     // var listPost = []
     // const indexId = {}
-    // for (let i = 0; i <= postList?.length; i++) {
-    //     indexId[i] = postList[i]?._id
+    // for (let i = 0; i <= postInfo?.length; i++) {
+    //     indexId[i] = postInfo[i]?._id
     // }
-    // for (let i = 0; i <= postList?.length; i++) {
+    // for (let i = 0; i <= postInfo?.length; i++) {
     //     listPost.push(
-    //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postList[i]} /></div>
+    //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
     //     )
     // }
 
     const onCreatePost = (newPost) => {
         // *note: thêm vào đầu danh sách để hiển thị
-        setPostList([newPost, ...postList]);
+        setPostInfo([newPost, ...postInfo]);
     }
 
     return (
@@ -77,7 +77,7 @@ function HomePage(props) {
                 </div>
                 <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
-                    {postList && postList.map((item) => (
+                    {postInfo && postInfo.map((item) => (
                         <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
                     ))}
                     {/* {listPost} */}
