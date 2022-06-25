@@ -23,18 +23,27 @@ function HomePage(props) {
             }
             // body: JSON.stringify(yourNewData)
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                }
-            }).then(dataPost => {
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(dataPost => {
+            setPostInfo(dataPost)
 
-                console.log(dataPost)
-                setPostInfo(dataPost)
-
-            })
-    }, [])
-
+        }).catch(err=>{
+            console.error(err)
+        })
+    },[])
+    // var listPost = []
+        // const indexId = {}
+        // for (let i = 0; i <= postInfo?.length; i++) {
+        //     indexId[i] = postInfo[i]?._id
+        // }
+        // for (let i = 0; i <= postInfo?.length; i++) {
+        //     listPost.push(
+        //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
+        //     )
+        // }
     // delete item
     const deletePost = (idPost) => {
         axios.delete(`${POST_URL}/${idPost}`, {
@@ -49,17 +58,6 @@ function HomePage(props) {
             console.error(err)
         })
     }
-
-    // var listPost = []
-    // const indexId = {}
-    // for (let i = 0; i <= postInfo?.length; i++) {
-    //     indexId[i] = postInfo[i]?._id
-    // }
-    // for (let i = 0; i <= postInfo?.length; i++) {
-    //     listPost.push(
-    //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
-    //     )
-    // }
 
     const onCreatePost = (newPost) => {
         // *note: thêm vào đầu danh sách để hiển thị
