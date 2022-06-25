@@ -54,7 +54,7 @@ function PostModal(props) {
             }
         })
             .then(res => {
-                onCreatePost(res.data.data);
+                onCreatePost(res.data);
                 resetForm();
                 setOpenModal(false);
             })
