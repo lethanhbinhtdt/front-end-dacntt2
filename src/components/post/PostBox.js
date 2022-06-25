@@ -4,8 +4,9 @@ import '../../css/PostBox.css'
 
 import PostModal from './PostModal';
 
-function PostBox() {
+function PostBox(props) {
 
+    const {onCreatePost} = props
     return (
         <div className='post-box'>
             <div className='d-flex'>
@@ -13,7 +14,7 @@ function PostBox() {
                     <img alt='user avatar' src='http://via.placeholder.com/24x24'></img>
                 </div>
                 <div className='w-100'>
-                    <PostModal />
+                    <PostModal onCreatePost = {onCreatePost}/>
                 </div>
             </div>
         </div>

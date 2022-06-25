@@ -1,15 +1,17 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { BASE_URL, POST_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
 
 import PostCard from '../postCard/PostCard';
 import SideBar from '../layout/SideBar';
 import ChatBox from '../message/ChatBox';
-import { useState, useEffect } from 'react'
-import { BASE_URL } from '../../middlewares/constant';
-import {getCookieToken} from '../../middlewares/common'
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox'
 import { Alert } from 'react-bootstrap';
 import '../../css/alert.css'
+import axios from '../../middlewares/axios';
+
 function HomePage(props) {
     const {numberNoti, setNumberNotiRealTime} = props
     const token = getCookieToken()
@@ -38,17 +40,36 @@ function HomePage(props) {
             console.error(err)
         })
     },[])
-    var listPost = []
-    const indexId = {}
-    for(var i =0 ;i<=postInfo?.length;i++){
-        indexId[i] = postInfo[i]?._id
+    // var listPost = []
+        // const indexId = {}
+        // for (let i = 0; i <= postInfo?.length; i++) {
+        //     indexId[i] = postInfo[i]?._id
+        // }
+        // for (let i = 0; i <= postInfo?.length; i++) {
+        //     listPost.push(
+        //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
+        //     )
+        // }
+    // delete item
+    const deletePost = (idPost) => {
+        axios.delete(`${POST_URL}/${idPost}`, {
+            headers: {'Authorization': `Bearer ${token}`}
+        })
+        .then(res => {
+            // cập nhật lại danh sách
+            if (res.status === 200)
+                setPostInfo(oldList => oldList.filter(item => item._id !== idPost));
+        })
+        .catch(err => {
+            console.error(err)
+        })
     }
-    for(var i =0 ;i<=postInfo?.length;i++){
- 
-        listPost.push(       
-        <div className='mb-3 mx-2'><PostCard setMess = {setMessage} setCheckMess = {setCheckShowMess} indexId= {indexId} dataPostInfo = {postInfo[i]}/></div>
-  )
+
+    const onCreatePost = (newPost) => {
+        // *note: thêm vào đầu danh sách để hiển thị
+        setPostInfo([newPost, ...postInfo]);
     }
+
     useEffect(() => {
         if(checkShowMess){
             setTimeout(() => {
@@ -60,7 +81,7 @@ function HomePage(props) {
         
     console.log('numberNoti', numberNoti)
     return (
-        <div className = 'container'>
+        <div className='container'>
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
@@ -70,15 +91,17 @@ function HomePage(props) {
                     <div className='notification'><Alert className='fade-out-noti' show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
                 <div className='col-md-5'>
-                <div className='mb-3'><PostBox /></div>
-                {listPost}
+                    <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
+                    {postInfo && postInfo.map((item) => (
+                        <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
+                    ))}
+                    {/* {listPost} */}
                 </div>
                 <div className='col-md-4'>
                     <ChatBox />
-                    <FriendRequestBox/>
-
+                    <FriendRequestBox />
                 </div>
-                
+
             </div>
         </div>
     );

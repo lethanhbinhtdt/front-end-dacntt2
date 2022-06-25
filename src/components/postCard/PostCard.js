@@ -11,6 +11,7 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
+    const {deletePost} = props
     var {setCheckMess, setMess} = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
@@ -128,7 +129,7 @@ function PostCard(props) {
 
             <div className='post-card'>
                 {/* Người đăng */}
-                <AuthorPost dataAuthorInfo = {dataPostInfo}/>
+                <AuthorPost deletePost={deletePost} dataPostInfo={dataPostInfo} dataAuthorInfo = {dataPostInfo}/>
 
                 {/* Nội dung */}
                 <ContentPost dataPostInfo = {dataPostInfo}/>
