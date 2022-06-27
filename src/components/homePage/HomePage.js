@@ -13,17 +13,21 @@ import '../../css/alert.css'
 import axios from '../../middlewares/axios';
 
 function HomePage(props) {
-    const {numberNoti, setNumberNotiRealTime, messageRealtime} = props
+    const {numberNoti, messageRealtime, setDataMess} = props
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [message, setMessage] = useState('')
 
     useEffect(()=>{
-        console.log("da vao111111")
-        setMessage(messageRealtime)
-        setCheckShowMess(true)
+        console.log("da vao111111111111111111111111")
+        if(messageRealtime){
+            setMessage(messageRealtime)
+            setCheckShowMess(true)
+        }
+
     },[messageRealtime])
+    
     console.log("message",message)
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
@@ -75,6 +79,11 @@ function HomePage(props) {
         setPostInfo([newPost, ...postInfo]);
     }
 
+    // cách thực hiện realtime cho like share comment
+    // bên App sử dụng state setSocketData và socketData để truyền message bên backend gửi lên 
+    // sau đó truyền cả 2 biến qua cho child 
+    // dùng useEffect để nhận nếu  socketData có thay đổi thì set mess bằng gái trị mới đồng thời set lại trạng thái là có thông báo là true để hiển thị alert 
+    // sau khi hiển thị alert xong thì set lại có thông báo là fall và datamess là '' để có thể khi có dữ liệu mới sẽ nhận thấy sự thay đổi mà vào useEffect 
     useEffect(() => {
         console.log("cos thay doi ")
         if(checkShowMess){
@@ -82,7 +91,7 @@ function HomePage(props) {
                 setCheckShowMess(false);
             }, 3000);
         }
-    
+        setDataMess('')
       }, [checkShowMess]);     
         
     console.log('numberNoti', numberNoti)
@@ -93,6 +102,7 @@ function HomePage(props) {
             <div className='row mt-3'>
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
+                
                     <SideBar numberNotification = {numberNoti}/>
                     <div className='notification'><Alert  show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>

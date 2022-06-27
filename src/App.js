@@ -27,26 +27,26 @@ function App() {
 
 
   useEffect(() => {
-    console.log("duwx lieuj rnoti dau ",numberNotiRealTime)
     if (userId) {
       socket.emit("newUser", userId);
     }
     socket.on("receiveMessageNoti", (data) => {
-      console.log("duwx lieuj rnoti",numberNotiRealTime, data)
       setSocketData(data)
       setNumberNotiRealTime(numberNotiRealTime+1)
     });
     
     socket.on('receiveMessageLike', data=>{
-      console.log("duwx lieuj rnoti", data)
+      setSocketData(data)
+      setNumberNotiRealTime(numberNotiRealTime+1)
+    })
+    
+    socket.on('receiveMessageShare', data=>{
+      setSocketData(data)
+      setNumberNotiRealTime(numberNotiRealTime+1)
     })
 
-    // socket.on("receive_message", (data) => {
-    //   console.log("dataatatataatatatatat", data)
-    //   setSocketData(data)
-    // });
   }, [socket, userId, numberNotiRealTime]);
-  console.log("duwx lieuj realtime", numberNotiRealTime)
+
   // const socketRef = useRef();
   // useEffect(() => {
   //   // socketRef.current = socketIOClient.connect(host)
@@ -64,7 +64,7 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute currentUserId={setUserId} />}>
-                  <Route path="/" element={<HomePage messageRealtime={socketdata} numberNoti={numberNotiRealTime}/>} />
+                  <Route path="/" element={<HomePage messageRealtime={socketdata} numberNoti={numberNotiRealTime} setDataMess={setSocketData}/>} />
                   <Route path='/personal/*' element={<PersonalPage />}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
