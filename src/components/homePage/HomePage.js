@@ -13,13 +13,18 @@ import '../../css/alert.css'
 import axios from '../../middlewares/axios';
 
 function HomePage(props) {
-    const {numberNoti, setNumberNotiRealTime} = props
+    const {numberNoti, setNumberNotiRealTime, messageRealtime} = props
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [message, setMessage] = useState('')
 
-
+    useEffect(()=>{
+        console.log("da vao111111")
+        setMessage(messageRealtime)
+        setCheckShowMess(true)
+    },[messageRealtime])
+    console.log("message",message)
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',
@@ -71,6 +76,7 @@ function HomePage(props) {
     }
 
     useEffect(() => {
+        console.log("cos thay doi ")
         if(checkShowMess){
             setTimeout(() => {
                 setCheckShowMess(false);
@@ -88,7 +94,7 @@ function HomePage(props) {
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
                     <SideBar numberNotification = {numberNoti}/>
-                    <div className='notification'><Alert className='fade-out-noti' show={checkShowMess} variant='primary'>{message}</Alert></div>
+                    <div className='notification'><Alert  show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
                 <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>

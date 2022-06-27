@@ -36,6 +36,10 @@ function App() {
       setSocketData(data)
       setNumberNotiRealTime(numberNotiRealTime+1)
     });
+    
+    socket.on('receiveMessageLike', data=>{
+      console.log("duwx lieuj rnoti", data)
+    })
 
     // socket.on("receive_message", (data) => {
     //   console.log("dataatatataatatatatat", data)
@@ -60,7 +64,7 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute currentUserId={setUserId} />}>
-                  <Route path="/" element={<HomePage numberNoti={numberNotiRealTime}/>} />
+                  <Route path="/" element={<HomePage messageRealtime={socketdata} numberNoti={numberNotiRealTime}/>} />
                   <Route path='/personal/*' element={<PersonalPage />}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
