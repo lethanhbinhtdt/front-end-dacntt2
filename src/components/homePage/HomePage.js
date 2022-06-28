@@ -109,7 +109,7 @@ function HomePage(props) {
                 <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
                     {postInfo && postInfo.map((item) => (
-                        <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
+                        <div className='mb-3 mx-2'><PostCard setMess = {setMessage} setCheckShowMessage = {setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
                     ))}
                     {/* {listPost} */}
                 </div>

@@ -11,7 +11,7 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
-    const {deletePost} = props
+    const {deletePost, setCheckShowMessage, setMess} = props
     // var {setCheckMess, setMess} = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
@@ -115,8 +115,8 @@ function PostCard(props) {
             }
         }).then(dataPost=>{
             console.log(dataPost['description'])
-            // setCheckMess(true)
-            // setMess(dataPost['description'])
+            setCheckShowMessage(true)
+            setMess(dataPost['description'])
           
 
         })
