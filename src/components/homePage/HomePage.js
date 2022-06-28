@@ -40,17 +40,7 @@ function HomePage(props) {
             console.error(err)
         })
     },[])
-    // var listPost = []
-        // const indexId = {}
-        // for (let i = 0; i <= postInfo?.length; i++) {
-        //     indexId[i] = postInfo[i]?._id
-        // }
-        // for (let i = 0; i <= postInfo?.length; i++) {
-        //     listPost.push(
-        //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
-        //     )
-        // }
-    // delete item
+
     const deletePost = (idPost) => {
         axios.delete(`${POST_URL}/${idPost}`, {
             headers: {'Authorization': `Bearer ${token}`}
@@ -95,7 +85,6 @@ function HomePage(props) {
                     {postInfo && postInfo.map((item) => (
                         <div className='mb-3 mx-2'><PostCard indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
                     ))}
-                    {/* {listPost} */}
                 </div>
                 <div className='col-md-4'>
                     <ChatBox />
