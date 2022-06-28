@@ -26,9 +26,7 @@ function PostCard(props) {
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
     // const  postId = postInfo?._id
-    console.log("is like ost ", isLiked)
     const handleLikePost = () =>{
-        console.log("da vao function like")
         fetch(`${BASE_URL}api/post/${postId}/like`, {
             method: 'POST',
             headers: {
@@ -76,7 +74,6 @@ function PostCard(props) {
     }
 
     const onLoadAfterDeleteComment = ()=>{
-        console.log("vao sau khi xoas ", numberComment)
         fetch(`${BASE_URL}api/post/${postId}/comment/?limit=${numberComment}`, {
             method: 'GET',
             headers: {
@@ -129,6 +126,7 @@ function PostCard(props) {
         <div>
 
             <div className='post-card'>
+                {postId}
                 {/* Người đăng */}
                 <AuthorPost deletePost={deletePost} dataPostInfo={dataPostInfo} dataAuthorInfo = {dataPostInfo}/>
 

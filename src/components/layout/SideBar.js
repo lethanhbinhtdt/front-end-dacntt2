@@ -37,10 +37,40 @@ function SideBar(props) {
       }, [numberNotification]);
 
     const token = getCookieToken()
+    useEffect(()=>{ // chỗ này để mới vào nó fetch để lấy ra dữ liệu cho số lượng noti
+        {
+            fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+                .then(res => {
+                    if (res.ok) {
+                        return res.json()
+                    }
+                }).then(notification => {
+                    setNotificationInfo(notification)
+                    setlenNotification(notification.length)
+                    var numberNotCheck = 0 
+                    for(var i = 0; i<=notification?.length; i++){
+                        if(!notification[i]?.isChecked){
+                            numberNotCheck = numberNotCheck +1
+                        }
+                    }
+                    setNumberNotiNotChecked(numberNotCheck)
+    
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+    },[])
 
-
-    useEffect(() => {
-        fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
+    const showNoti= () => {
+        // bấm vào hình chuông luôn fetch lại để lấy cái mới nhất 
+        fetch(`${BASE_URL}api/notification/?skip=0`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -53,20 +83,20 @@ function SideBar(props) {
                 }
             }).then(notification => {
                 setNotificationInfo(notification)
-                setlenNotification(notification.length)
+                setlenNotification(lenNotification + notification.length)// length này dùng để fetch lấy thêm dữ liệu 
                 var numberNotCheck = 0 
                 for(var i = 0; i<=notification?.length; i++){
                     if(!notification[i]?.isChecked){
                         numberNotCheck = numberNotCheck +1
                     }
                 }
-                setNumberNotiNotChecked(numberNotCheck)
+                // setNumberNotiNotChecked(numberNotCheck)
 
             })
             .catch(err => {
                 console.error(err)
             })
-    }, [])
+    }
 
     // var numberNotCheck = 0 
 
@@ -84,14 +114,14 @@ function SideBar(props) {
             {/* thông báo */}
             <Popup
                 trigger={
-                    <div className='menu-item active' id='notifications'>
-                        <span><FontAwesomeIcon icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
+                    <div className='menu-item active' id='notifications'  >
+                        <span onClick = {showNoti}><FontAwesomeIcon icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
                     </div>
                 }
                 position='right center'
             >
                 <div className='menu-popup notifications-popup'>
-                    <NotificationList noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
+                    <NotificationList  noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
                 </div>
             </Popup>
 

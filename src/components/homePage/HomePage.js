@@ -20,7 +20,6 @@ function HomePage(props) {
     const [message, setMessage] = useState('')
 
     useEffect(()=>{
-        console.log("da vao111111111111111111111111")
         if(messageRealtime){
             setMessage(messageRealtime)
             setCheckShowMess(true)
@@ -28,7 +27,6 @@ function HomePage(props) {
 
     },[messageRealtime])
     
-    console.log("message",message)
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',

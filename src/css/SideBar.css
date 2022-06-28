@@ -122,3 +122,12 @@
     left: -8px;
     transform: rotate(45deg);
 } */
+
+
+.notification-button{
+ margin-left: 10px;
+}
+
+.backgroun-noti{
+    background-color: cornsilk;
+}
