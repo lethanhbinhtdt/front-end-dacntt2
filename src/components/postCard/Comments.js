@@ -32,7 +32,6 @@ function Comments(props) {
         //     SetTextLoadMoreCommentOrNot('')
         // }
          
-        console.log("da at comment ", dataComment)
         setDataComment(dataComment)
     },  [ dataComment ])
 
