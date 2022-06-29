@@ -106,7 +106,7 @@ function PostModal(props) {
                     {/* header */}
                     <div className='header d-flex justify-content-between'>
                         <div> </div>
-                        <h4 className='text-center'>Tạo bài viết</h4>
+                        <h4 className='text-center'>{isUpdate ? 'Cập nhật':'Tạo'} bài viết</h4>
                         <button className='close-button text-right' onClick={() => setOpenModal(false)}>
                             &times;
                         </button>
@@ -164,7 +164,7 @@ function PostModal(props) {
 
                     {/* footer */}
                     <div>
-                        <button onClick={handleSubmitPost} type='button' className='btn btn-primary w-100'>Đăng</button>
+                        <button onClick={handleSubmitPost} type='button' className='btn btn-primary w-100 fw-bold'>{isUpdate ? 'Cập nhật':'Đăng'}</button>
                     </div>
                 </div>
             </Popup>

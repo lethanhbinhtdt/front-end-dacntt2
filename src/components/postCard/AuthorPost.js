@@ -30,12 +30,13 @@ function AuthorPost(props) {
                         <Link to= {`/personal/${author?._id}/post/`} className='post-auth-name' state={{"id": author?._id}}>
                             <b> {author?.fullname}</b>
                         </Link>
-                        <p className='text-secondary fs-small'>
+                        <div className='text-secondary fs-small'>
                             {author?.createdAt}
-                        </p>
+                        </div>
                     </div>
                 </div>
                 {/* sửa/xóa */}
+                {/* TODO: if author -> display dropdown */}
                 <Dropdown>
                     <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
                         <FontAwesomeIcon icon={faEllipsis} />
