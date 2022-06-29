@@ -7,7 +7,7 @@ import { faYoutube } from '@fortawesome/free-brands-svg-icons';
 
 
 function PopupYtb(props) {
-    const {setIdYtb, setPostVideo} = props;
+    const {setIdYtb, setPostVideo, getIdLinkYoutube} = props;
     const [addPostVideo, setAddPostVideo] = useState('');
     const [linkIsValid, setLinkIsValid] = useState(true);
     const [openYtb, setOpenYtb] = useState(false);
@@ -70,14 +70,6 @@ function PopupYtb(props) {
         </div>
 
     )
-}
-
-const getIdLinkYoutube = (url) => {
-    // use regExp to split link id
-    let regExp = new RegExp(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/);
-    let match = url.match(regExp);
-    let id = (match && match[7].length == 11) ? match[7] : false;
-    return id
 }
 
 export default PopupYtb;

@@ -10,24 +10,27 @@ import PopupYtb from './PopupYtb';
 
 function PostModal(props) {
     const token = getCookieToken()
-    const {onCreatePost} = props
+    const { onCreatePost, onUpdatePost, oldPost, openModal, setOpenModal } = props
+
+    const isUpdate = oldPost ? true : false;
 
     // thông tin bài đăng: postContent, postVideo, postImages
-    const [postContent, setPostContent] = useState('');
-    const [postVideo, setPostVideo] = useState('');
+    const [postContent, setPostContent] = useState(oldPost?.content ? oldPost.content : '');
+    const [postVideo, setPostVideo] = useState(oldPost?.video ? oldPost.video : '');
     const [postImages, setPostImages] = useState();
 
     //-- post modal --//
-    const [openModal, setOpenModal] = useState(false);
-    const [idYtb, setIdYtb] = useState('');
+    const [idYtb, setIdYtb] = useState(oldPost?.video ? getIdLinkYoutube(oldPost.video) : '');
 
     const closeModal = () => {
-        resetForm();
+        if (!isUpdate) {
+            resetForm();
+        }
         setOpenModal(false);
     };
 
     // display a image selected from file input
-    const [img, setImg] = useState();
+    const [img, setImg] = useState(oldPost?.image ? oldPost.image[0] : '');
     const onImageChange = (e) => {
         const [file] = e.target.files;
         setPostImages(e.target.files[0]);
@@ -45,23 +48,39 @@ function PostModal(props) {
         formData.append('postImages', postImages);
         // TODO: send multiple image
 
-        axios.post(POST_URL, formData,
-        {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                onCreatePost(res.data);
-                resetForm();
-                setOpenModal(false);
-            })
-            .catch(err => {
-                console.error(err)
-            })
+        if (isUpdate) {
+            // update new post
+            axios.put(`${POST_URL}/${oldPost._id}`, formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(res => {
+                    onUpdatePost(res.data);
+                    setOpenModal(false);
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        } else {
+            // create new post
+            axios.post(POST_URL, formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(res => {
+                    onCreatePost(res.data);
+                    resetForm();
+                    setOpenModal(false);
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
     }
-
-    //-- popup thêm video youtube --//
 
 
     // reset form
@@ -77,7 +96,6 @@ function PostModal(props) {
 
     return (
         <div>
-            <button onClick={() => setOpenModal(o => !o)} type='button' className='btn btn-post'>Bạn đang nghĩ gì?</button>
             <Popup
                 modal
                 open={openModal}
@@ -117,7 +135,7 @@ function PostModal(props) {
                         {/* Hiển thị hình ảnh/video upload */}
                         {/* TODO: hiển thị 1 lúc nhiều hình ảnh */}
                         <div className='text-center mt-2'>
-                            {(img != null) && <img src={img} width='75%' alt='Blog img' className='rounded'></img>}
+                            {(img != null && img.length > 0) && <img src={img} width='75%' alt='Blog img' className='rounded'></img>}
                         </div>
 
                         <div className='text-center mt-2'>
@@ -137,7 +155,7 @@ function PostModal(props) {
                                     <input hidden onChange={onImageChange} type='file' id='input-img' accept='image/*'></input>
                                 </div>
                                 {/* video youtube */}
-                                <PopupYtb setIdYtb={setIdYtb} setPostVideo={setPostVideo}/>
+                                <PopupYtb setIdYtb={setIdYtb} setPostVideo={setPostVideo} getIdLinkYoutube={getIdLinkYoutube} />
                             </div>
                         </div>
                         {/* END upload img, video */}
@@ -154,5 +172,12 @@ function PostModal(props) {
     );
 }
 
+const getIdLinkYoutube = (url) => {
+    // use regExp to split link id
+    let regExp = new RegExp(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/);
+    let match = url.match(regExp);
+    let id = (match && match[7].length == 11) ? match[7] : false;
+    return id
+}
 
 export default PostModal;

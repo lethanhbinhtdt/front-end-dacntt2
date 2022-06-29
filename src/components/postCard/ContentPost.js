@@ -1,7 +1,4 @@
 import React from 'react';
-import { useState, useEffect } from 'react'
-import { BASE_URL } from '../../middlewares/constant';
-import { getCookieToken } from '../../middlewares/common'
 import SharePost from './SharePost';
 function ContentPost(props) {
     const dataPost = props.dataPostInfo
@@ -14,14 +11,15 @@ function ContentPost(props) {
         }
     }
     if (dataPost?.video) {
-        videoField.push(<div className='text-center mt-2'><iframe title='post ytb video' src='https://www.youtube.com/embed/jn8NhISy9rg' frameBorder='0' className='post-ytb' allowFullScreen></iframe> </div>)
+        videoField.push(<div className='text-center mt-2'><iframe title='post ytb video' src={dataPost?.video} frameBorder='0' className='post-ytb' allowFullScreen></iframe> </div>)
     }
     const contents = []
     if (dataPost?.rootPost) {
         contents.push(<SharePost infoPostShare={dataPost?.rootPost} />)
     }
     else {
-        contents.push(<><p>{dataPost?.content}</p>
+        contents.push(<>
+            <p>{dataPost?.content}</p>
             {imageField}
             {videoField}
         </>)

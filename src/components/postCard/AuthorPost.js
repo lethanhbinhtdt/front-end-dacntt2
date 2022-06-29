@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 
@@ -6,13 +6,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 function AuthorPost(props) {
-    const {deletePost, dataPostInfo} = props
-    const [text, setText] = useState('');
+
+    const {deletePost, dataPostInfo, setOpenModal} = props;
     const author = props.dataAuthorInfo?.createdBy
 
     const handleDeletePost = (e) => {
         e.preventDefault();
         deletePost(dataPostInfo._id);
+    }
+    const handleUpdatePost = (e) => {
+        e.preventDefault();
+        setOpenModal(o => !o);
     }
     return (
         <div>
@@ -38,11 +42,12 @@ function AuthorPost(props) {
                     </Dropdown.Toggle>
 
                     <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => setText('Sửa bài đăng')}>Sửa</Dropdown.Item>
+                        <Dropdown.Item onClick={handleUpdatePost}>Sửa</Dropdown.Item>
                         <Dropdown.Item onClick={handleDeletePost}>Xóa</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </div>
+
         </div>
     );
 }
