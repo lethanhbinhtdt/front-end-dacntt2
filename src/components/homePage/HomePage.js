@@ -21,6 +21,7 @@ function HomePage(props) {
     const [message, setMessage] = useState('')
     
     const [page, setPage] = useState(1);
+    const [hasMorePost, setHasMorePost] = useState(true);
 
     const fetchDataOnScroll = () => {
         fetch(`${BASE_URL}api/post/${page}`, {
@@ -37,7 +38,11 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                setPostInfo([...postInfo, ...dataPost])
+                if(dataPost.length===0){
+                    setHasMorePost(false);
+                } else {
+                    setPostInfo([...postInfo, ...dataPost])
+                }
 
             }).catch(err => {
                 console.error(err)
@@ -109,11 +114,11 @@ function HomePage(props) {
                     <InfiniteScroll
                         dataLength={postInfo?.length || 0} //This is important field to render the next data
                         next={fetchDataOnScroll}
-                        hasMore={true}
+                        hasMore={hasMorePost}
                         loader={<h4>Đang tải...</h4>}
                         endMessage={
                             <p style={{ textAlign: 'center' }}>
-                              <b>Yay! You have seen it all</b>
+                              <b>...Hết bài viết...</b>
                             </p>
                         }
                     >
