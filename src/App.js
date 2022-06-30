@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
@@ -16,43 +16,47 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
-import io from "socket.io-client";
 import { BASE_URL } from './middlewares/constant';
-const socket = io.connect(BASE_URL);
+
+// import io from "socket.io-client";
+
+// const socket = io.connect(BASE_URL);
+import {SocketContext, socket} from './middlewares/socket';
 
 function App() {
   const [userId, setUserId] = useState()
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
   const [socketdata, setSocketData] = useState() // dùng để show message 
+  // const socketio = useContext(SocketContext);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //     socketio.emit("newUser", userId);
+  //   }
+    // socketio.on("receiveMessageNoti", (data) => {
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // });
+    
+    // socketio.on('receiveMessageLike', data=>{
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // })
+    
+    // socketio.on('receiveMessageShare', data=>{
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // })
+
+  // }, [socketio, userId, numberNotiRealTime]);
 
   useEffect(() => {
-    if (userId) {
-      socket.emit("newUser", userId);
-    }
-    socket.on("receiveMessageNoti", (data) => {
-      setSocketData(data)
-      setNumberNotiRealTime(numberNotiRealTime+1)
-    });
-    
-    socket.on('receiveMessageLike', data=>{
-      setSocketData(data)
-      setNumberNotiRealTime(numberNotiRealTime+1)
-    })
-    
-    socket.on('receiveMessageShare', data=>{
-      setSocketData(data)
-      setNumberNotiRealTime(numberNotiRealTime+1)
-    })
-
-  }, [socket, userId, numberNotiRealTime]);
-
-  // const socketRef = useRef();
-  // useEffect(() => {
-  //   // socketRef.current = socketIOClient.connect(host)
-  // }, []);
+    // socketRef.current = socketIOClient.connect(host)
+  }, []);
   return (
+    <SocketContext.Provider value={socket}>
     <div className='App'>
+ 
       <BrowserRouter>
         <Fragment>
           <div>
@@ -77,7 +81,9 @@ function App() {
           </div>
         </Fragment>
       </BrowserRouter>
+
     </div>
+    </SocketContext.Provider>
   );
 }
 

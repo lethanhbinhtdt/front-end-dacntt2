@@ -11,8 +11,8 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
-    const {deletePost, setCheckShowMessage, setMess} = props
-    // var {setCheckMess, setMess} = props
+    const {deletePost, setCheckShowMessage, setMess} = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
+
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [postInfo, setPostInfo] = useState(props?.dataPostInfo)
     const [numberComment,setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Navigate } from "react-router-dom";
 import { Routes, Route, Link } from 'react-router-dom';
@@ -10,8 +10,8 @@ import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 import axios from '../../middlewares/axios';
 import '../../css/NavBar.css';
-import io from "socket.io-client";
-const socket = io.connect(BASE_URL);
+import {SocketContext} from '../../middlewares/socket';
+
 function NavBar(props) {
     const navigate = useNavigate();
     // const [removeCookie] = useCookies(['access_token'])
@@ -23,6 +23,10 @@ function NavBar(props) {
     const [info, setInfo] = useState()
     const [nameUserFind, setNameUserFind] = useState()
     const [socketdata, setSocketData] = useState()
+
+
+    const socket = useContext(SocketContext);
+
     useEffect(()=>{
         const token = getCookieToken()
         // axios.get(`${BASE_URL}api/account`,
@@ -49,6 +53,7 @@ function NavBar(props) {
           }
         })
         .then(data=>{
+            socket.emit("newUser", data?.id);
             currentUserIdState(data?.id)
             setInfo(data)
            

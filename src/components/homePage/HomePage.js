@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
@@ -11,22 +11,60 @@ import PostBox from '../post/PostBox'
 import { Alert } from 'react-bootstrap';
 import '../../css/alert.css'
 import axios from '../../middlewares/axios';
+import { SocketContext } from '../../middlewares/socket';
 
 function HomePage(props) {
-    const {numberNoti, messageRealtime, setDataMess} = props
+    // const {numberNoti, messageRealtime, setDataMess} = props
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
+    const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
     const [message, setMessage] = useState('')
+    const socket = useContext(SocketContext);
 
-    useEffect(()=>{
-        if(messageRealtime){
-            setMessage(messageRealtime)
+    useEffect(() => {
+
+        socket.on("receiveMessageNoti", (data) => {
+            console.log(data)
+            setMessage(data)
             setCheckShowMess(true)
-        }
-
-    },[messageRealtime])
+            setNumberNotiRealTime(numberNotiRealTime + 1)
     
+        });
+
+        socket.on('receiveMessageLike', data => {
+            console.log(data)
+            setMessage(data)
+            setCheckShowMess(true)
+            setNumberNotiRealTime(numberNotiRealTime + 1)
+
+        })
+
+        socket.on('receiveMessageShare', data => {
+            console.log(data)
+            setMessage(data)
+            setCheckShowMess(true)
+            setNumberNotiRealTime(numberNotiRealTime + 1)
+
+        })
+        socket.on('receiveCommentInfo', data => {
+            console.log("ádfasfasfasfasdfasdf", data)
+            // setMessage(data)
+            // setCheckShowMess(true)
+            // setNumberNotiRealTime(numberNotiRealTime + 1)
+
+        })
+
+    }, [socket, numberNotiRealTime]);
+
+    // useEffect(() => {
+    //     if (message) {
+    //         setMessage(message)
+    //         setCheckShowMess(true)
+    //     }
+
+    // }, [message])
+
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
             method: 'GET',
@@ -36,40 +74,31 @@ function HomePage(props) {
             }
             // body: JSON.stringify(yourNewData)
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            }
-        }).then(dataPost=>{
-            setPostInfo(dataPost)
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(dataPost => {
+                setPostInfo(dataPost)
 
-        }).catch(err=>{
-            console.error(err)
-        })
-    },[])
-    // var listPost = []
-        // const indexId = {}
-        // for (let i = 0; i <= postInfo?.length; i++) {
-        //     indexId[i] = postInfo[i]?._id
-        // }
-        // for (let i = 0; i <= postInfo?.length; i++) {
-        //     listPost.push(
-        //         <div className='mb-3 mx-2'><PostCard indexId={indexId[i]} dataPostInfo={postInfo[i]} /></div>
-        //     )
-        // }
+            }).catch(err => {
+                console.error(err)
+            })
+    }, [])
+
     // delete item
     const deletePost = (idPost) => {
         axios.delete(`${POST_URL}/${idPost}`, {
-            headers: {'Authorization': `Bearer ${token}`}
+            headers: { 'Authorization': `Bearer ${token}` }
         })
-        .then(res => {
-            // cập nhật lại danh sách
-            if (res.status === 200)
-                setPostInfo(oldList => oldList.filter(item => item._id !== idPost));
-        })
-        .catch(err => {
-            console.error(err)
-        })
+            .then(res => {
+                // cập nhật lại danh sách
+                if (res.status === 200)
+                    setPostInfo(oldList => oldList.filter(item => item._id !== idPost));
+            })
+            .catch(err => {
+                console.error(err)
+            })
     }
 
     const onCreatePost = (newPost) => {
@@ -78,21 +107,23 @@ function HomePage(props) {
     }
 
     // cách thực hiện realtime cho like share comment
-    // bên App sử dụng state setSocketData và socketData để truyền message bên backend gửi lên 
-    // sau đó truyền cả 2 biến qua cho child 
-    // dùng useEffect để nhận nếu  socketData có thay đổi thì set mess bằng gái trị mới đồng thời set lại trạng thái là có thông báo là true để hiển thị alert 
-    // sau khi hiển thị alert xong thì set lại có thông báo là fall và datamess là '' để có thể khi có dữ liệu mới sẽ nhận thấy sự thay đổi mà vào useEffect 
+    //  bên backend gửi lên message sẽ được lưu vào biến message đồng thời set lai giá trị của checkshow mesage để hiển thị được alert 
+    // biến message dùng chung vs message thông báo như share bài thành công xóa bài thành công vv 
     useEffect(() => {
-        console.log("cos thay doi ")
-        if(checkShowMess){
+        if (checkShowMess) {
             setTimeout(() => {
                 setCheckShowMess(false);
             }, 3000);
         }
-        setDataMess('')
-      }, [checkShowMess]);     
-        
-    console.log('numberNoti', numberNoti)
+    }, [checkShowMess]);
+    var listPost = []
+    for (let i = 0; i <= postInfo?.length; i++) {
+        socket.emit('joinRoom', postInfo[i]?._id)
+        listPost.push(
+            // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
+            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} deletePost={deletePost} /></div>
+        )
+    }
     return (
         <div className='container'>
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
@@ -100,16 +131,17 @@ function HomePage(props) {
             <div className='row mt-3'>
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
-                
-                    <SideBar numberNotification = {numberNoti}/>
-                    <div className='notification'><Alert  show={checkShowMess} variant='primary'>{message}</Alert></div>
+
+                    <SideBar numberNotification={numberNotiRealTime} />
+                    <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
                 <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
-                    {postInfo && postInfo.map((item) => (
-                        <div className='mb-3 mx-2'><PostCard setMess = {setMessage} setCheckShowMessage = {setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
-                    ))}
-                    {/* {listPost} */}
+                    {/* {postInfo && postInfo.map((item) => (
+             
+                        <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
+                    ))} */}
+                    {listPost}
                 </div>
                 <div className='col-md-4'>
                     <ChatBox />
