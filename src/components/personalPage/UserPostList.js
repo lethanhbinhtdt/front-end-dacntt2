@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
-import { getCookieToken } from '../../middlewares/common'
+import { getCookieToken, getCookieUser } from '../../middlewares/common'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostCard from '../postCard/PostCard';
@@ -13,9 +13,10 @@ import { Alert } from 'react-bootstrap';
 
 import '../../css/alert.css'
 
-function HomePage(props) {
+function UserPostList(props) {
     const { numberNoti, setNumberNotiRealTime } = props
     const token = getCookieToken()
+    const userInfo = getCookieUser()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [message, setMessage] = useState('')
@@ -24,7 +25,7 @@ function HomePage(props) {
     const [hasMorePost, setHasMorePost] = useState(true);
 
     const fetchDataOnScroll = () => {
-        fetch(`${BASE_URL}api/post/${page}`, {
+        fetch(`${BASE_URL}api/post/${userInfo._id}/user/${page}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -50,7 +51,7 @@ function HomePage(props) {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL}api/post`, {
+        fetch(`${BASE_URL}api/post/${userInfo._id}/user`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -104,11 +105,11 @@ function HomePage(props) {
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
                 <div className='col-md-1'></div>
-                <div className='col-md-2'>
+                {/* <div className='col-md-2'>
                     <SideBar numberNotification={numberNoti} />
                     <div className='notification'><Alert className='fade-out-noti' show={checkShowMess} variant='primary'>{message}</Alert></div>
-                </div>
-                <div className='col-md-5'>
+                </div> */}
+                <div className='col-md-6'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
                     
                     <InfiniteScroll
@@ -146,4 +147,4 @@ function HomePage(props) {
     );
 }
 
-export default HomePage;
+export default UserPostList;

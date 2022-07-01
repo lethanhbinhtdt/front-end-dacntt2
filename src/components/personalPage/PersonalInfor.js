@@ -8,6 +8,7 @@ import { data } from 'autoprefixer';
 import PostCard from "../postCard/PostCard"
 import Friend from "./Friend"
 import Infor from "./Infor"
+import UserPostList from './UserPostList';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
@@ -15,6 +16,7 @@ import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import '../../css/PersonalInfor.css';
 
 function PersonalInfor(props) {
+    const { numberNoti } = props
     const { id } = useParams();
     const [activeMenu, setActiveMenu] = useState()
     const [info, setInfo] = useState()
@@ -245,7 +247,8 @@ function PersonalInfor(props) {
                 </div>
 
                 <Routes>
-                    <Route path="/:id/post" element={<PostCard/>}></Route>
+                    <Route path="/:id/post" element={<UserPostList numberNoti={numberNoti}/>}></Route>
+                    
                     {/* <Route path="/post"     component={() =><PostCard id={idUser} />}></Route> */}
                     <Route path="/:id/friend" element={<Friend />}></Route>
                     <Route path="/:id/infomation" element={<Infor />}></Route>
