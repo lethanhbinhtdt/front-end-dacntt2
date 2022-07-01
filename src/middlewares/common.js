@@ -4,7 +4,7 @@ const cookies = new Cookies();
 
 export const getUser = () => {
     const userStr = sessionStorage.getItem('user');
-    if (userStr) return JSON.parse(userStr);
+    if (userStr) return userStr;
     else return null;
 }
 
@@ -22,7 +22,7 @@ export const removeUserSession = () => {
 // set the token and user from the session storage
 export const setUserSession = (token, user) => {
     sessionStorage.setItem('token', token);
-    sessionStorage.setItem('user', JSON.stringify(user));
+    sessionStorage.setItem('user', user);
 }
 
 
@@ -32,6 +32,13 @@ export const setUserSession = (token, user) => {
 //     expires.setTime(expires.getTime() + (60*60*4)) // hết hạn sau 4h 
 //     setCookie('access_token', token, { path: '/',  expires})
 // }
+export const setCookieUser = (userInfo) => {
+    return cookies.set('user_info', userInfo);
+}
+
+export const getCookieUser = () => {
+    return cookies.get('user_info') || null;
+}
 
 export const getCookieToken = () => {
     return cookies.get('access_token') || null;

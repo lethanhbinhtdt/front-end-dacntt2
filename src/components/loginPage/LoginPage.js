@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 
 import axios from '../../middlewares/axios';
 import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
-import { setUserSession } from '../../middlewares/common'
+import { setCookieUser } from '../../middlewares/common'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
@@ -39,8 +39,9 @@ function LoginPage(props) {
             );
             let expires = new Date()
             expires.setTime(expires.getTime() + (60 * 60 * 4*1000))
+
             setCookie('access_token', response?.data?.token, { path: '/', expires })
-            // setCookie(response?.data?.token, response?.data?.userInfo)
+            setCookieUser(response?.data?.userInfo);
             navigate(redirectPath, { replace: true });
 
         } catch (err) {

@@ -64,6 +64,7 @@ function NavBar(props) {
     }
     const logout = () =>{
         removeCookie("access_token")
+        removeCookie("user_info")
         socket.disconnect()
     }
     return (

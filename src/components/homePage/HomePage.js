@@ -115,9 +115,9 @@ function HomePage(props) {
                         dataLength={postInfo?.length || 0} //This is important field to render the next data
                         next={fetchDataOnScroll}
                         hasMore={hasMorePost}
-                        loader={<h4>Đang tải...</h4>}
+                        loader={<p className='text-info'>Đang tải...</p>}
                         endMessage={
-                            <p style={{ textAlign: 'center' }}>
+                            <p className='text-center text-info'>
                               <b>...Hết bài viết...</b>
                             </p>
                         }

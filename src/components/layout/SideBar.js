@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 
@@ -14,66 +14,21 @@ import io from "socket.io-client";
 const socket = io.connect(BASE_URL);
 
 function SideBar(props) {
-    const {numberNotification} = props
+    const { numberNotification } = props
     const navigate = useNavigate();
     const [socketdata, setSocketData] = useState()
     const [numberNotiNotChecked, setNumberNotiNotChecked] = useState(0)
 
-    const [notificationInfos, setNotificationInfo] = useState()
-    const [lenNotification, setlenNotification] = useState(0)
     function navigateChat() {
         navigate('/chat', { replace: true });
     }
-    console.log("numberNotificationnumberNotification", numberNotification)
-    useEffect(() => {
-        
-        // console.log("da vao nef ")
-        // socket.on("receive_message", (data) => {
-        //           console.log("hhahahahaahahah", data)
-        //           setNumberNotiNotChecked(1)
-        //         });
-        setNumberNotiNotChecked(numberNotiNotChecked+1)
 
-      }, [numberNotification]);
-
-    const token = getCookieToken()
-
-
-    useEffect(() => {
-        fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
-            method: 'GET',
-            headers: {
-                'Content-type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                }
-            }).then(notification => {
-                setNotificationInfo(notification)
-                setlenNotification(notification.length)
-                var numberNotCheck = 0 
-                for(var i = 0; i<=notification?.length; i++){
-                    if(!notification[i]?.isChecked){
-                        numberNotCheck = numberNotCheck +1
-                    }
-                }
-                setNumberNotiNotChecked(numberNotCheck)
-
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }, [])
 
     // var numberNotCheck = 0 
 
     // useEffect(()=>{
-       
+
     // },[numberNotiNotChecked])
-    console.log("numberNotiNotChecked",numberNotiNotChecked)
     return (
         <div className='sidebar cursor-pointer'>
             {/* trang chủ */}
@@ -90,16 +45,18 @@ function SideBar(props) {
                 }
                 position='right center'
             >
-                <div className='menu-popup notifications-popup'>
+                {/* <div className='menu-popup notifications-popup'>
                     <NotificationList noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
-                </div>
+                </div> */}
+                <NotificationList setNumberNotiNotChecked={setNumberNotiNotChecked} />
+
             </Popup>
 
             {/* tin nhắn */}
             <div className='menu-item' id='message-notifications' onClick={navigateChat}>
                 <span><FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small> </span><h5>Tin nhắn</h5>
             </div>
-            
+
             {/* cài đặt */}
             <Popup
                 trigger={

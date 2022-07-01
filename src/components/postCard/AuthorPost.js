@@ -2,13 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 
+import { getCookieUser } from '../../middlewares/common';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 function AuthorPost(props) {
-
-    const {deletePost, dataPostInfo, setOpenModal} = props;
+    const { deletePost, dataPostInfo, setOpenModal } = props;
     const author = props.dataAuthorInfo?.createdBy
+
+    const userInfo = getCookieUser();
 
     const handleDeletePost = (e) => {
         e.preventDefault();
@@ -21,13 +24,13 @@ function AuthorPost(props) {
     return (
         <div>
             {/* Người đăng */}
-            <div id ={author?._id} className='d-flex justify-content-between'>
+            <div id={author?._id} className='d-flex justify-content-between'>
                 <div className='d-flex d-row'>
                     <img className='post-auth-img rounded-circle'
                         src={author?.picture}
                         alt='Avatar user'></img>
                     <div className='flex-column ms-2'>
-                        <Link to= {`/personal/${author?._id}/post/`} className='post-auth-name' state={{"id": author?._id}}>
+                        <Link to={`/personal/${author?._id}/post/`} className='post-auth-name' state={{ "id": author?._id }}>
                             <b> {author?.fullname}</b>
                         </Link>
                         <div className='text-secondary fs-small'>
@@ -37,16 +40,18 @@ function AuthorPost(props) {
                 </div>
                 {/* sửa/xóa */}
                 {/* TODO: if author -> display dropdown */}
-                <Dropdown>
-                    <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
-                        <FontAwesomeIcon icon={faEllipsis} />
-                    </Dropdown.Toggle>
+                {(userInfo?._id == author?._id) &&
+                    <Dropdown>
+                        <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
+                            <FontAwesomeIcon icon={faEllipsis} />
+                        </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={handleUpdatePost}>Sửa</Dropdown.Item>
-                        <Dropdown.Item onClick={handleDeletePost}>Xóa</Dropdown.Item>
-                    </Dropdown.Menu>
-                </Dropdown>
+                        <Dropdown.Menu>
+                            <Dropdown.Item onClick={handleUpdatePost}>Sửa</Dropdown.Item>
+                            <Dropdown.Item onClick={handleDeletePost}>Xóa</Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                }
             </div>
 
         </div>

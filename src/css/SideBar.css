@@ -90,6 +90,7 @@
 
 .notifications-popup{
     height: 190px;
+    max-width: 380px;
     overflow: auto;
 }
 
