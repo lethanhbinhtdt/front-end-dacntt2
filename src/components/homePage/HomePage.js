@@ -20,6 +20,8 @@ function HomePage(props) {
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
     const [message, setMessage] = useState('')
+    const [checkHaveNewComment, setCheckHaveNewComment] = useState(false)
+    const [newCommentRealTime, setNewCommentRealtime] = useState(false)
     const socket = useContext(SocketContext);
 
     useEffect(() => {
@@ -29,7 +31,7 @@ function HomePage(props) {
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
-    
+
         });
 
         socket.on('receiveMessageLike', data => {
@@ -48,22 +50,38 @@ function HomePage(props) {
 
         })
         socket.on('receiveCommentInfo', data => {
-            console.log("ádfasfasfasfasdfasdf", data)
-            // setMessage(data)
-            // setCheckShowMess(true)
-            // setNumberNotiRealTime(numberNotiRealTime + 1)
+            setCheckHaveNewComment(true)
+            setNewCommentRealtime(data)
+            // for(var i = 0 ; i< postInfo?.length; i++){
+            //     if(postInfo[i]?._id.toString() === data.postId){
+            //         console.log( "beforre",  postInfo[i]?.dataComment)
+            //         postInfo[i] = postInfo[i].toJSON()
+            //         postInfo[i].dataComment = [...[data],...postInfo[i]?.dataComment]
+            //     }
+            //     break
+            // }
+
 
         })
-
     }, [socket, numberNotiRealTime]);
 
-    // useEffect(() => {
-    //     if (message) {
-    //         setMessage(message)
-    //         setCheckShowMess(true)
-    //     }
+    useEffect(() => {
+        // console.log("beforre", postInfo, newCommentRealTime)
+        if(checkHaveNewComment){
+            for (var i = 0; i < postInfo?.length; i++) {
+                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
+                if (postInfo[i]?._id === newCommentRealTime?.postId) {
+                    console.log("asdfsdf", postInfo[i]?.commentPost)
+                    postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
+                    console.log("after", postInfo[i]?.commentPost)
+                    setPostInfo(postInfo)
+                    break
+                }
+            }
+        }
+      
 
-    // }, [message])
+    }, [checkHaveNewComment])
 
     useEffect(() => {
         fetch(`${BASE_URL}api/post`, {
@@ -79,6 +97,7 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
+                console.log("vooooo")
                 setPostInfo(dataPost)
 
             }).catch(err => {
@@ -121,7 +140,7 @@ function HomePage(props) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
-            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} deletePost={deletePost} /></div>
+            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} deletePost={deletePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
         )
     }
     return (
