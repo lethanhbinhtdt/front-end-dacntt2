@@ -61,7 +61,7 @@ function App() {
 
                 <Route element={<PrivateRoute currentUserId={setUserId} />}>
                   <Route path="/" element={<HomePage numberNoti={numberNotiRealTime}/>} />
-                  <Route path='/personal/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
+                  <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
                   <Route path='/search/' element={<FindFriend />}> </Route>

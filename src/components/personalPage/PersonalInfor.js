@@ -247,11 +247,11 @@ function PersonalInfor(props) {
                 </div>
 
                 <Routes>
-                    <Route path="/:id/post" element={<UserPostList numberNoti={numberNoti}/>}></Route>
+                    <Route path="/post" element={<UserPostList userID={id} numberNoti={numberNoti}/>}></Route>
                     
                     {/* <Route path="/post"     component={() =><PostCard id={idUser} />}></Route> */}
-                    <Route path="/:id/friend" element={<Friend />}></Route>
-                    <Route path="/:id/infomation" element={<Infor />}></Route>
+                    <Route path="/friend" element={<Friend />}></Route>
+                    <Route path="/infomation" element={<Infor />}></Route>
                 </Routes>
             </div>
         </div>

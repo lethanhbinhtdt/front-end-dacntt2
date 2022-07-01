@@ -14,18 +14,18 @@ import { Alert } from 'react-bootstrap';
 import '../../css/alert.css'
 
 function UserPostList(props) {
-    const { numberNoti, setNumberNotiRealTime } = props
+    const { numberNoti, setNumberNotiRealTime, userID } = props
     const token = getCookieToken()
     const userInfo = getCookieUser()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [message, setMessage] = useState('')
-    
+
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
 
     const fetchDataOnScroll = () => {
-        fetch(`${BASE_URL}api/post/${userInfo._id}/user/${page}`, {
+        fetch(`${BASE_URL}api/post/${userID}/user/${page}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -38,10 +38,10 @@ function UserPostList(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                if(dataPost.length===0){
+                if (dataPost.length === 0) {
                     setHasMorePost(false);
                 } else {
-                    setPage(page+1);
+                    setPage(page + 1);
                     setPostInfo([...postInfo, ...dataPost])
                 }
 
@@ -51,7 +51,7 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL}api/post/${userInfo._id}/user`, {
+        fetch(`${BASE_URL}api/post/${userID}/user`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -91,6 +91,7 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
+
         if (checkShowMess) {
             setTimeout(() => {
                 setCheckShowMess(false);
@@ -101,17 +102,12 @@ function UserPostList(props) {
 
     return (
         <div className='container'>
-            {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
-            {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
-                <div className='col-md-1'></div>
-                {/* <div className='col-md-2'>
-                    <SideBar numberNotification={numberNoti} />
-                    <div className='notification'><Alert className='fade-out-noti' show={checkShowMess} variant='primary'>{message}</Alert></div>
-                </div> */}
+                <div className='col-md-2'></div>
                 <div className='col-md-6'>
-                    <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
-                    
+                    {(userInfo._id == userID) &&
+                        <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
+                    }
                     <InfiniteScroll
                         dataLength={postInfo?.length || 0} //This is important field to render the next data
                         next={fetchDataOnScroll}
@@ -119,7 +115,7 @@ function UserPostList(props) {
                         loader={<p className='text-info'>Đang tải...</p>}
                         endMessage={
                             <p className='text-center text-info'>
-                              <b>...Hết bài viết...</b>
+                                <b>...Hết bài viết...</b>
                             </p>
                         }
                     >
