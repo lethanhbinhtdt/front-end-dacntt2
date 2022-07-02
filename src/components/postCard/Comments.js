@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap';
 
@@ -9,9 +9,8 @@ import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import {NUMBER_NEXT_LOAD} from '../../middlewares/constant'
-import io from "socket.io-client";
+import { SocketContext } from '../../middlewares/socket';
 
-const socket = io.connect(BASE_URL);
 function Comments(props) {
     const {onloadmoreComment, dataComment, postId, userId, onLoadAfterDeleteComment} = props
     const [postIdState, setPostId] = useState(postId)
@@ -21,7 +20,7 @@ function Comments(props) {
     // const [postInfo, setPostInfo] = useState(props ? props.dataComment : "");
     const [commentText, setCommentText] = useState("")
     const [userIdOfPost, setUserIdOfPost]  = useState(userId)
-
+    const socket = useContext(SocketContext);
 
     useEffect(() => {
         // if(datacommentState?.length !== dataComment?.length){

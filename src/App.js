@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useRef } from 'react';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import axios from './middlewares/axios';
 
@@ -16,39 +16,47 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
-import io from "socket.io-client";
 import { BASE_URL } from './middlewares/constant';
-const socket = io.connect(BASE_URL);
+
+// import io from "socket.io-client";
+
+// const socket = io.connect(BASE_URL);
+import {SocketContext, socket} from './middlewares/socket';
 
 function App() {
   const [userId, setUserId] = useState()
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
   const [socketdata, setSocketData] = useState() // dùng để show message 
+  // const socketio = useContext(SocketContext);
 
+  // useEffect(() => {
+  //   if (userId) {
+  //     socketio.emit("newUser", userId);
+  //   }
+    // socketio.on("receiveMessageNoti", (data) => {
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // });
+    
+    // socketio.on('receiveMessageLike', data=>{
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // })
+    
+    // socketio.on('receiveMessageShare', data=>{
+    //   setSocketData(data)
+    //   setNumberNotiRealTime(numberNotiRealTime+1)
+    // })
+
+  // }, [socketio, userId, numberNotiRealTime]);
 
   useEffect(() => {
-    console.log("duwx lieuj rnoti dau ",numberNotiRealTime)
-    if (userId) {
-      socket.emit("newUser", userId);
-    }
-    socket.on("receiveMessageNoti", (data) => {
-      console.log("duwx lieuj rnoti",numberNotiRealTime, data)
-      setSocketData(data)
-      setNumberNotiRealTime(numberNotiRealTime+1)
-    });
-
-    // socket.on("receive_message", (data) => {
-    //   console.log("dataatatataatatatatat", data)
-    //   setSocketData(data)
-    // });
-  }, [socket, userId, numberNotiRealTime]);
-  console.log("duwx lieuj realtime", numberNotiRealTime)
-  // const socketRef = useRef();
-  // useEffect(() => {
-  //   // socketRef.current = socketIOClient.connect(host)
-  // }, []);
+    // socketRef.current = socketIOClient.connect(host)
+  }, []);
   return (
+    <SocketContext.Provider value={socket}>
     <div className='App'>
+ 
       <BrowserRouter>
         <Fragment>
           <div>
@@ -60,6 +68,8 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute currentUserId={setUserId} />}>
+                 // <Route path="/" element={<HomePage messageRealtime={socketdata} numberNoti={numberNotiRealTime} setDataMess={setSocketData}/>} />
+                  //<Route path='/personal/*' element={<PersonalPage />}></Route>
                   <Route path="/" element={<HomePage numberNoti={numberNotiRealTime}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
@@ -73,7 +83,9 @@ function App() {
           </div>
         </Fragment>
       </BrowserRouter>
+
     </div>
+    </SocketContext.Provider>
   );
 }
 

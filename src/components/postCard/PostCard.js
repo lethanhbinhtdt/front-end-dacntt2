@@ -13,8 +13,10 @@ import { getCookieToken } from '../../middlewares/common'
 import '../../css/PostCard.css';
 
 function PostCard(props) {
+    var dataPostInfo = props.dataPostInfo
+    const {setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment} = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
+
     const { onDeletePost, onUpdatePost } = props
-    var { setCheckMess, setMess, dataPostInfo } = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
     const [numberComment, setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
     const [isLiked, setIsLike] = useState(dataPostInfo ? dataPostInfo.isLikePost : false);
@@ -28,8 +30,15 @@ function PostCard(props) {
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
+
+    useEffect(()=>{
+        setCommentInfo(dataPostInfo?.commentPost)
+        setNumberComment(dataPostInfo?.commentPost?.length)
+        setCheckHaveNewComment(false)
+    }, [checkHaveNewComment])
+    console.log("commentInfo", commentInfo)
     // const  postId = postInfo?._id
-    const handleLikePost = () => {
+    const handleLikePost = () =>{
         fetch(`${BASE_URL}api/post/${postId}/like`, {
             method: 'POST',
             headers: {
@@ -74,7 +83,7 @@ function PostCard(props) {
             })
     }
 
-    const onLoadAfterDeleteComment = () => {
+    const onLoadAfterDeleteComment = ()=>{
         fetch(`${BASE_URL}api/post/${postId}/comment/?limit=${numberComment}`, {
             method: 'GET',
             headers: {
@@ -107,13 +116,15 @@ function PostCard(props) {
             }
             // body: JSON.stringify(yourNewData)
         })
-            .then(res => {
-                if (res.ok) {
-                    return res.json()
-                }
-            }).then(dataPost => {
-                setCheckMess(true)
-                setMess(dataPost['description'])
+        .then(res => {
+            if (res.ok) {
+                return res.json()
+            }
+        }).then(dataPost=>{
+            console.log(dataPost['description'])
+            setCheckShowMessage(true)
+            setMess(dataPost['description'])
+          
 
             })
             .catch(err => {
@@ -139,6 +150,7 @@ function PostCard(props) {
 
         <div>
             <div className='post-card'>
+                {postId}
                 {/* Người đăng */}
                 <AuthorPost 
                     deletePost={deletePost} 
