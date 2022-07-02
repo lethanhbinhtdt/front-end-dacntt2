@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useContext } from 'react';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
 import { getCookieToken, getCookieUser } from '../../middlewares/common'
@@ -10,7 +10,7 @@ import ChatBox from '../message/ChatBox';
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox'
 import { Alert } from 'react-bootstrap';
-
+import { SocketContext } from '../../middlewares/socket';
 import '../../css/alert.css'
 
 function UserPostList(props) {
@@ -20,9 +20,50 @@ function UserPostList(props) {
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
     const [message, setMessage] = useState('')
-
+    const [checkHaveNewComment, setCheckHaveNewComment] = useState(false)
+    const [newCommentRealTime, setNewCommentRealtime] = useState(false)
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
+
+    const socket = useContext(SocketContext);
+    useEffect(() => {
+        socket.on("receiveMessageNoti", (data) => {
+            console.log(data)
+            setMessage(data)
+            setCheckShowMess(true)
+
+        });
+
+        socket.on('receiveMessageLike', data => {
+            console.log(data)
+            setMessage(data)
+            setCheckShowMess(true)
+
+
+        })
+
+        socket.on('receiveMessageShare', data => {
+            console.log(data)
+            setMessage(data)
+            setCheckShowMess(true)
+
+
+        })
+        socket.on('receiveCommentInfo', data => {
+            setCheckHaveNewComment(true)
+            setNewCommentRealtime(data)
+            // for(var i = 0 ; i< postInfo?.length; i++){
+            //     if(postInfo[i]?._id.toString() === data.postId){
+            //         console.log( "beforre",  postInfo[i]?.dataComment)
+            //         postInfo[i] = postInfo[i].toJSON()
+            //         postInfo[i].dataComment = [...[data],...postInfo[i]?.dataComment]
+            //     }
+            //     break
+            // }
+
+
+        })
+    }, [socket]);
 
     const fetchDataOnScroll = () => {
         fetch(`${BASE_URL}api/post/${userID}/user/${page}`, {
@@ -91,6 +132,24 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
+        if(checkHaveNewComment){
+            for (var i = 0; i < postInfo?.length; i++) {
+                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
+                if (postInfo[i]?._id === newCommentRealTime?.postId) {
+                    console.log("asdfsdf", postInfo[i]?.commentPost)
+                    // postInfo[i].commentPost.pop()
+                    postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
+                    console.log("after", postInfo[i]?.commentPost)
+                    setPostInfo(postInfo)
+                    break
+                }
+            }
+        }
+      
+
+    }, [checkHaveNewComment])
+
+    useEffect(() => {
 
         if (checkShowMess) {
             setTimeout(() => {
@@ -100,12 +159,22 @@ function UserPostList(props) {
 
     }, [checkShowMess]);
 
+    var listPost = []
+    for (let i = 0; i <= postInfo?.length; i++) {
+        socket.emit('joinRoom', postInfo[i]?._id)
+        listPost.push(
+            // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
+            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
+        )
+    }
     return (
         <div className='container'>
             <div className='row mt-3'>
-                <div className='col-md-2'></div>
+                <div className='col-md-2'>
+                <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
+                </div>
                 <div className='col-md-6'>
-                    {(userInfo._id == userID) &&
+                    {(userInfo?._id == userID) &&
                         <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
                     }
                     <InfiniteScroll
@@ -119,7 +188,8 @@ function UserPostList(props) {
                             </p>
                         }
                     >
-                        {postInfo && postInfo.map((item) => (
+                        {listPost}
+                        {/* {postInfo && postInfo.map((item) => (
                             <div className='mb-3 mx-2'>
                                 <PostCard
                                     indexId={item._id}
@@ -128,7 +198,7 @@ function UserPostList(props) {
                                     onUpdatePost={onUpdatePost}
                                 />
                             </div>
-                        ))}
+                        ))} */}
                     </InfiniteScroll>
 
 
