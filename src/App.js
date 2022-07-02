@@ -26,7 +26,11 @@ import {SocketContext, socket} from './middlewares/socket';
 function App() {
   const [userId, setUserId] = useState()
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
-  const [socketdata, setSocketData] = useState() // dùng để show message 
+
+  useEffect(()=>{
+    console.log("userId hahaha", userId)
+  }, [userId])
+
   // const socketio = useContext(SocketContext);
 
   // useEffect(() => {
@@ -67,9 +71,7 @@ function App() {
                   <Route path='/login' element={<LoginPage />} />
                 </Route>
 
-                <Route element={<PrivateRoute currentUserId={setUserId} />}>
-                 // <Route path="/" element={<HomePage messageRealtime={socketdata} numberNoti={numberNotiRealTime} setDataMess={setSocketData}/>} />
-                  //<Route path='/personal/*' element={<PersonalPage />}></Route>
+                <Route element={<PrivateRoute setCurrentUserId={setUserId} />}>
                   <Route path="/" element={<HomePage numberNoti={numberNotiRealTime}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>

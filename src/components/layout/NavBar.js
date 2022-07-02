@@ -16,7 +16,7 @@ function NavBar(props) {
     const navigate = useNavigate();
     // const [removeCookie] = useCookies(['access_token'])
     const [cookies, setCookie, removeCookie] = useCookies(['access_token'])
-    const {currentUserIdState} = props
+    const {setCurrentUserId} = props
     const imageClick = () => {
         navigate('/personal/post', { replace: true });
     }
@@ -54,7 +54,7 @@ function NavBar(props) {
         })
         .then(data=>{
             socket.emit("newUser", data?.id);
-            currentUserIdState(data?.id)
+            setCurrentUserId(data?.id)
             setInfo(data)
            
         })
