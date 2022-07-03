@@ -108,7 +108,6 @@ function SideBar(props) {
         <div className='sidebar cursor-pointer'>
             {/* trang chủ */}
             <div className='menu-item'>
-            <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
                 <span><FontAwesomeIcon icon={faHouse} /></span><h5>Trang chủ</h5>
             </div>
 
