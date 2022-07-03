@@ -179,7 +179,7 @@ function PersonalInfor(props) {
             <div className="card bg-light listcard">
                 <div className="card-body h-100">
                     <div className="header">
-                        <img src='http://via.placeholder.com/1000x200' alt='Blog img' className='header-img-top' width="100%" height="100%"></img>
+                        <img src={info?.backgroundPicture} alt='Blog img' className='header-img-top' width="100%" height="100%"></img>
 
                         <div className="container-fluid">
                             <div className="header-body mt-n5 mt-md-n6">

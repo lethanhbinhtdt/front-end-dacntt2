@@ -24,7 +24,6 @@ function SideBar(props) {
     function navigateChat() {
         navigate('/chat', { replace: true });
     }
-    console.log("numberNotificationnumberNotification", numberNotification)
     useEffect(() => {
         
         // console.log("da vao nef ")
@@ -109,6 +108,7 @@ function SideBar(props) {
         <div className='sidebar cursor-pointer'>
             {/* trang chủ */}
             <div className='menu-item'>
+            <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
                 <span><FontAwesomeIcon icon={faHouse} /></span><h5>Trang chủ</h5>
             </div>
 
