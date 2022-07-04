@@ -120,9 +120,8 @@ function SideBar(props) {
                 }
                 position='right center'
             >
-                <div className='menu-popup notifications-popup'>
-                <NotificationList  noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
-                </div>
+                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
+
             </Popup>
 
             {/* tin nhắn */}
