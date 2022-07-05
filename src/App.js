@@ -1,17 +1,16 @@
 import React, { useState, useEffect, Fragment, useContext } from 'react';
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import LoginPage from './components/loginPage/LoginPage';
 import HomePage from './components/homePage/HomePage';
 import PersonalPage from './components/personalPage/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 import SettingPage from './components/personalPage/SettingPage';
-import NavBar from './components/layout/NavBar';
 import FriendRequestList from './components/friend/FriendRequestList'
 import FindFriend from './components/friend/FindFriend';
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
-import { getToken, setUserSession, removeUserSession } from './middlewares/common';
+import ChatPage from './components/chatPage/ChatPage';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
@@ -70,11 +69,12 @@ function App() {
                 </Route>
 
                 <Route element={<PrivateRoute currUserInfo={currUserInfo}/>}>
-                  <Route path="/" element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
+                  <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
                   <Route path='/search/' element={<FindFriend />}> </Route>
+                  <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo}/>}> </Route>
                 </Route>
 
                 <Route path='*' element={<ErrorPage />} />
