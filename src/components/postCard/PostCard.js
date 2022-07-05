@@ -14,7 +14,7 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
-    const {setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment} = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
+    const { setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment,  currUserInfo } = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
 
     const { onDeletePost, onUpdatePost } = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
@@ -31,14 +31,14 @@ function PostCard(props) {
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
 
-    useEffect(()=>{
+    useEffect(() => {
         setCommentInfo(dataPostInfo?.commentPost)
         setNumberComment(dataPostInfo?.commentPost?.length)
         setCheckHaveNewComment(false)
     }, [checkHaveNewComment])
     console.log("commentInfo", commentInfo)
     // const  postId = postInfo?._id
-    const handleLikePost = () =>{
+    const handleLikePost = () => {
         fetch(`${BASE_URL}api/post/${postId}/like`, {
             method: 'POST',
             headers: {
@@ -83,7 +83,7 @@ function PostCard(props) {
             })
     }
 
-    const onLoadAfterDeleteComment = ()=>{
+    const onLoadAfterDeleteComment = () => {
         fetch(`${BASE_URL}api/post/${postId}/comment/?limit=${numberComment}`, {
             method: 'GET',
             headers: {
@@ -116,15 +116,15 @@ function PostCard(props) {
             }
             // body: JSON.stringify(yourNewData)
         })
-        .then(res => {
-            if (res.ok) {
-                return res.json()
-            }
-        }).then(dataPost=>{
-            console.log(dataPost['description'])
-            setCheckShowMessage(true)
-            setMess(dataPost['description'])
-          
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(dataPost => {
+                console.log(dataPost['description'])
+                setCheckShowMessage(true)
+                setMess(dataPost['description'])
+
 
             })
             .catch(err => {
@@ -152,11 +152,12 @@ function PostCard(props) {
             <div className='post-card'>
                 {postId}
                 {/* Người đăng */}
-                <AuthorPost 
-                    deletePost={deletePost} 
-                    dataPostInfo={dataPostInfo} 
-                    dataAuthorInfo={dataPostInfo} 
-                    setOpenModal={setOpenModal}/>
+                <AuthorPost
+                    currUserInfo={currUserInfo}
+                    deletePost={deletePost}
+                    dataPostInfo={dataPostInfo}
+                    dataAuthorInfo={dataPostInfo}
+                    setOpenModal={setOpenModal} />
 
                 {/* Nội dung */}
                 <ContentPost dataPostInfo={dataPostInfo} />
@@ -166,13 +167,13 @@ function PostCard(props) {
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
                 <Comments onLoadAfterDeleteComment={onLoadAfterDeleteComment} onloadmoreComment={onloadmoreComment} dataComment={commentInfo} postId={postId} userId={userIdOfPost} />
-            
+
                 {/* modal update post */}
                 <PostModal
-                    oldPost = {dataPostInfo}
+                    oldPost={dataPostInfo}
                     openModal={openModal}
                     setOpenModal={setOpenModal}
-                    onUpdatePost={onUpdatePost}/>
+                    onUpdatePost={onUpdatePost} />
             </div>
         </div>
     );

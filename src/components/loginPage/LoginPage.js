@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login';
 import { useCookies } from 'react-cookie';
 
 import axios from '../../middlewares/axios';
 import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
-import { setCookieUser } from '../../middlewares/common'
+import { setCookieToken } from '../../middlewares/common'
+import {SocketContext} from '../../middlewares/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
@@ -14,6 +15,7 @@ import { faUser as farUser } from '@fortawesome/free-regular-svg-icons'
 import '../../css/LoginPage.css';
 
 function LoginPage(props) {
+    const { setCurrUserInfo } = props;
 
     const username = useFormInput('');
     const password = useFormInput('');
@@ -22,9 +24,9 @@ function LoginPage(props) {
 
     const navigate = useNavigate();
     const location = useLocation();
-    const redirectPath =location.state?.path ||'/';
-    const [cookies, setCookie] = useCookies(['access_token'])
+    const redirectPath = location.state?.path || '/';
 
+    const socket = useContext(SocketContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -38,10 +40,12 @@ function LoginPage(props) {
                 }
             );
             let expires = new Date()
-            expires.setTime(expires.getTime() + (60 * 60 * 4*1000))
+            expires.setTime(expires.getTime() + (60 * 60 * 4 * 1000))
 
-            setCookie('access_token', response?.data?.token, { path: '/', expires })
-            setCookieUser(response?.data?.userInfo);
+            setCookieToken( response?.data?.token, expires);
+            // setCookieUser(response?.data?.userInfo);
+            setCurrUserInfo(response?.data?.userInfo);
+            socket.emit("newUser", response?.data?._id);
             navigate(redirectPath, { replace: true });
 
         } catch (err) {
@@ -52,14 +56,15 @@ function LoginPage(props) {
                 setErrMsg('Đã xảy ra lỗi. Thử lại sau!');
         }
     }
-    
+
     const responseSuccessGoogle = async (reponse) => {
         console.log('thanh cong', reponse)
         const dataResponseFromNode = await axios.post(OAUTH2_URL, { tokenId: reponse.tokenId })
-        console.log(dataResponseFromNode.data.token)
+
         let expires = new Date()
-        expires.setTime(expires.getTime() + (60 * 60 * 4*1000)) // hết hạn sau 4h 
-        setCookie('access_token', dataResponseFromNode.data.token, { path: '/', expires })
+        expires.setTime(expires.getTime() + (60 * 60 * 4 * 1000)) // hết hạn sau 4h 
+        setCookieToken(dataResponseFromNode.data.token, expires);
+        setCurrUserInfo(dataResponseFromNode?.data?.userInfo);
         navigate(redirectPath, { replace: true });
 
     }
@@ -80,7 +85,7 @@ function LoginPage(props) {
 
 
                             <div className='form-group d-flex login-input-bar'>
-                                <FontAwesomeIcon icon={farUser} className='my-auto me-2'/>
+                                <FontAwesomeIcon icon={farUser} className='my-auto me-2' />
                                 <input type='text'
                                     name='username' {...username}
                                     autoComplete='off'
@@ -88,7 +93,7 @@ function LoginPage(props) {
                                 />
                             </div>
                             <div className='form-group d-flex mt-2 mb-4 login-input-bar'>
-                                <FontAwesomeIcon icon={faKey} className='my-auto me-2'/>
+                                <FontAwesomeIcon icon={faKey} className='my-auto me-2' />
                                 <input type='password'
                                     name='password' {...password}
                                     placeholder='Mật khẩu'
@@ -129,7 +134,7 @@ function LoginPage(props) {
                     </div>
                 </div>
             </div>
-           
+
         </div>
     );
 

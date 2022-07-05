@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import axios from './middlewares/axios';
 
 import LoginPage from './components/loginPage/LoginPage';
 import HomePage from './components/homePage/HomePage';
@@ -16,7 +15,6 @@ import { getToken, setUserSession, removeUserSession } from './middlewares/commo
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/App.css';
-import { BASE_URL } from './middlewares/constant';
 
 // import io from "socket.io-client";
 
@@ -24,12 +22,12 @@ import { BASE_URL } from './middlewares/constant';
 import {SocketContext, socket} from './middlewares/socket';
 
 function App() {
-  const [userId, setUserId] = useState()
+  const [currUserInfo, setCurrUserInfo] = useState()
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
 
   useEffect(()=>{
-    console.log("userId hahaha", userId)
-  }, [userId])
+    console.log("userId hahaha", currUserInfo?._id)
+  }, [])
 
   // const socketio = useContext(SocketContext);
 
@@ -68,11 +66,11 @@ function App() {
               <Routes>
 
                 <Route element={<PublicRoute />}>
-                  <Route path='/login' element={<LoginPage />} />
+                  <Route path='/login' element={<LoginPage setCurrUserInfo={setCurrUserInfo}/>} />
                 </Route>
 
-                <Route element={<PrivateRoute setCurrentUserId={setUserId} />}>
-                  <Route path="/" element={<HomePage numberNoti={numberNotiRealTime}/>} />
+                <Route element={<PrivateRoute currUserInfo={currUserInfo}/>}>
+                  <Route path="/" element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
                   <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
