@@ -32,6 +32,7 @@ function SideBar(props) {
         //           console.log("hhahahahaahahah", data)
         //           setNumberNotiNotChecked(1)
         //         });
+        
         setNumberNotiNotChecked(numberNotiNotChecked+1)
 
     }, [numberNotification]);
@@ -69,7 +70,7 @@ function SideBar(props) {
     },[])
 
     const showNoti= () => {
-        // bấm vào hình chuông luôn fetch lại để lấy cái mới nhất 
+        // bấm vào hình chuông luôn fetch lại để lấy cái mới nhất
         fetch(`${BASE_URL}api/notification/?skip=0`, {
             method: 'GET',
             headers: {
@@ -119,7 +120,7 @@ function SideBar(props) {
             <Popup
                 trigger={
                     <div className='menu-item active' id='notifications'  >
-                        <span onClick = {showNoti}><FontAwesomeIcon icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
+                        <span><FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
                     </div>
                 }
                 position='right center'
@@ -143,8 +144,8 @@ function SideBar(props) {
                 position='right center'
             >
                 <div className='menu-popup d-flex flex-column'>
-                    <button type='button' class='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></button>
-                    <div type='button' class='btn btn-danger cursor-pointer' onClick={logout}>Đăng xuất</div>
+                    <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></button>
+                    <div type='button' className='btn btn-danger cursor-pointer' onClick={logout}>Đăng xuất</div>
                 </div>
             </Popup>
             {/*  */}

@@ -1,29 +1,50 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
+import { BASE_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
 import { SocketContext } from '../../middlewares/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faCaretDown, faPaperPlane, faSend } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import '../../css/NavBar.css';
 
 function NavBar(props) {
-    const { currUserInfo } = props
+    const { currUserInfo, setCurrUserInfo } = props
     const navigate = useNavigate();
     // const [removeCookie] = useCookies(['access_token'])
-    const [cookies, setCookie, removeCookie] = useCookies(['access_token'])
     const imageClick = () => {
         navigate('/personal/post', { replace: true });
     }
-    const [nameUserFind, setNameUserFind] = useState()
-    const [socketdata, setSocketData] = useState()
+    const [nameUserFind, setNameUserFind] = useState();
 
     const socket = useContext(SocketContext);
-
-    useEffect(() => {
-        socket.emit("newUser", currUserInfo?._id);
-    }, []);
+    const token = getCookieToken()
+    useEffect(()=>{
+        fetch(`${BASE_URL}api/account`, 
+            {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        )
+        .then((res)=>{
+          if(res.ok){
+              return res.json()
+          }
+        })
+        .then(data=>{
+            socket.emit("newUser", data?._id);
+            setCurrUserInfo(data)
+           
+        })
+        .catch(err=>{
+            console.error(err)
+        })
+    }, [])
+    
 
     const findFriend = () => {
         navigate(`/search/?name=${nameUserFind}`, { state: { "currentUserId": currUserInfo?._id } }, { replace: true });

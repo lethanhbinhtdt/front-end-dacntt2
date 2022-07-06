@@ -68,7 +68,7 @@ function App() {
                   <Route path='/login' element={<LoginPage setCurrUserInfo={setCurrUserInfo}/>} />
                 </Route>
 
-                <Route element={<PrivateRoute currUserInfo={currUserInfo}/>}>
+                <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}>
                   <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>

@@ -1,12 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login';
-import { useCookies } from 'react-cookie';
 
 import axios from '../../middlewares/axios';
 import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
 import { setCookieToken } from '../../middlewares/common'
-import {SocketContext} from '../../middlewares/socket';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
@@ -15,8 +13,6 @@ import { faUser as farUser } from '@fortawesome/free-regular-svg-icons'
 import '../../css/LoginPage.css';
 
 function LoginPage(props) {
-    const { setCurrUserInfo } = props;
-
     const username = useFormInput('');
     const password = useFormInput('');
     const [errMsg, setErrMsg] = useState(null);
@@ -26,7 +22,6 @@ function LoginPage(props) {
     const location = useLocation();
     const redirectPath = location.state?.path || '/';
 
-    const socket = useContext(SocketContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -43,9 +38,6 @@ function LoginPage(props) {
             expires.setTime(expires.getTime() + (60 * 60 * 4 * 1000))
 
             setCookieToken( response?.data?.token, expires);
-            // setCookieUser(response?.data?.userInfo);
-            setCurrUserInfo(response?.data?.userInfo);
-            socket.emit("newUser", response?.data?._id);
             navigate(redirectPath, { replace: true });
 
         } catch (err) {
@@ -64,7 +56,6 @@ function LoginPage(props) {
         let expires = new Date()
         expires.setTime(expires.getTime() + (60 * 60 * 4 * 1000)) // hết hạn sau 4h 
         setCookieToken(dataResponseFromNode.data.token, expires);
-        setCurrUserInfo(dataResponseFromNode?.data?.userInfo);
         navigate(redirectPath, { replace: true });
 
     }
