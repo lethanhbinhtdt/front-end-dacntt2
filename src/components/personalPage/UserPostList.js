@@ -66,7 +66,7 @@ function UserPostList(props) {
     }, [socket]);
 
     const fetchDataOnScroll = () => {
-        fetch(`${BASE_URL}api/post/${userID}/user/${page}`, {
+        fetch(`${BASE_URL}api/post/user/${userID}/${page}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -92,7 +92,7 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL}api/post/${userID}/user`, {
+        fetch(`${BASE_URL}api/post/user/${userID}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
