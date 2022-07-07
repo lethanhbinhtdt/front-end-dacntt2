@@ -5,8 +5,6 @@ import axios from '../../middlewares/axios';
 import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
 
-import '../../css/chatPage.css'
-
 function ConversationList(props) {
     const { currUserInfo, handleChatWithOther } = props
     const token = getCookieToken();
@@ -29,11 +27,6 @@ function ConversationList(props) {
             })
     }, [])
 
-    const enterChat = (id) => {
-        // TODO: get detail by id and setChatWithOther
-        handleChatWithOther(currUserInfo);
-        console.log('Nhắn tin với:', id);
-    }
 
     return (
         <div>
@@ -41,7 +34,7 @@ function ConversationList(props) {
                 conversation.map(item => (
                     // hiển thị member có id khác currUserInfo
                     item.members.filter(i => i._id !== currUserInfo?._id).map(member => (
-                        <div key={member._id} className='friend-info' onClick={() => enterChat(member._id)}>
+                        <div key={member._id} className='friend-info' onClick={() => handleChatWithOther(member)}>
                             <img className='title-item user-img rounded-circle'
                                 src={member.picture}
                                 alt='Avatar user'>

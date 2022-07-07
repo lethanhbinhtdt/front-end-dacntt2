@@ -7,25 +7,12 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 import ConversationList from './ConversationList';
 
-import '../../css/chatPage.css'
-
 function ChatList(props) {
     const { currUserInfo } = props
-    const [message, setMessage] = useState("")
-    let friend = [];
-
-    const handleInputChange = (e) => {
-        setMessage(e.target.value)
-    }
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        console.log('send: ', message);
-    }
 
     return (
         <>
-            <div className='flex-grow-1 chat-list'>
+            <div className='flex-grow-1 over-y-auto'>
 
                 {/* message from author to client */}
                 <div className='author-message'>

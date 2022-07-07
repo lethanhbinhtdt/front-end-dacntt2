@@ -99,11 +99,6 @@
     outline: none;
 }
 
-.chat-page .chat-list{
-    
-    overflow-y: auto;
-}
-
 .chat-page .author-message {
     margin-top: 8px;
     margin-right: 16px;

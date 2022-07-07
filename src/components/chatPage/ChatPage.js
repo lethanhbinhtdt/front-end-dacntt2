@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleInfo, faPaperPlane, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -8,11 +8,16 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 import ConversationList from './ConversationList';
 import ChatList from './ChatList';
 
-import '../../css/chatPage.css'
+import '../../css/ChatPage.css'
 
 function ChatPage(props) {
-    const { currUserInfo, otherUser } = props
+    const { currUserInfo } = props
+    // get data from navigate
+    const { state } = useLocation();
+    const { otherUser } = state;
+
     const [message, setMessage] = useState('')
+
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
 
 
@@ -70,13 +75,13 @@ function ChatPage(props) {
             {/* Content */}
             <div className='content-row d-flex'>
                 {/* Box3 danh sách bạn bè */}
-                <div className='third-box'>
-                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther}/>
+                <div className='third-box over-y-auto'>
+                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} />
                 </div>
 
                 {/* Box4 hiển thị tin nhắn */}
                 <div className='fourth-box d-flex flex-column'>
-                    <ChatList currUserInfo={currUserInfo} />
+                    <ChatList currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
 
                     <form onSubmit={handleSendMessage} className='border border-secondary rounded-pill px-3 d-flex send-message bg-light my-3 me-3'>
                         <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
