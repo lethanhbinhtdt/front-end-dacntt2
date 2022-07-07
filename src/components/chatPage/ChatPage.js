@@ -14,7 +14,7 @@ function ChatPage(props) {
     const { currUserInfo } = props
     // get data from navigate
     const { state } = useLocation();
-    const { otherUser } = state;
+    const otherUser = state?.otherUser;
 
     const [message, setMessage] = useState('')
 
