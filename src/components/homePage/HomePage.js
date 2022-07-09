@@ -168,7 +168,8 @@ function HomePage(props) {
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
             <div className='mb-3 mx-2'>
-                <PostCard 
+                {postInfo[i]?._id}
+                <PostCard key = {postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
                     currUserInfo={currUserInfo}
                     setMess={setMessage}
                     setCheckShowMessage={setCheckShowMess}

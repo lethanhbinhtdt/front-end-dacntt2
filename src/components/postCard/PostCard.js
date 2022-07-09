@@ -14,6 +14,7 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
+    console.log("hhhhhhhhhhhhhhh",dataPostInfo )
     const { setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment,  currUserInfo } = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
 
     const { onDeletePost, onUpdatePost } = props
@@ -21,7 +22,7 @@ function PostCard(props) {
     const [numberComment, setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
     const [isLiked, setIsLike] = useState(dataPostInfo ? dataPostInfo.isLikePost : false);
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
-    const [postId, setPostId] = useState(props?.dataPostInfo?._id)
+    const [postId, setPostId] = useState(dataPostInfo?._id)
     const [userIdOfPost, setUserIdOfPost] = useState(dataPostInfo?.createdBy?._id)
     const [checkDeleteComment, setCheckDeleteComment] = useState(numberComment)
 
@@ -30,7 +31,7 @@ function PostCard(props) {
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
-
+    console.log("dfdfdfdfdf", postId, dataPostInfo?.content, dataPostInfo?._id)
     useEffect(() => {
         setCommentInfo(dataPostInfo?.commentPost)
         setNumberComment(dataPostInfo?.commentPost?.length)
