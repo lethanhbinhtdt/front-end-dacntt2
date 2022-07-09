@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,7 +7,8 @@ import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 import ConversationList from './ConversationList';
 import ChatList from './ChatList';
-
+import { BASE_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
 import '../../css/ChatPage.css'
 
 function ChatPage(props) {
@@ -16,23 +17,18 @@ function ChatPage(props) {
     const { state } = useLocation();
     const otherUser = state?.otherUser;
 
-    const [message, setMessage] = useState('')
+    const [conversationId, setConversationId] = useState('') 
+    // mỗi lần click vào 1 cuộc trò chuyện nào đó thì sẽ set conversationId click qua cuộc trò chuyện khác thì sẽ thay đổi conversatioID ứng với từng cái 
 
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
 
 
-    const handleChatWithOther = (user) => {
+    const handleChatWithOther = (user, conversationId) => {
         setChatWithUser(user);
+        setConversationId(conversationId)
     }
 
-    const handleInputChange = (e) => {
-        setMessage(e.target.value)
-    }
-
-    const handleSendMessage = (e) => {
-        e.preventDefault();
-        console.log('send: ', message);
-    }
+  
 
     return (
         <div className='chat-page mt-3'>
@@ -76,18 +72,13 @@ function ChatPage(props) {
             <div className='content-row d-flex'>
                 {/* Box3 danh sách bạn bè */}
                 <div className='third-box over-y-auto'>
-                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} />
+                    <ConversationList  currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} />
                 </div>
 
                 {/* Box4 hiển thị tin nhắn */}
                 <div className='fourth-box d-flex flex-column'>
-                    <ChatList currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
+                    <ChatList conversationId = {conversationId} currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
 
-                    <form onSubmit={handleSendMessage} className='border border-secondary rounded-pill px-3 d-flex send-message bg-light my-3 me-3'>
-                        <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
-                        <input onChange={handleInputChange} type='text' className='message-input py-2 pe-3' placeholder='Nhập tin nhắn...'></input>
-                        <button type='submit' className='btn'><FontAwesomeIcon icon={faPaperPlane} className='my-auto' /></button>
-                    </form>
                 </div>
             </div>
         </div>
