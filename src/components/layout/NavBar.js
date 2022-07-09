@@ -1,42 +1,26 @@
-import React, {useState, useEffect, useContext} from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Navigate } from "react-router-dom";
-import { Routes, Route, Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faCaretDown , faPaperPlane, faSend} from '@fortawesome/free-solid-svg-icons'
-import { useCookies } from 'react-cookie';
-import { Button, Dropdown } from 'react-bootstrap';
+import React, { useState, useEffect, useContext } from 'react';
+import { NavLink, useNavigate, Link } from 'react-router-dom';
+
 import { BASE_URL } from '../../middlewares/constant';
-import {getCookieToken} from '../../middlewares/common'
-import axios from '../../middlewares/axios';
+import { getCookieToken } from '../../middlewares/common'
+import { SocketContext } from '../../middlewares/socket';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import '../../css/NavBar.css';
-import {SocketContext} from '../../middlewares/socket';
 
 function NavBar(props) {
+    const { currUserInfo, setCurrUserInfo } = props
     const navigate = useNavigate();
     // const [removeCookie] = useCookies(['access_token'])
-    const [cookies, setCookie, removeCookie] = useCookies(['access_token'])
-    const {setCurrentUserId} = props
     const imageClick = () => {
         navigate('/personal/post', { replace: true });
     }
-    const [info, setInfo] = useState()
-    const [nameUserFind, setNameUserFind] = useState()
-    const [socketdata, setSocketData] = useState()
-
+    const [nameUserFind, setNameUserFind] = useState();
 
     const socket = useContext(SocketContext);
-
+    const token = getCookieToken()
     useEffect(()=>{
-        const token = getCookieToken()
-        // axios.get(`${BASE_URL}api/account`,
-        // {
-        //     headers: {
-        //         'Content-type': 'application/json',
-        //         'Authorization': `Bearer ${token}`
-        //     }
-        //     // body: JSON.stringify(yourNewData)
-        // } )
         fetch(`${BASE_URL}api/account`, 
             {
                 method: 'GET',
@@ -44,7 +28,6 @@ function NavBar(props) {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-                // body: JSON.stringify(yourNewData)
             }
         )
         .then((res)=>{
@@ -53,25 +36,20 @@ function NavBar(props) {
           }
         })
         .then(data=>{
-            socket.emit("newUser", data?.id);
-            setCurrentUserId(data?.id)
-            setInfo(data)
+            socket.emit("newUser", data?._id);
+            setCurrUserInfo(data)
            
         })
         .catch(err=>{
             console.error(err)
         })
     }, [])
+    
 
-    const findFriend = ()=>{
-        const id = info?.id
-        navigate(`/search/?name=${nameUserFind}`, {state:{"currentUserId": id}}, { replace: true });
+    const findFriend = () => {
+        navigate(`/search/?name=${nameUserFind}`, { state: { "currentUserId": currUserInfo?._id } }, { replace: true });
     }
-    const logout = () =>{
-        removeCookie("access_token")
-        removeCookie("user_info")
-        socket.disconnect()
-    }
+
     return (
         <>
             <div className='bg-top-color'></div>
@@ -80,27 +58,16 @@ function NavBar(props) {
                     <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
 
                     <form className='d-flex rounded-pill px-3 search-bar'>
-                  {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}
-                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm...' onChange={(e)=>{setNameUserFind(e.target.value)}}></input>
+                        {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}
+                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm...' onChange={(e) => { setNameUserFind(e.target.value) }}></input>
                         <button type="button" className="btn"><FontAwesomeIcon icon={faSearch} onClick={findFriend} className='my-auto' /></button>
                     </form>
 
                     <div>
                         {/* <img src='http://via.placeholder.com/32x32' className='rounded-circle nav-avatar' alt='avatar' onClick={() => imageClick()}></img> */}
-                        <img src={info?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
-                        <Link to={ `/personal/${info?.id}/post/`} state={{"id": info?.id}}> {info?.fullname}</Link>
-                        <Dropdown>
-                            <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
-                                <FontAwesomeIcon icon={faCaretDown} />
-                            </Dropdown.Toggle>
-
-                            <Dropdown.Menu>
-                                <Dropdown.Item> <Link  id='edit-info' to={`/account/${info?.id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></Dropdown.Item>
-                                <Dropdown.Item> <Link  onClick={logout} id='logout' to='/login'>Đăng xuất</Link> </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown>
-           
-                    </div> 
+                        <img src={currUserInfo?.picture} className='rounded-circle nav-avatar' alt='avatar'></img>
+                        <Link className='text-dark fw-bold text-decoration-none' to={`/personal/${currUserInfo?._id}/post/`} state={{ "id": currUserInfo?._id }}> {currUserInfo?.fullname}</Link>
+                    </div>
                 </div>
 
 

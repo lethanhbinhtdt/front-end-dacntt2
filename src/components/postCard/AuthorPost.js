@@ -8,11 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 
 function AuthorPost(props) {
-    const { deletePost, dataPostInfo, setOpenModal } = props;
-    const author = props.dataAuthorInfo?.createdBy
-
-    const userInfo = getCookieUser();
-
+    const { deletePost, dataPostInfo, setOpenModal, currUserInfo } = props;
+    const author = props.dataPostInfo?.createdBy
     const handleDeletePost = (e) => {
         e.preventDefault();
         deletePost(dataPostInfo._id);
@@ -40,7 +37,7 @@ function AuthorPost(props) {
                 </div>
                 {/* sửa/xóa */}
                 {/* TODO: if author -> display dropdown */}
-                {(userInfo?._id == author?._id) &&
+                {(currUserInfo?._id == author?._id) &&
                     <Dropdown>
                         <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>
                             <FontAwesomeIcon icon={faEllipsis} />

@@ -10,7 +10,7 @@ import PopupYtb from './PopupYtb';
 
 function PostModal(props) {
     const token = getCookieToken()
-    const { onCreatePost, onUpdatePost, oldPost, openModal, setOpenModal } = props
+    const { onCreatePost, onUpdatePost, oldPost, openModal, setOpenModal, currUserInfo } = props
 
     const isUpdate = oldPost ? true : false;
 
@@ -116,9 +116,9 @@ function PostModal(props) {
                     {/* user info */}
                     <div className='user d-flex'>
                         <div className='user-avatar mb-3'>
-                            <img alt='user avatar' src='http://via.placeholder.com/32x32'></img>
+                            <img alt='user avatar' src={currUserInfo?.picture}></img>
                         </div>
-                        <b>Username</b>
+                        <b>{currUserInfo?.fullname}</b>
                     </div>
 
                     {/* content */}

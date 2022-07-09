@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { getCookieToken } from './common';
 
 import NavBar from '../components/layout/NavBar';
 
 const PrivateRoute = (props) => {
-    const {setCurrentUserId} = props
+    const { currUserInfo, setCurrUserInfo } = props
     // const [currentUserIdState, setCurrentUserId] = useState()
     const auth = getCookieToken(); // determine if authorized, from context or however you're doing it
     // If authorized, return an outlet that will render child elements
@@ -16,6 +16,6 @@ const PrivateRoute = (props) => {
     //     currentUserId(currentUserIdState)
     // }, [currentUserIdState])
     //  currentUserIdState)
-    return auth ?  <><NavBar setCurrentUserId = {setCurrentUserId} /> <Outlet /></>: <Navigate to="/login" />;
+    return auth ? <><NavBar currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo} /> <Outlet /></> : <Navigate to="/login" />;
 }
 export default PrivateRoute;

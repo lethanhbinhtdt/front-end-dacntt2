@@ -6,18 +6,22 @@ import PostModal from './PostModal';
 
 function PostBox(props) {
 
-    const { onCreatePost } = props
+    const { onCreatePost, currUserInfo } = props
     const [openModal, setOpenModal] = useState(false);
     return (
         <div className='post-box'>
             <div className='d-flex'>
                 <div className='user-avatar'>
-                    <img alt='user avatar' src='http://via.placeholder.com/24x24'></img>
+                    <img alt='user avatar' src={currUserInfo?.picture}></img>
                 </div>
                 <div className='w-100'>
                     <button onClick={() => setOpenModal(o => !o)} type='button' className='btn btn-post'>Bạn đang nghĩ gì?</button>
 
-                    <PostModal onCreatePost={onCreatePost} openModal={openModal} setOpenModal={setOpenModal}/>
+                    <PostModal 
+                        onCreatePost={onCreatePost}
+                        openModal={openModal}
+                        setOpenModal={setOpenModal}
+                        currUserInfo={currUserInfo}/>
                 </div>
             </div>
         </div>

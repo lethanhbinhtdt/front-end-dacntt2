@@ -66,7 +66,7 @@ function UserPostList(props) {
     }, [socket]);
 
     const fetchDataOnScroll = () => {
-        fetch(`${BASE_URL}api/post/${userID}/user/${page}`, {
+        fetch(`${BASE_URL}api/post/user/${userID}/${page}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -92,7 +92,7 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
-        fetch(`${BASE_URL}api/post/${userID}/user`, {
+        fetch(`${BASE_URL}api/post/user/${userID}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -164,7 +164,7 @@ function UserPostList(props) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
-            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
+            <div className='mb-3 mx-2'><PostCard key = {postInfo[i]?._id}setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
         )
     }
     return (

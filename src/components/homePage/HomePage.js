@@ -12,11 +12,11 @@ import PostBox from '../post/PostBox'
 import { Alert } from 'react-bootstrap';
 
 import '../../css/alert.css'
-import axios from '../../middlewares/axios';
 import { SocketContext } from '../../middlewares/socket';
 
 function HomePage(props) {
-    // const {numberNoti, messageRealtime, setDataMess} = props
+    const { currUserInfo } = props
+
     const token = getCookieToken()
     const [postInfo, setPostInfo] = useState()
     const [checkShowMess, setCheckShowMess] = useState(false)
@@ -25,7 +25,7 @@ function HomePage(props) {
     const [checkHaveNewComment, setCheckHaveNewComment] = useState(false)
     const [newCommentRealTime, setNewCommentRealtime] = useState(false)
     const socket = useContext(SocketContext);
-    
+
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
 
@@ -43,10 +43,10 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                if(dataPost.length===0){
+                if (dataPost.length === 0) {
                     setHasMorePost(false);
                 } else {
-                    setPage(page+1);
+                    setPage(page + 1);
                     setPostInfo([...postInfo, ...dataPost])
                 }
             }).catch(err => {
@@ -95,7 +95,7 @@ function HomePage(props) {
 
     useEffect(() => {
         // console.log("beforre", postInfo, newCommentRealTime)
-        if(checkHaveNewComment){
+        if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
                 console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
@@ -107,7 +107,7 @@ function HomePage(props) {
                 }
             }
         }
-      
+
 
     }, [checkHaveNewComment])
 
@@ -161,13 +161,24 @@ function HomePage(props) {
             }, 3000);
         }
     }, [checkShowMess]);
-    
+
     var listPost = []
     for (let i = 0; i <= postInfo?.length; i++) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
-            <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
+            <div className='mb-3 mx-2'>
+                {postInfo[i]?._id}
+                <PostCard key = {postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
+                    currUserInfo={currUserInfo}
+                    setMess={setMessage}
+                    setCheckShowMessage={setCheckShowMess}
+                    dataPostInfo={postInfo[i]}
+                    onDeletePost={onDeletePost}
+                    onUpdatePost={onUpdatePost}
+                    checkHaveNewComment={checkHaveNewComment}
+                    setCheckHaveNewComment={setCheckHaveNewComment} />
+            </div>
         )
     }
     return (
@@ -178,12 +189,12 @@ function HomePage(props) {
                 <div className='col-md-1'></div>
                 <div className='col-md-2'>
 
-                    <SideBar numberNotification={numberNotiRealTime} />
+                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} />
                     <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
                 <div className='col-md-5'>
-                    <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
-                    
+                    <div className='mb-3'><PostBox onCreatePost={onCreatePost} currUserInfo={currUserInfo} /></div>
+
                     <InfiniteScroll
                         dataLength={postInfo?.length || 0} //This is important field to render the next data
                         next={fetchDataOnScroll}
@@ -191,11 +202,11 @@ function HomePage(props) {
                         loader={<p className='text-info'>Đang tải...</p>}
                         endMessage={
                             <p className='text-center text-info'>
-                              <b>...Hết bài viết...</b>
+                                <b>...Hết bài viết...</b>
                             </p>
                         }
                     >
-                         {listPost}
+                        {listPost}
                     </InfiniteScroll>
 
 
@@ -203,7 +214,7 @@ function HomePage(props) {
              
                         <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
                     ))} */}
-                  
+
                 </div>
                 <div className='col-md-4'>
                     <ChatBox />

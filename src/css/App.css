@@ -41,3 +41,7 @@ input::placeholder {
     text-decoration: none;
     color: white;
 }
+
+.over-y-auto{
+    overflow-y: auto;
+}

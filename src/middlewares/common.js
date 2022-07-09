@@ -40,10 +40,14 @@ export const getCookieUser = () => {
     return cookies.get('user_info') || null;
 }
 
+export const setCookieToken = (token, expires) => {
+    return cookies.set('access_token', token, {path:'/', expires:expires});
+}
+
 export const getCookieToken = () => {
     return cookies.get('access_token') || null;
 }
 
-// export const removeCookieToken = () =>{
-//     return removeCookie("access_token")||null;
-// }
+export const removeCookieToken = () =>{
+    return cookies.remove('access_token');
+}

@@ -14,12 +14,6 @@ function NotificationList(props) {
 
     const token = getCookieToken()
     var listNoti = []
-    // useEffect(()=>{
-    //     if(noifiInfos){
-    //         setIsChangeStatusNoti(true)
-    //     }
-
-    // },[])
 
 
     const fetchMoreData = () => {
@@ -168,11 +162,6 @@ function NotificationList(props) {
             </InfiniteScroll>
         </div>
     );
-    // return (
-    //     <div>
-    //         {listNoti}
-    //     </div>
-    // );
 }
 
 export default NotificationList;
