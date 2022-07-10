@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,6 +17,7 @@ function ChatList(props) {
     const [message, setMessage] = useState('')// message này ở trong ô input type để hiện thị chữ khi nhập  va lấy giá trị nhập vào 
     const [checkHaveNewMessage, setCheckHaveNewMessage] = useState(false)
     const [newMess, setNewMess] = useState()
+    const messageRef = useRef(null)
     const socket = useContext(SocketContext);
 
     var token = getCookieToken()
@@ -62,6 +63,10 @@ function ChatList(props) {
      
        
     },[conversationId])
+
+    useEffect(()=>{
+        messageRef.current?.scrollIntoView() // tự động scroll xuống cuối 
+    }, [mess])
 
     const handleInputChange = (e) => {
         setMessage(e.target.value)
@@ -117,14 +122,12 @@ function ChatList(props) {
             )
         }
     }
-    // useEffect(()=>{
-     
-    // },[mess])
-  
+    //   <div  ref = {messageRef}/>  để tự động sroll xuống cuối
     return (
         <>
             <div className='flex-grow-1 over-y-auto'>
                 {listMess}
+                <div  ref = {messageRef}/> 
             </div>
             
             <form  className='border border-secondary rounded-pill px-3 d-flex send-message bg-light my-3 me-3'>
