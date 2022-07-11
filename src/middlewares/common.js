@@ -1,5 +1,5 @@
 // return the user data from the session storage
-import { Cookies  } from 'react-cookie'
+import { Cookies } from 'react-cookie'
 const cookies = new Cookies();
 
 export const getUser = () => {
@@ -41,13 +41,29 @@ export const getCookieUser = () => {
 }
 
 export const setCookieToken = (token, expires) => {
-    return cookies.set('access_token', token, {path:'/', expires:expires});
+    return cookies.set('access_token', token, { path: '/', expires: expires });
 }
 
 export const getCookieToken = () => {
     return cookies.get('access_token') || null;
 }
 
-export const removeCookieToken = () =>{
+export const removeCookieToken = () => {
     return cookies.remove('access_token');
 }
+
+//--- localStorage
+export const setLocalUsername = (u) => {
+    return localStorage.setItem('Username', JSON.stringify(u));
+}
+
+export const getLocalUsername = () => {
+    return JSON.parse(localStorage.getItem('Username')) || null;
+}
+
+export const removeLocalUsername = () => {
+    return localStorage.removeItem('Username');
+}
+
+// localStorage clear the whole data stored in localStorage
+// localStorage.clear();

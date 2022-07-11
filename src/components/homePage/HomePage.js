@@ -30,7 +30,7 @@ function HomePage(props) {
     const [hasMorePost, setHasMorePost] = useState(true);
 
     const fetchDataOnScroll = () => {
-        fetch(`${BASE_URL}api/post/${page}`, {
+        fetch(`${BASE_URL}api/post/friend/${page}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
@@ -112,7 +112,7 @@ function HomePage(props) {
     }, [checkHaveNewComment])
 
     useEffect(() => {
-        fetch(`${BASE_URL}api/post`, {
+        fetch(`${BASE_URL}api/post/friend/0`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
