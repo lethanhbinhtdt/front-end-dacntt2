@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import GoogleLogin from 'react-google-login';
 
 import axios from '../../middlewares/axios';
-import { LOGIN_URL, OAUTH2_URL } from '../../middlewares/constant';
-import { setCookieToken } from '../../middlewares/common'
+import { LOGIN_URL, OAUTH2_URL, TDT_LOGO_NONE_BG_URL } from '../../middlewares/constant';
+import { setCookieToken, setLocalUsername, getLocalUsername, removeLocalUsername } from '../../middlewares/common'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
@@ -13,7 +13,7 @@ import { faUser as farUser } from '@fortawesome/free-regular-svg-icons'
 import '../../css/LoginPage.css';
 
 function LoginPage(props) {
-    const username = useFormInput('');
+    const [username, setUsername]= useState('');
     const password = useFormInput('');
     const [errMsg, setErrMsg] = useState(null);
     const [checkbox, setCheckbox] = useState(false);
@@ -22,13 +22,21 @@ function LoginPage(props) {
     const location = useLocation();
     const redirectPath = location.state?.path || '/';
 
+    // check local storage
+    useEffect(() => {
+        const localUser = getLocalUsername();
+        if (localUser) {
+            setUsername(localUser);
+            setCheckbox(true);
+        }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         // send request
         try {
             const response = await axios.post(LOGIN_URL,
-                JSON.stringify({ username: username.value, password: password.value }),
+                JSON.stringify({ username: username, password: password.value }),
                 {
                     headers: { 'Content-Type': 'application/json' },
                     withCredentials: true
@@ -37,7 +45,12 @@ function LoginPage(props) {
             let expires = new Date()
             expires.setTime(expires.getTime() + (60 * 60 * 4 * 1000))
 
-            setCookieToken( response?.data?.token, expires);
+            setCookieToken(response?.data?.token, expires);
+            if (checkbox) {
+                setLocalUsername(username);
+            } else {
+                removeLocalUsername();
+            }
             navigate(redirectPath, { replace: true });
 
         } catch (err) {
@@ -70,7 +83,7 @@ function LoginPage(props) {
                     <div className='login-border2 border rounded bg-light p-3'>
                         <form className='form' onSubmit={handleSubmit}>
                             <div className='logo-network text-center w-100'>
-                                <img src='http://via.placeholder.com/64x64'></img>
+                                <img src={TDT_LOGO_NONE_BG_URL} alt='TDTU LOGO' width='128px' height='64px'></img>
                             </div>
                             <h2 className='text-center my-3 login-header'>Đăng nhập</h2>
 
@@ -78,7 +91,9 @@ function LoginPage(props) {
                             <div className='form-group d-flex login-input-bar'>
                                 <FontAwesomeIcon icon={farUser} className='my-auto me-2' />
                                 <input type='text'
-                                    name='username' {...username}
+                                    name='username'
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     autoComplete='off'
                                     placeholder='Tài khoản'
                                 />
@@ -97,8 +112,8 @@ function LoginPage(props) {
 
                             <div className='form-group mt-2 me-2 d-flex justify-content-between fs-smaller'>
                                 <div className='d-flex flex-row align-items-center text-secondary'>
-                                    <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' defaultChecked={checkbox} onChange={() => setCheckbox(!checkbox)} />
-                                    <label htmlFor='rememberCheckbox'>Ghi nhớ đăng nhập</label>
+                                    <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' checked={checkbox} onChange={() => setCheckbox(!checkbox)} />
+                                    <label htmlFor='rememberCheckbox'>Nhớ tài khoản</label>
                                 </div>
                                 <Link to='/forgot'>Quên mật khẩu?</Link>
                             </div>
@@ -116,7 +131,6 @@ function LoginPage(props) {
                                     />
                                 </div>
                             </div>
-
 
                             <div className='form-group text-center'>
                                 <div className={errMsg ? 'p-2 mt-2 bg-danger text-white rounded' : 'offscreen'} aria-live='assertive'>{errMsg}</div>

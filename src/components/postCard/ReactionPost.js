@@ -6,7 +6,7 @@ import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 
 function ReactionPost(props) {
-    const {handleLikePost,totolLike, isLiked, handleSharePost} = props
+    const {handleLikePost,totolLike, isLiked, handleSharePost, setDisplayComment} = props
     const [text, setText] = useState('');
     const [infoCurrentUser, setInfoCurrentUser] = useState()
     const [isLikedPost, setIsLike] = useState(isLiked? isLiked:false);
@@ -70,7 +70,7 @@ function ReactionPost(props) {
                 {/* comment button */}
                 <button
                     className='btn btn-outline-dark border-0 rounded-circle fs-larger mx-1'
-                    onClick={() => setText('Bình luận bài đăng')}>
+                    onClick={() => {setDisplayComment(true)}}>
                     <FontAwesomeIcon icon={faCommentDots} />
                 </button>
                 {/* share button */}

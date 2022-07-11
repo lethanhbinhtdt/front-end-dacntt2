@@ -46,7 +46,8 @@ function NavBar(props) {
     }, [])
     
 
-    const findFriend = () => {
+    const findFriend = (e) => {
+        e.preventDefault();
         navigate(`/search/?name=${nameUserFind}`, { state: { "currentUserId": currUserInfo?._id } }, { replace: true });
     }
 
@@ -57,10 +58,10 @@ function NavBar(props) {
                 <div className='d-flex justify-content-between w-100 mx-5'>
                     <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
 
-                    <form className='d-flex rounded-pill px-3 search-bar'>
+                    <form className='d-flex rounded-pill px-3 search-bar' onSubmit={findFriend}>
                         {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}
                         <input type='text' className='search-input py-2' placeholder='Tìm kiếm...' onChange={(e) => { setNameUserFind(e.target.value) }}></input>
-                        <button type="button" className="btn"><FontAwesomeIcon icon={faSearch} onClick={findFriend} className='my-auto' /></button>
+                        <button type="submit" className="btn"><FontAwesomeIcon icon={faSearch} className='my-auto' /></button>
                     </form>
 
                     <div>

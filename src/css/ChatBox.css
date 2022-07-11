@@ -5,7 +5,7 @@
     margin-right: 12px;
 }
 
-.message-box .title{
+.message-box .title {
     font-size: 20px;
 }
 
@@ -42,10 +42,17 @@
     border-radius: 16px;
 }
 
-.message-box .unread-text{
+.message-box .unread-text {
     font-weight: 600;
 }
 
-.message-box .text-viewed{
+.message-box .text-viewed {
     color: grey;
+}
+
+.message-box .message-content {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 256px;
 }
