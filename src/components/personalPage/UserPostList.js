@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
 import { getCookieToken, getCookieUser } from '../../middlewares/common'
@@ -14,7 +14,7 @@ import { SocketContext } from '../../middlewares/socket';
 import '../../css/alert.css'
 
 function UserPostList(props) {
-    const { numberNoti, setNumberNotiRealTime, userID } = props
+    const { numberNoti, setNumberNotiRealTime, userID, currUserInfo } = props
     const token = getCookieToken()
     const userInfo = getCookieUser()
     const [postInfo, setPostInfo] = useState()
@@ -132,7 +132,7 @@ function UserPostList(props) {
     }
 
     useEffect(() => {
-        if(checkHaveNewComment){
+        if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
                 console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
@@ -145,7 +145,7 @@ function UserPostList(props) {
                 }
             }
         }
-      
+
 
     }, [checkHaveNewComment])
 
@@ -164,17 +164,19 @@ function UserPostList(props) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
-            <div className='mb-3 mx-2'><PostCard key = {postInfo[i]?._id}setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment = {setCheckHaveNewComment}/></div>
+            <div className='mb-3 mx-2'><PostCard key={postInfo[i]?._id} setMess={setMessage} setCheckShowMessage={setCheckShowMess} dataPostInfo={postInfo[i]} onDeletePost={onDeletePost} onUpdatePost={onUpdatePost} checkHaveNewComment={checkHaveNewComment} setCheckHaveNewComment={setCheckHaveNewComment} /></div>
         )
     }
     return (
         <div className='container'>
             <div className='row mt-3'>
                 <div className='col-md-2'>
-                <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
+                    <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                 </div>
+                {(currUserInfo?._id !== userID) && <div className='col-md-1'></div>}
+
                 <div className='col-md-6'>
-                    {(userInfo?._id == userID) &&
+                    {(userInfo?._id === userID) &&
                         <div className='mb-3'><PostBox onCreatePost={onCreatePost} /></div>
                     }
                     <InfiniteScroll
@@ -203,11 +205,12 @@ function UserPostList(props) {
 
 
                 </div>
-                <div className='col-md-4'>
-                    <ChatBox />
-                    <FriendRequestBox />
-                </div>
-
+                {(currUserInfo?._id === userID) &&
+                    <div className='col-md-4'>
+                        <ChatBox currUserInfo={currUserInfo} />
+                        <FriendRequestBox />
+                    </div>
+                }
             </div>
         </div>
     );
