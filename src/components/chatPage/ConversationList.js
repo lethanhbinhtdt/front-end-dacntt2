@@ -34,7 +34,7 @@ function ConversationList(props) {
                 conversation.map(item => (
                     // hiển thị member có id khác currUserInfo
                     item.members.filter(i => i._id !== currUserInfo?._id).map(member => (
-                        <div key={member._id} className='friend-info' onClick={() => handleChatWithOther(member)}>
+                        <div key={member._id} className='friend-info' onClick={() => handleChatWithOther(member, item._id)}>
                             <img className='title-item user-img rounded-circle'
                                 src={member.picture}
                                 alt='Avatar user'>
