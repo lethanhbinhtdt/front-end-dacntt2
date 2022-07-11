@@ -6,7 +6,7 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons'
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 function NotificationList(props) {
-    const { noifiInfos, setNoifiInfo, lenNotification, setNotificationInfo } = props
+    const { noifiInfos, setNoifiInfo, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
     const [backgroundColor, setBackgrounColor] = useState(noifiInfos?.isChecked ? 'd-flex mb-2' : 'd-flex mb-2 backgroun-noti')
     const [isChangeStatusNoti, setIsChangeStatusNoti] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true);
@@ -73,6 +73,7 @@ function NotificationList(props) {
                     if(noifiInfos[i]?._id == notification?._id){
                         noifiInfos[i] = notification
                         setIsChangeStatusNoti(true)
+                        setNumberNotiNotChecked(numberNotiNotChecked -1 )
                     }
                 }
             })
