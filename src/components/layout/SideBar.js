@@ -119,13 +119,13 @@ function SideBar(props) {
             {/* thông báo */}
             <Popup
                 trigger={
-                    <div className='menu-item active' id='notifications'  >
+                    <div className='menu-item active' id='notifications'>
                         <span><FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
                     </div>
                 }
                 position='right center'
             >
-                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos = {notificationInfos} numberNotiGetInDb = {setNumberNotiNotChecked}/>
+                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos = {notificationInfos} numberNotiNotChecked = {numberNotiNotChecked}  setNumberNotiNotChecked = {setNumberNotiNotChecked}/>
 
             </Popup>
 
