@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
@@ -9,6 +10,9 @@ import MessageList from './MessageList';
 import '../../css/ChatBox.css'
 
 function ChatBox(props) {
+    const { currUserInfo } = props;
+
+    const navigate = useNavigate();
 
     return (
         <div className='message-box p-3'>
@@ -27,13 +31,12 @@ function ChatBox(props) {
             {/* lựa chọn */}
             <div className='options d-flex justify-content-around'>
                 <div className='cursor-pointer active'>Tin nhắn</div>
-                <div className='cursor-pointer'>Xem tất cả</div>
-                <div className='cursor-pointer'>Tin nhắn chờ(2)</div>
+                <div className='cursor-pointer' onClick={() => { navigate('/chat', { replace: true }); }}>Xem tất cả</div>
             </div>
 
-            {/* danh sách tin nhắn */}
+            {/* danh sách tin nhắn gần đât */}
             <div>
-                <MessageList/>
+                <MessageList currUserInfo={currUserInfo} />
             </div>
 
         </div>

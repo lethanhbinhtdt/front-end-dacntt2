@@ -6,7 +6,7 @@ import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
 
 function ConversationList(props) {
-    const { currUserInfo, handleChatWithOther } = props
+    const { currUserInfo, handleChatWithOther } = props;
     const token = getCookieToken();
     const [conversation, setConversation] = useState();
 

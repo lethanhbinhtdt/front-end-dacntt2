@@ -217,7 +217,7 @@ function HomePage(props) {
 
                 </div>
                 <div className='col-md-4'>
-                    <ChatBox />
+                    <ChatBox currUserInfo = {currUserInfo}/>
                     <FriendRequestBox />
                 </div>
 

@@ -116,7 +116,7 @@ function NotificationList(props) {
             <>
                 <div key = {noifiInfos[i]?._id} className= {noifiInfos[i]?.isChecked ? 'd-flex mb-2' :'d-flex mb-2 backgroun-noti'}>
                     <div className='notification-user-avatar'>
-                        <img alt='user avatar' src={noifiInfos[i]?.userIdGuest.picture}></img>
+                        <img alt='user avatar' src={noifiInfos[i]?.userIdGuest?.picture}></img>
                     </div>
                     <div className='notification-content'>
                         <div><b>{noifiInfos[i]?.userIdGuest?.fullname}</b> {noifiInfos[i]?.content}</div>
