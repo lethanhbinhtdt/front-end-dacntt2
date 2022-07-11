@@ -91,6 +91,11 @@ function HomePage(props) {
 
 
         })
+        socket.on('receiveFriendRequestInfo', data=>{
+            setMessage(data)
+            setCheckShowMess(true)
+            setNumberNotiRealTime(numberNotiRealTime + 1)
+        })
     }, [socket, numberNotiRealTime]);
 
     useEffect(() => {
