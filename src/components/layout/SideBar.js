@@ -142,10 +142,11 @@ function SideBar(props) {
                     </div>
                 }
                 position='right center'
+                nested
             >
                 <div className='menu-popup d-flex flex-column'>
                     <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></button>
-                    <div type='button' className='btn btn-danger cursor-pointer' onClick={logout}>Đăng xuất</div>
+                    <button type='button' className='btn btn-danger' onClick={logout}>Đăng xuất</button>
                 </div>
             </Popup>
             {/*  */}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { NavLink, useNavigate, Link } from 'react-router-dom';
 
-import { BASE_URL } from '../../middlewares/constant';
+import { BASE_URL, TDT_LOGO_NONE_BG_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import { SocketContext } from '../../middlewares/socket';
 
@@ -56,7 +56,9 @@ function NavBar(props) {
             <div className='bg-top-color'></div>
             <nav className='navbar navbar-expand-lg navbar-light bg-light'>
                 <div className='d-flex justify-content-between w-100 mx-5'>
-                    <NavLink to='/' className='navbar-brand'>TDTU</NavLink>
+                    <NavLink to='/' className='navbar-brand'>
+                        <img src={TDT_LOGO_NONE_BG_URL} alt='TDTU logo' width='52px' height='26px'></img>
+                    </NavLink>
 
                     <form className='d-flex rounded-pill px-3 search-bar' onSubmit={findFriend}>
                         {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}

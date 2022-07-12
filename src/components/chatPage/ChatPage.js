@@ -22,13 +22,10 @@ function ChatPage(props) {
 
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
 
-
     const handleChatWithOther = (user, conversationId) => {
         setChatWithUser(user);
         setConversationId(conversationId)
     }
-
-  
 
     return (
         <div className='chat-page mt-3'>
