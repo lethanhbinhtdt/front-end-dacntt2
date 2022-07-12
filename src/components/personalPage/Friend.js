@@ -85,7 +85,8 @@ function Friend(props) {
                             </div>
                             <div className="col-6 md-6  d-flex align-items-center">
                                 <div className="card-body">
-                                    <h5 className="card-title">{friendInfo[i].fullname}</h5>
+                                <h5 className="card-text"><Link to= {`/personal/${friendInfo[i]?._id}/post`} className="text-name-friend" state={{"id":friendInfo[i]?._id}}>{friendInfo[i].fullname}</Link></h5>
+                                    {/* <h5 className="card-title">{friendInfo[i].fullname}</h5> */}
                                 </div>
                             </div>
                             <div className='col-2 md-2'>
@@ -104,7 +105,8 @@ function Friend(props) {
                                     >
                                         <div className="menu">
                                             <div type = "button" className="menu-item-friend" friendid = {friendInfo[i]._id} onClick={deleteFriend}>Hủy kết bạn</div>
-                                            <div type = "button" className="menu-item-friend">Xem trang cá nhân</div>
+                                     
+                                 
                                         </div>
                                     </Popup>
                                 </div>
