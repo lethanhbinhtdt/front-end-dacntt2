@@ -9,25 +9,33 @@
   height: 70px;
   /* display: flex; */
   /* flex-direction: column; */
-  background: #fffffff3;
+  background: #ffffffc9;
   border-radius: 10%;
 
 }
 
-.personal-friend .menu-item {
-
+.menu-item-friend {
   width: auto;
   height: auto;
   padding: 5px;
   height: 28px;
   border-radius: 10%;
-  /* border-bottom: 1px solid rgb(187, 187, 187); */
+  border-bottom: 1px solid rgb(187, 187, 187);
 }
-
-.personal-friend .menu-item:hover {
+/* .personal-friend .menu-item-friend {
+  width: auto;
+  height: auto;
+  padding: 5px;
+  height: 28px;
+  border-radius: 10%;
+  border-bottom: 1px solid rgb(187, 187, 187);
+} */
+.menu-item-friend:hover {
   background-color: darkgrey;
-  /* color: #2980b9; */
 }
+/* .personal-friend .menu-item-friend:hover {
+  background-color: darkgrey;
+} */
 
 
 .personal-friend .three-dot-icon {

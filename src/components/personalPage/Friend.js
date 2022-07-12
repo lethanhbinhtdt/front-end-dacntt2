@@ -17,32 +17,59 @@ function Friend(props) {
     const token = getCookieToken()
     var listFriend = []
     var listRow = []
-    useEffect(() => {
+    const onLoadAllFriend = () =>{
         fetch(`${BASE_URL}api/friend/${id}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-                // body: JSON.stringify(yourNewData)
+        {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
+            // body: JSON.stringify(yourNewData)
+        }
 
-        )
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-            })
-            .then((data) => {
+    )
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        })
+        .then((data) => {
 
-                setFriendInfo(data)
-            })
-            .catch(err => {
-                console.error(err)
-            })
+            setFriendInfo(data)
+        })
+        .catch(err => {
+            console.error(err)
+        })
+    }
+    useEffect(() => {
+        onLoadAllFriend()
     }, [])
+    const deleteFriend = (e)=>{
+        var friendId = e.target.attributes.getNamedItem('friendid').value;
+        fetch(`${BASE_URL}api/deleteFriend/${friendId}`,
+        {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
 
+    )
+        .then((res) => {
+            if (res.ok) {
+                return res.json()
+            }
+        })
+        .then((data) => {
+            onLoadAllFriend()
+        })
+        .catch(err => {
+            console.error(err)
+        })
+
+    }
     if (friendInfo?.length == 0) {
         listRow.push(<h3>Bạn chưa có người bạn nào, hãy kết bạn thêm nhé</h3>)
     }
@@ -76,8 +103,8 @@ function Friend(props) {
                                         arrow={false}
                                     >
                                         <div className="menu">
-                                            <div className="menu-item">Hủy kết bạn</div>
-                                            <div className="menu-item">Xem trang cá nhân</div>
+                                            <div type = "button" className="menu-item-friend" friendid = {friendInfo[i]._id} onClick={deleteFriend}>Hủy kết bạn</div>
+                                            <div type = "button" className="menu-item-friend">Xem trang cá nhân</div>
                                         </div>
                                     </Popup>
                                 </div>
@@ -90,10 +117,6 @@ function Friend(props) {
 
             )
         }
-        // friendInfo.forEach((friendInfo) => {
-
-        // })
-        console.log("hhhhhhhhhh", (listFriend))
         for (var index = 0; index < listFriend?.length; index++) {
             if (index % 2 == 0) {
                 console.log("da vao 1")
