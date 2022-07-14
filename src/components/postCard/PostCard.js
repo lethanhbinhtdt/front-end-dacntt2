@@ -14,7 +14,6 @@ import '../../css/PostCard.css';
 
 function PostCard(props) {
     var dataPostInfo = props.dataPostInfo
-    console.log("hhhhhhhhhhhhhhh", dataPostInfo)
     const { setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment, currUserInfo } = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
 
     const { onDeletePost, onUpdatePost } = props
@@ -174,6 +173,7 @@ function PostCard(props) {
                 {/* modal update post */}
                 <PostModal
                     oldPost={dataPostInfo}
+                    currUserInfo={currUserInfo}
                     openModal={openModal}
                     setOpenModal={setOpenModal}
                     onUpdatePost={onUpdatePost} />

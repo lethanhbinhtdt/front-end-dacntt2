@@ -83,12 +83,11 @@ function FriendRequestList(props) {
             console.error(err)
         })
     }
-    console.log("fasasdfasfasdfasd", friendRequest)
     var listFriendRequest = []
     for (var i = 0; i < friendRequest?.length; i++) {
 
         listFriendRequest.push(
-            <div className="col-3 mt-3 card text-dark bg-light mb-3" iduser={friendRequest[i]?._id}>
+            <div key={friendRequest[i]?._id} className="col-3 mt-3 card text-dark bg-light mb-3" iduser={friendRequest[i]?._id}>
                 <img src={friendRequest[i]?.userRequest?.picture} className="card-img-top" alt="..." />
                 <div className="card-body">
                     <h5 className="card-title">{friendRequest[i]?.userRequest?.fullname}</h5>
@@ -122,11 +121,9 @@ function FriendRequestList(props) {
 
         }
         else if (index+1 % 4 === 1) {
-            console.log("da vao 1")
             startColumInRow = listFriendRequest[index]
 
             if (index === listFriendRequest.length - 1) {
-                console.log("da vao ")
                 listRow.push(<div className="row">
 
                     <div className="d-flex justify-content-center">
