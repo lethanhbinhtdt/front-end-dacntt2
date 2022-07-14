@@ -88,7 +88,6 @@ function FriendRequestBox(props) {
             })
     }
     var friendRequestBox = []
-    console.log(friendRequest)
     if (friendRequest?.length!==0) {
         for(var i =0;i<friendRequest?.length;i++){
 

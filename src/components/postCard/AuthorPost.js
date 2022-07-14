@@ -36,7 +36,6 @@ function AuthorPost(props) {
                     </div>
                 </div>
                 {/* sửa/xóa */}
-                {/* TODO: if author -> display dropdown */}
                 {(currUserInfo?._id == author?._id) &&
                     <Dropdown>
                         <Dropdown.Toggle className='rounded-pill py-0 bg-white border-0 text-dark'>

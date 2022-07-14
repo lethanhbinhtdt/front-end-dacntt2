@@ -3,10 +3,8 @@ import { Routes, Route, Link, useLocation, useParams, useNavigate } from 'react-
 
 import { BASE_URL, CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
-import { data } from 'autoprefixer';
 import axios from '../../middlewares/axios';
 
-import PostCard from '../postCard/PostCard'
 import Friend from './Friend'
 import Infor from './Infor'
 import UserPostList from './UserPostList';
@@ -17,34 +15,30 @@ import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import '../../css/PersonalInfor.css';
 
 function PersonalInfor(props) {
-    const { numberNoti, currUserInfo } = props
-    
-    const navigate = useNavigate();
-
-    const { id } = useParams();
-    const [activeMenu, setActiveMenu] = useState()
-    const [info, setInfo] = useState()
-    const location = useLocation();
-    const [idUser, setIdUser] = useState(location.state ? location.state.id : null);
-    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState()
-    console.log('id:', id)
-    // const [idUser, setIdUser] =  useState(id ? id : ''); 
+    const {currUserInfo} = props
+    const navigate = useNavigate()
     const token = getCookieToken()
+    const { id } = useParams()
+
+    const [activeMenu, setActiveMenu] = useState('post')
+    const [info, setInfo] = useState()
+    const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState()
+
+    // const [idUser, setIdUser] =  useState(id ? id : ''); 
+    // const location = useLocation();
+    // const [idUser, setIdUser] = useState(location.state ? location.state.id : null);
     // const location = useLocation();
     // setIdUser(location.state)
     // const data = location.state
 
-
     useEffect(() => {
-        console.log('da cahy der lay du lieu usser')
-        fetch(`${BASE_URL}api/profile/${idUser}`,
+        fetch(`${BASE_URL}api/profile/${id}`,
             {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 }
-                // body: JSON.stringify(yourNewData)
             }
 
         )
@@ -59,7 +53,7 @@ function PersonalInfor(props) {
             .catch(err => {
                 console.error(err)
             })
-    }, []) // [] để useEffect ko load lại mỗi khi có sự thay đổi ==> khi gọi vào component này thì chỉ fetch 1 lần
+    }, [id]) // [id] để useEffect load lại mỗi khi id có sự thay đổi
 
     function SendFriendRequest(e) {
         console.log(e.target)
@@ -81,7 +75,7 @@ function PersonalInfor(props) {
                 }
             })
             .then(textOfButton => {
-                setButtonTextSendRequestFriend(<a className='btn btn-light disabled d-block d-md-inline-block lift send-friend-request'>Đã gửi lời mời </a>)
+                setButtonTextSendRequestFriend(<div className='btn btn-light disabled d-block d-md-inline-block lift send-friend-request'>Đã gửi lời mời </div>)
             })
             .catch(err => {
                 console.error(err)
@@ -104,7 +98,7 @@ function PersonalInfor(props) {
         )
             .then((res) => {
                 if (res.ok) {
-                    setButtonTextSendRequestFriend(<a className='btn btn-success disabled d-block d-md-inline-block lift send-friend-request'>Bạn bè </a>)
+                    setButtonTextSendRequestFriend(<div className='btn btn-success disabled d-block d-md-inline-block lift send-friend-request'>Bạn bè </div>)
 
                 }
             })
@@ -118,7 +112,7 @@ function PersonalInfor(props) {
 
     const onDeleteRequest = (e) => {
         console.log('da vao xóa')
-        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value;
+        var idUserInQueue = e.target.attributes.getNamedItem('iduser').value
         fetch(`${BASE_URL}api/requestFriend/deny/${idUserInQueue}`,
             {
                 method: 'POST',
@@ -130,7 +124,7 @@ function PersonalInfor(props) {
         )
             .then((res) => {
                 if (res.ok) {
-                    setButtonTextSendRequestFriend(<a iduser={idUserInQueue} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={SendFriendRequest}>Gửi lời mời</a>)
+                    setButtonTextSendRequestFriend(<div iduser={idUserInQueue} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={SendFriendRequest}>Gửi lời mời</div>)
                 }
             })
             // .then(mess => {
@@ -141,22 +135,21 @@ function PersonalInfor(props) {
             })
     }
     const sendRequestFriendAndChat = []
-    var statusButton = ''
 
     useEffect(() => {
         if (!info?.isCurrentUserLoginPage) {
             if (info?.friendStatus === null) {
-                setButtonTextSendRequestFriend(<a iduser={info?._id} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={SendFriendRequest}>Gửi lời mời</a>)
+                setButtonTextSendRequestFriend(<div iduser={info?._id} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={SendFriendRequest}>Gửi lời mời</div>)
             }
             if (info?.friendStatus === true) {
-                setButtonTextSendRequestFriend(<a className='btn btn-success disabled d-block d-md-inline-block lift send-friend-request'>Bạn bè </a>)
+                setButtonTextSendRequestFriend(<div className='btn btn-success disabled d-block d-md-inline-block lift send-friend-request'>Bạn bè </div>)
 
             }
             else if (info?.friendStatus === false) {
-                setButtonTextSendRequestFriend(<a className='btn btn-light disabled d-block d-md-inline-block lift send-friend-request'>Đã gửi lời mời </a>)
+                setButtonTextSendRequestFriend(<div className='btn btn-light disabled d-block d-md-inline-block lift send-friend-request'>Đã gửi lời mời </div>)
             }
             else if (info?.friendStatus === 'other') { // TODO: làm xác nhận
-                setButtonTextSendRequestFriend(<><a iduser={info?._id} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={onAcceptRequest} >Xác nhận</a><a onClick={onDeleteRequest} iduser={info?._id} className='btn btn-secondary d-block d-md-inline-block lift send-friend-request'>Xóa</a></>)
+                setButtonTextSendRequestFriend(<><div iduser={info?._id} className='btn btn-primary d-block d-md-inline-block lift send-friend-request' onClick={onAcceptRequest} >Xác nhận</div><div onClick={onDeleteRequest} iduser={info?._id} className='btn btn-secondary d-block d-md-inline-block lift send-friend-request'>Xóa</div></>)
             }
         }
 
@@ -166,7 +159,7 @@ function PersonalInfor(props) {
     const handleBtnChat = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(CHAT_URL, JSON.stringify({receiverId: id}),
+            const response = await axios.post(CHAT_URL, JSON.stringify({ receiverId: id }),
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -174,10 +167,10 @@ function PersonalInfor(props) {
                     }
                 })
             response?.data?.members.map(other => {
-                if (currUserInfo?._id !== other._id) 
-                    return navigate('/chat', { state: {otherUser: other}, replace: true });
+                if (currUserInfo?._id !== other._id)
+                    return navigate('/chat', { state: { otherUser: other }, replace: true });
             });
-            
+
         } catch (err) {
             console.log(err);
         }
@@ -186,7 +179,6 @@ function PersonalInfor(props) {
 
     sendRequestFriendAndChat.push(
         <div className='col-12 col-md-auto mt-2 mt-md-0 mb-md-3'>
-
 
             {buttonTextSendRequestFriend}
 
@@ -216,7 +208,7 @@ function PersonalInfor(props) {
 
 
                                         <div className='avatar avatar-xxl header-avatar-top'>
-                                            <img src={info?.picture} width='128px' hight='128px' className='avatar-img rounded-circle border border-4 border-body'></img>
+                                            <img alt='user logo' src={info?.picture} width='128px' hight='128px' className='avatar-img rounded-circle border border-4 border-body'></img>
                                         </div>
 
                                     </div>
@@ -243,19 +235,19 @@ function PersonalInfor(props) {
                                                 {/* <a href='/personal/post' className='nav-link  active' onClick={()=>handleClickItem()}>
                                                 Bài đăng
                                             </a> */}
-                                                <Link id='post' to={`/personal/${idUser}/post`} className={activeMenu === 'post' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('post') }}>Bài đăng</Link>
+                                                <Link id='post' to={`/personal/${id}/post`} className={activeMenu === 'post' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('post') }}>Bài đăng</Link>
                                             </li>
                                             <li className='nav-item'>
                                                 {/* <a href='/personal/friend' className='nav-link'>
                                                 Bạn bè
                                             </a> */}
-                                                <Link id='friend' to={`/personal/${idUser}/friend`} className={activeMenu === 'friend' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('friend') }}>Bạn bè</Link>
+                                                <Link id='friend' to={`/personal/${id}/friend`} className={activeMenu === 'friend' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('friend') }}>Bạn bè</Link>
                                             </li>
                                             <li className='nav-item'>
                                                 {/* <a href='/personal/infomation' className='nav-link'>
                                                 Thông tin 
                                             </a> */}
-                                                <Link id='infomation' to={`/personal/${idUser}/infomation`} className={activeMenu === 'infomation' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('infomation') }}>Thông tin</Link>
+                                                <Link id='infomation' to={`/personal/${id}/infomation`} className={activeMenu === 'infomation' ? 'active nav-link' : 'nav-link'} onClick={() => { setActiveMenu('infomation') }}>Thông tin</Link>
                                             </li>
 
                                             <button type='button' className='btn-dot'><FontAwesomeIcon icon={faEllipsisH} /> </button>
@@ -274,7 +266,7 @@ function PersonalInfor(props) {
                 </div>
 
                 <Routes>
-                    <Route path='/post' element={<UserPostList userID={id} numberNoti={numberNoti} currUserInfo={currUserInfo}/>}></Route>
+                    <Route path='/post' element={<UserPostList userID={id} currUserInfo={currUserInfo} />}></Route>
 
                     {/* <Route path='/post'     component={() =><PostCard id={idUser} />}></Route> */}
                     <Route path='/friend' element={<Friend />}></Route>

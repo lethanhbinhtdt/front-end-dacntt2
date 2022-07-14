@@ -121,11 +121,9 @@ function Friend(props) {
         }
         for (var index = 0; index < listFriend?.length; index++) {
             if (index % 2 == 0) {
-                console.log("da vao 1")
                 var firstColumn = listFriend[index]
 
                 if (index == listFriend?.length-1){
-                    console.log("da vao ")
                     listRow.push(<div className="row">
     
                     <div className="d-flex justify-content-center">

@@ -134,6 +134,13 @@
     padding-left: 24px;
     padding-top: 8px;
     padding-bottom: 8px;
-    margin-top: 12px;
+    margin-top: 8px;
+}
+
+.chat-page .friend-info:hover {
     background-color: whitesmoke;
+}
+
+.chat-page .active-chat {
+    background-color: rgba(223, 221, 221, .6);
 }

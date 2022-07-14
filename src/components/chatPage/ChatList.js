@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo, faPaperPlane, faComment } from '@fortawesome/free-solid-svg-icons'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-
-import ConversationList from './ConversationList';
+import { faPaperPlane, faComment } from '@fortawesome/free-solid-svg-icons'
 
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import { SocketContext } from '../../middlewares/socket';
+
 function ChatList(props) {
     const { currUserInfo, conversationId } = props
     const [mess, setMess] = useState() // mess này dùng để chứa các message được gửi lên từ backend
@@ -28,7 +25,6 @@ function ChatList(props) {
         socket.on('receiveNewMess', data => {
             setCheckHaveNewMessage(true)
             setNewMess(data)
-
         })
     }, [socket])
 
@@ -41,7 +37,6 @@ function ChatList(props) {
 
     useEffect(() => {
         if (conversationId) {
-            console.log("vooooooooo")
             fetch(`${BASE_URL}api/conversation/${conversationId}/message`, {
                 method: 'GET',
                 headers: {
@@ -61,9 +56,6 @@ function ChatList(props) {
                     setnumberMess(numberMess + messData?.length)
                 })
         }
-
-
-
     }, [conversationId])
 
     useEffect(() => {
