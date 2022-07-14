@@ -15,11 +15,11 @@ import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import '../../css/PersonalInfor.css';
 
 function PersonalInfor(props) {
+    const {currUserInfo} = props
     const navigate = useNavigate()
     const token = getCookieToken()
     const { id } = useParams()
 
-    const [currUserInfo, setCurrUserInfo] = useState()
     const [activeMenu, setActiveMenu] = useState('post')
     const [info, setInfo] = useState()
     const [buttonTextSendRequestFriend, setButtonTextSendRequestFriend] = useState()
@@ -30,30 +30,6 @@ function PersonalInfor(props) {
     // const location = useLocation();
     // setIdUser(location.state)
     // const data = location.state
-
-    useEffect(() => {
-        fetch(`${BASE_URL}api/account`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            }
-
-        )
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-            })
-            .then(data => {
-                setCurrUserInfo(data)
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }, [])
 
     useEffect(() => {
         fetch(`${BASE_URL}api/profile/${id}`,
