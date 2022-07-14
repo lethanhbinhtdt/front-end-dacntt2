@@ -6,7 +6,7 @@ import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
 
 function ConversationList(props) {
-    const { currUserInfo, handleChatWithOther } = props;
+    const { currUserInfo, handleChatWithOther, chatWithUser } = props;
     const token = getCookieToken();
     const [conversation, setConversation] = useState();
 
@@ -34,7 +34,7 @@ function ConversationList(props) {
                 conversation.map(item => (
                     // hiển thị member có id khác currUserInfo
                     item.members.filter(i => i._id !== currUserInfo?._id).map(member => (
-                        <div key={member._id} className='friend-info' onClick={() => handleChatWithOther(member, item._id)}>
+                        <div key={member._id} className={chatWithUser._id === member._id ? 'friend-info active-chat' : 'friend-info'} onClick={() => handleChatWithOther(member, item._id)}>
                             <img className='title-item user-img rounded-circle'
                                 src={member.picture}
                                 alt='Avatar user'>

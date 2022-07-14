@@ -204,7 +204,6 @@ function PersonalInfor(props) {
     sendRequestFriendAndChat.push(
         <div className='col-12 col-md-auto mt-2 mt-md-0 mb-md-3'>
 
-
             {buttonTextSendRequestFriend}
 
             <button type='button' onClick={handleBtnChat} className='btn btn-primary d-block d-md-inline-block lift'>

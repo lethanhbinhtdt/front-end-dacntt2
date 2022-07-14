@@ -46,7 +46,7 @@ function MessageList(props) {
                     item.members?.filter(i => i._id !== currUserInfo?._id).map(member => (
                         <div key={member._id} className='d-flex mt-2 cursor-pointer'>
                             <div className='message-user-avatar'>
-                                <img alt='user avatar' src={member.picture} onClick={() => {navigateToOther(member._id)}}></img>
+                                <img alt='user avatar' src={member.picture} onClick={() => {chatWithOther(member)}}></img>
                             </div>
                             <div className='message-content w-100'>
                                 <div onClick={() => {navigateToOther(member._id)}}><b>{member.fullname}</b></div>

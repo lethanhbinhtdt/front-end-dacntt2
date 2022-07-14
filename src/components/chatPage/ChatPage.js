@@ -1,26 +1,55 @@
-import React, { useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
+import { BASE_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo, faPaperPlane, faComment } from '@fortawesome/free-solid-svg-icons'
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 import ConversationList from './ConversationList';
 import ChatList from './ChatList';
-import { BASE_URL } from '../../middlewares/constant';
-import { getCookieToken } from '../../middlewares/common'
 import '../../css/ChatPage.css'
 
 function ChatPage(props) {
     const { currUserInfo } = props
+    const token = getCookieToken()
     // get data from navigate
     const { state } = useLocation();
     const otherUser = state?.otherUser;
 
-    const [conversationId, setConversationId] = useState('') 
+    const [conversationId, setConversationId] = useState('')
     // mỗi lần click vào 1 cuộc trò chuyện nào đó thì sẽ set conversationId click qua cuộc trò chuyện khác thì sẽ thay đổi conversatioID ứng với từng cái 
 
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
+
+    useEffect(() => {
+        if (otherUser?._id) {
+            const id = otherUser._id
+            fetch(`${BASE_URL}api/conversation/${id}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+
+            )
+                .then((res) => {
+                    if (res.ok) {
+                        return res.json()
+                    }
+                })
+                .then(data => {
+                    setConversationId(data._id)
+                })
+                .catch(err => {
+                    console.error(err)
+                })
+        }
+    }, [])
 
     const handleChatWithOther = (user, conversationId) => {
         setChatWithUser(user);
@@ -69,12 +98,12 @@ function ChatPage(props) {
             <div className='content-row d-flex'>
                 {/* Box3 danh sách bạn bè */}
                 <div className='third-box over-y-auto'>
-                    <ConversationList  currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} />
+                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} chatWithUser={chatWithUser}/>
                 </div>
 
                 {/* Box4 hiển thị tin nhắn */}
                 <div className='fourth-box d-flex flex-column'>
-                    <ChatList conversationId = {conversationId} currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
+                    <ChatList conversationId={conversationId} currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
 
                 </div>
             </div>
