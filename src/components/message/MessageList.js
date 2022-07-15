@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import axios from '../../middlewares/axios';
 import { CHAT_URL } from '../../middlewares/constant';
@@ -31,7 +31,6 @@ function MessageList(props) {
 
     const chatWithOther = (otherUser) => {
         navigate('/chat', { replace: true, state: { otherUser: otherUser } });
-
     }
 
     const navigateToOther = (id) => {
@@ -42,26 +41,20 @@ function MessageList(props) {
         <div>
 
             {conversation &&
-                conversation.map(item => (
-                    item.members?.filter(i => i._id !== currUserInfo?._id).map(member => (
-                        <div key={member._id} className='d-flex mt-2 cursor-pointer'>
-                            <div className='message-user-avatar'>
-                                <img alt='user avatar' src={member.picture} onClick={() => {chatWithOther(member)}}></img>
-                            </div>
-                            <div className='message-content w-100'>
-                                <div onClick={() => {navigateToOther(member._id)}}><b>{member.fullname}</b></div>
-                                <div className='message-content' onClick={() => {chatWithOther(member)}}>mẫu tin nhắn daimẫu tin nhắn daimẫu tin nhắn daimẫu tin nhắn daimẫu tin nhắn dai</div>
-                            </div>
+                conversation.slice(0, 5).map(item => (
+                    <div key={item.conversationId._id} className='d-flex mt-2 cursor-pointer'>
+                        <div className='message-user-avatar'>
+                            <img alt='user avatar' src={item.senderId.picture} onClick={() => { chatWithOther(item.senderId) }}></img>
                         </div>
-                    ))
+
+                        <div className='message-content w-100'>
+                            <div onClick={() => { navigateToOther(item.senderId._id) }}><b>{item.senderId.fullname}</b></div>
+                            <div className='message-content' onClick={() => { chatWithOther(item.senderId) }}>{item.text}</div>
+                        </div>
+                    </div>
+
                 ))
             }
-            {/*
-                TODO: tin nhắn đã xem hay chưa
-                <div className='text-viewed'>mẫu tin nhắn đã đọc</div>
-                <div className='unread-text'>Đây là tin nhắn chưa đọc</div>iv>
-            */}
-
         </div>
     );
 }
