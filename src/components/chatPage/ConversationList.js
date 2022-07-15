@@ -33,19 +33,19 @@ function ConversationList(props) {
             {conversation &&
                 conversation.map(item => (
                     // hiển thị member có id khác currUserInfo
-                    <div key={item.conversationId._id} className={chatWithUser._id === item.senderId._id ? 'friend-info active-chat' : 'friend-info'} onClick={() => handleChatWithOther(item.senderId, item.conversationId._id)}>
+                    <div key={item?.conversationId._id} className={chatWithUser?._id === item?.senderId?._id ? 'friend-info active-chat' : 'friend-info'} onClick={() => handleChatWithOther(item.senderId, item.conversationId._id)}>
                         <img className='title-item user-img rounded-circle'
-                            src={item.senderId.picture}
+                            src={item?.senderId?.picture}
                             alt='Avatar user'>
                         </img>
                         <div className='title-item flex-column ms-2 text-start'>
-                            <Link to={`/personal/${item.senderId._id}/post/`} className='user-name'>
-                                {item.senderId.fullname}
+                            <Link to={`/personal/${item?.senderId?._id}/post/`} className='user-name'>
+                                {item?.senderId?.fullname}
                             </Link>
                             {/* TODO check online?text-success: text-secondary*/}
                             <div className='text-secondary fs-small'>
-                                <div className='text-success'>Đang hoạt động</div>
-                                <div className='text-secondary'>Hoạt động 1 giờ trước</div>
+                                {item?.senderId?.isOnline? <div className='text-success'>Đang hoạt động</div>:  <div className='text-secondary'>Hoạt động 1 giờ trước</div> }
+                               
                             </div>
                         </div>
                     </div>

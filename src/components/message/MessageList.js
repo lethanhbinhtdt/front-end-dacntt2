@@ -44,12 +44,12 @@ function MessageList(props) {
                 conversation.slice(0, 5).map(item => (
                     <div key={item.conversationId._id} className='d-flex mt-2 cursor-pointer'>
                         <div className='message-user-avatar'>
-                            <img alt='user avatar' src={item.senderId.picture} onClick={() => { chatWithOther(item.senderId) }}></img>
+                            <img alt='user avatar' src={item?.senderId?.picture} onClick={() => { chatWithOther(item?.senderId) }}></img>
                         </div>
 
                         <div className='message-content w-100'>
-                            <div onClick={() => { navigateToOther(item.senderId._id) }}><b>{item.senderId.fullname}</b></div>
-                            <div className='message-content' onClick={() => { chatWithOther(item.senderId) }}>{item.text}</div>
+                            <div onClick={() => { navigateToOther(item?.senderId?._id) }}><b>{item?.senderId?.fullname}</b></div>
+                            <div className='message-content' onClick={() => { chatWithOther(item?.senderId) }}>{item?.text}</div>
                         </div>
                     </div>
 

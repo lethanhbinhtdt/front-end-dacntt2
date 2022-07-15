@@ -101,7 +101,7 @@ function SideBar(props) {
 
     const logout = () =>{
         removeCookieToken();
-        socket.disconnect();
+        socket.emit("disconnect_session", currUserInfo._id)
         navigate('/login', { replace: true });
     }
     // var numberNotCheck = 0 
