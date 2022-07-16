@@ -88,7 +88,7 @@ function HomePage(props) {
 
 
         })
-        socket.on('receiveFriendRequestInfo', data=>{
+        socket.on('receiveFriendRequestInfo', data => {
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -168,7 +168,7 @@ function HomePage(props) {
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
             <div className='mb-3 mx-2'>
                 {postInfo[i]?._id}
-                <PostCard key = {postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
+                <PostCard key={postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
                     currUserInfo={currUserInfo}
                     setMess={setMessage}
                     setCheckShowMessage={setCheckShowMess}
@@ -187,12 +187,15 @@ function HomePage(props) {
             <div className='row mt-3'>
 
                 <div className='col-md-2'>
-                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} onCreatePost={onCreatePost}/>
+                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} onCreatePost={onCreatePost} />
                 </div>
 
                 <div className='col-md-4 order-md-2 mb-5'>
-                    <ChatBox currUserInfo = {currUserInfo}/>
-                    <FriendRequestBox />
+                    <ChatBox currUserInfo={currUserInfo} />
+                    <FriendRequestBox
+                        setMess={setMessage}
+                        setCheckShowMessage={setCheckShowMess}
+                        currUserInfo={currUserInfo} />
                 </div>
 
                 <div className='col-md-6 order-md-1'>

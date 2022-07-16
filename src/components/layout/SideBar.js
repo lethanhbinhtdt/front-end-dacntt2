@@ -3,7 +3,6 @@ import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
 import { faBell, faEnvelope, faHouse, faGear, faCirclePlus  } from '@fortawesome/free-solid-svg-icons'
 
 import { BASE_URL } from '../../middlewares/constant';
