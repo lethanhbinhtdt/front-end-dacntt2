@@ -1,8 +1,16 @@
 .sidebar {
-    background: white;
-    border-radius: 8px;
     position: fixed;
     z-index: 100;
+}
+
+.sidebar .c-border {
+    background: white;
+    border-radius: 8px;
+}
+
+.sidebar .sidebar-avatar {
+    width: 36px;
+    height: 36px;
 }
 
 .sidebar .sidebar-title {
@@ -20,12 +28,19 @@
     position: relative;
 }
 
-.sidebar .active {
+.sidebar .active,
+.sidebar .user-info:hover,
+.sidebar .menu-item:hover {
     background: #EDF2F7;
 }
 
-.sidebar .menu-item:hover {
-    background: #EDF2F7;
+.sidebar .btn-post {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #5239AC;
+    color: whitesmoke;
 }
 
 .sidebar svg {
@@ -33,6 +48,8 @@
     margin-left: 18px;
     margin-right: 16px;
     position: relative;
+}
+.sidebar .menu svg {
     color: grey;
 }
 
@@ -55,7 +72,7 @@
 
 .sidebar .active svg,
 .sidebar .active h5 {
-    color: blueviolet;
+    color: #5239AC;
 }
 
 .sidebar .active::before {
@@ -64,7 +81,7 @@
     width: 8px;
     height: 100%;
     position: absolute;
-    background: blueviolet;
+    background: #5239AC;
 }
 
 .sidebar .menu-item:first-child.active {
@@ -76,6 +93,7 @@
     border-bottom-left-radius: 8px;
     overflow: hidden;
 }
+
 
 .menu-popup {
     background-color: white;
@@ -106,37 +124,10 @@
     color: rgb(49, 115, 146);
 }
 
-
-/* .sidebar .notifications-popup {
-    position: absolute;
-    top: 0;
-    left: 110%;
-    width: 480px;
-    background: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 0 32px hsl(271, 70%, 91%);
-    z-index: 8;
-    display: none;
-}
-
-.sidebar .notifications-popup::before{
-    content: "";
-    width: 18px;
-    height: 18px;
-    display: block;
-    background: white;
-    position: absolute;
-    top: 16px;
-    left: -8px;
-    transform: rotate(45deg);
-} */
-
-
-.notification-button {
+.notifications-popup .notification-button {
     margin-left: 10px;
 }
 
-.backgroun-noti {
+.notifications-popup .background-noti {
     background-color: cornsilk;
 }

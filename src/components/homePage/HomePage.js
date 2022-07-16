@@ -186,7 +186,7 @@ function HomePage(props) {
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
                 <div className='col-md-2'>
-                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} />
+                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} onCreatePost={onCreatePost}/>
                 </div>
                 <div className='col-md-6'>
                     <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>

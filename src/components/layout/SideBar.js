@@ -3,28 +3,29 @@ import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { } from '@fortawesome/free-regular-svg-icons'
-import { faBell, faEnvelope, faHouse, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faSquarePlus } from '@fortawesome/free-regular-svg-icons'
+import { faBell, faEnvelope, faHouse, faGear, faCirclePlus  } from '@fortawesome/free-solid-svg-icons'
 
 import { BASE_URL } from '../../middlewares/constant';
 import NotificationList from '../notification/NotificationList';
 import { getCookieToken, removeCookieToken } from '../../middlewares/common'
 
-import PostBox from '../post/PostBox';
+import PostModal from '../post/PostModal';
 
 import '../../css/SideBar.css'
 import io from "socket.io-client";
 const socket = io.connect(BASE_URL);
 
 function SideBar(props) {
-    const { numberNotification, currUserInfo } = props
+    const { numberNotification, currUserInfo, onCreatePost } = props
 
     const token = getCookieToken()
     const navigate = useNavigate();
 
     const [activeItem, setActiveItem] = useState('')
-    const [numberNotiNotChecked, setNumberNotiNotChecked] = useState(0)
+    const [openModal, setOpenModal] = useState(false);
 
+    const [numberNotiNotChecked, setNumberNotiNotChecked] = useState(0)
     const [notificationInfos, setNotificationInfo] = useState()
     const [lenNotification, setlenNotification] = useState(0)
 
@@ -34,6 +35,10 @@ function SideBar(props) {
 
     const setActive = (item) => {
         setActiveItem(item);
+    }
+
+    const navigateToOther = (id) => {
+        navigate(`/personal/${id}/post/`, { replace: true, state: { 'id': id } });
     }
 
     useEffect(() => {
@@ -112,49 +117,66 @@ function SideBar(props) {
 
     return (
         <div className='sidebar cursor-pointer'>
-            {/* trang chủ */}
-            <div className={activeItem ? 'menu-item' : 'menu-item active'}>
-                <FontAwesomeIcon icon={faHouse} /><div className='md-hide sidebar-title'>Trang chủ</div>
+            <div className='d-flex flex-row mb-3 c-border px-3 py-2 user-info' onClick={() => navigateToOther(currUserInfo?._id)}>
+                <img src={currUserInfo?.picture} className='rounded-circle sidebar-avatar' alt='avatar'></img>
+                <div className='fw-bold my-auto md-hide ms-3'> {currUserInfo?.fullname}</div>
             </div>
-
-            {/* thông báo */}
-            <Popup
-                trigger={
-                    <div className={activeItem === 'noti' ? 'menu-item active' : 'menu-item'} id='notifications'>
-                        <FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small><div className='md-hide sidebar-title' onClick={showNoti}>Thông báo</div>
-                    </div>
-                }
-                onOpen={() => setActive('noti')}
-                onClose={resetActive}
-                position='right center'
-            >
-                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos={notificationInfos} numberNotiNotChecked={numberNotiNotChecked} setNumberNotiNotChecked={setNumberNotiNotChecked} />
-
-            </Popup>
-
-            {/* tin nhắn */}
-            <div className='menu-item' id='message-notifications' onClick={() => { navigate('/chat', { replace: true }); }}>
-                <FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small><div className='md-hide sidebar-title'>Tin nhắn</div>
-            </div>
-
-            {/* cài đặt */}
-            <Popup
-                trigger={
-                    <div className={activeItem === 'setting' ? 'menu-item active' : 'menu-item'}>
-                        <FontAwesomeIcon icon={faGear} /><div className='md-hide sidebar-title'>Cài đặt</div>
-                    </div>
-                }
-                onOpen={() => setActive('setting')}
-                onClose={resetActive}
-                position='right center'
-                nested
-            >
-                <div className='menu-popup d-flex flex-column'>
-                    <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Sửa thông tin cá nhân</Link></button>
-                    <button type='button' className='btn btn-danger' onClick={logout}>Đăng xuất</button>
+            <div className='c-border menu'>
+                {/* trang chủ */}
+                <div className={activeItem ? 'menu-item' : 'menu-item active'}>
+                    <FontAwesomeIcon icon={faHouse} /><div className='md-hide sidebar-title'>Trang chủ</div>
                 </div>
-            </Popup>
-            {/*  */}
+
+                {/* thông báo */}
+                <Popup
+                    trigger={
+                        <div className={activeItem === 'noti' ? 'menu-item active' : 'menu-item'} id='notifications'>
+                            <FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small><div className='md-hide sidebar-title' onClick={showNoti}>Thông báo</div>
+                        </div>
+                    }
+                    onOpen={() => setActive('noti')}
+                    onClose={resetActive}
+                    position='right center'
+                >
+                    <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos={notificationInfos} numberNotiNotChecked={numberNotiNotChecked} setNumberNotiNotChecked={setNumberNotiNotChecked} />
+
+                </Popup>
+
+                {/* tin nhắn */}
+                <div className='menu-item' id='message-notifications' onClick={() => { navigate('/chat', { replace: true }); }}>
+                    <FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small><div className='md-hide sidebar-title'>Tin nhắn</div>
+                </div>
+
+                {/* cài đặt */}
+                <Popup
+                    trigger={
+                        <div className={activeItem === 'setting' ? 'menu-item active' : 'menu-item'}>
+                            <FontAwesomeIcon icon={faGear} /><div className='md-hide sidebar-title'>Cài đặt</div>
+                        </div>
+                    }
+                    onOpen={() => setActive('setting')}
+                    onClose={resetActive}
+                    position='right center'
+                    nested
+                >
+                    <div className='menu-popup d-flex flex-column'>
+                        <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Sửa thông tin cá nhân</Link></button>
+                        <button type='button' className='btn btn-danger' onClick={logout}>Đăng xuất</button>
+                    </div>
+                </Popup>
+                {/*  */}
+            </div>
+
+            {/* Tạo bài viết */}
+            <div className='mt-3 c-border btn-post' onClick={() => setOpenModal(o => !o)}>
+                <FontAwesomeIcon icon={faCirclePlus} />
+                <div className='md-hide sidebar-title'>Đăng bài</div>
+                <PostModal
+                    onCreatePost={onCreatePost}
+                    openModal={openModal}
+                    setOpenModal={setOpenModal}
+                    currUserInfo={currUserInfo} />
+            </div>
 
         </div>
     );
