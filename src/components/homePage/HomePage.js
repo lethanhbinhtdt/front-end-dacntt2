@@ -181,14 +181,21 @@ function HomePage(props) {
         )
     }
     return (
-        <div className='container'>
+        <div className='homepage container'>
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
+
                 <div className='col-md-2'>
                     <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} onCreatePost={onCreatePost}/>
                 </div>
-                <div className='col-md-6'>
+
+                <div className='col-md-4 order-md-2 mb-5'>
+                    <ChatBox currUserInfo = {currUserInfo}/>
+                    <FriendRequestBox />
+                </div>
+
+                <div className='col-md-6 order-md-1'>
                     <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} currUserInfo={currUserInfo} /></div>
 
@@ -205,17 +212,6 @@ function HomePage(props) {
                     >
                         {listPost}
                     </InfiniteScroll>
-
-
-                    {/* {postInfo && postInfo.map((item) => (
-             
-                        <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
-                    ))} */}
-
-                </div>
-                <div className='col-md-4'>
-                    <ChatBox currUserInfo = {currUserInfo}/>
-                    <FriendRequestBox />
                 </div>
 
             </div>
