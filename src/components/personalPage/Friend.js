@@ -160,18 +160,9 @@ function Friend(props) {
             <div className="container">
                 <div className = "row">
                     <div className="col-6 md-6" > <h4 className="tag-name">Bạn bè</h4></div>
-                    <div className="col-6 md-6" > <Link to={ `/friendrequests`}>Lời mời kết bạn</Link></div>
+                    {/* <div className="col-6 md-6" > <Link to={ `/friendrequests`}>Lời mời kết bạn</Link></div> */}
                 </div>
                 {listRow}
-                {/* 
-                <div className="row">
-                    <div className="d-flex justify-content-center">
-
-                      
-
-                    </div>
-                </div> */}
-
             </div>
 
         </div>
