@@ -29,14 +29,12 @@ function UserPostList(props) {
     const socket = useContext(SocketContext);
     useEffect(() => {
         socket.on("receiveMessageNoti", (data) => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
 
         });
 
         socket.on('receiveMessageLike', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
 
@@ -44,7 +42,6 @@ function UserPostList(props) {
         })
 
         socket.on('receiveMessageShare', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
 
@@ -135,12 +132,9 @@ function UserPostList(props) {
     useEffect(() => {
         if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
-                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
-                    console.log("asdfsdf", postInfo[i]?.commentPost)
                     // postInfo[i].commentPost.pop()
                     postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
-                    console.log("after", postInfo[i]?.commentPost)
                     setPostInfo(postInfo)
                     break
                 }

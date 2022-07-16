@@ -31,13 +31,11 @@ function PostCard(props) {
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
-    // console.log("dfdfdfdfdf", postId, dataPostInfo?.content, dataPostInfo?._id)
     useEffect(() => {
         setCommentInfo(dataPostInfo?.commentPost)
         setNumberComment(dataPostInfo?.commentPost?.length)
         setCheckHaveNewComment(false)
     }, [checkHaveNewComment])
-    // console.log("commentInfo", commentInfo)
     // const  postId = postInfo?._id
     const handleLikePost = () => {
         fetch(`${BASE_URL}api/post/${postId}/like`, {

@@ -45,7 +45,6 @@ function PasswordModal(props) {
                         closeModal();
                     })
                     .catch(err => {
-                        console.log(err);
                         setErr(err.response?.data?.description);
                     })
             } else {
@@ -63,7 +62,6 @@ function PasswordModal(props) {
                         closeModal();
                     })
                     .catch(err => {
-                        console.log(err);
                         setErr(err.response?.data?.description);
                     })
             }

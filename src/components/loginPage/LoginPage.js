@@ -63,7 +63,6 @@ function LoginPage(props) {
     }
 
     const responseSuccessGoogle = async (reponse) => {
-        console.log('thanh cong', reponse)
         const dataResponseFromNode = await axios.post(OAUTH2_URL, { tokenId: reponse.tokenId })
 
         let expires = new Date()

@@ -55,7 +55,6 @@ function HomePage(props) {
     }
     useEffect(() => {
         socket.on("receiveMessageNoti", (data) => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -63,7 +62,6 @@ function HomePage(props) {
         });
 
         socket.on('receiveMessageLike', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -71,7 +69,6 @@ function HomePage(props) {
         })
 
         socket.on('receiveMessageShare', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -102,11 +99,8 @@ function HomePage(props) {
         // console.log("beforre", postInfo, newCommentRealTime)
         if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
-                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
-                    console.log("asdfsdf", postInfo[i]?.commentPost)
                     postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
-                    console.log("after", postInfo[i]?.commentPost)
                     setPostInfo(postInfo)
                     break
                 }

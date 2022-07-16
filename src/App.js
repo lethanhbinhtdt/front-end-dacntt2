@@ -25,7 +25,7 @@ function App() {
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
 
   useEffect(()=>{
-    console.log("userId hahaha", currUserInfo?._id)
+    console.log("Current user information", currUserInfo)
   }, [])
 
   // const socketio = useContext(SocketContext);

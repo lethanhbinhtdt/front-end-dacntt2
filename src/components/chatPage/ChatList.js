@@ -51,7 +51,6 @@ function ChatList(props) {
                     }
                 })
                 .then(messData => {
-                    console.log("da taaaaa", messData)
                     setMess(messData)
                     setnumberMess(numberMess + messData?.length)
                 })
@@ -66,7 +65,6 @@ function ChatList(props) {
         setMessage(e.target.value)
     }
     const handleSendMessage = (e) => {
-        console.log('send: ', message);
         e.preventDefault();
         if (message.length > 0) {
             fetch(`${BASE_URL}api/message`,

@@ -56,7 +56,6 @@ function PersonalInfor(props) {
     }, [id]) // [id] để useEffect load lại mỗi khi id có sự thay đổi
 
     function SendFriendRequest(e) {
-        console.log(e.target)
         var idUserWantoSendRequest = e.target.attributes.getNamedItem('iduser').value;
 
         fetch(`${BASE_URL}api/requestFriend/${idUserWantoSendRequest}`,
@@ -70,7 +69,6 @@ function PersonalInfor(props) {
             .then(res => {
 
                 if (res.ok) {
-                    console.log('da ket bạnh thanh công')
                     return res.json()
                 }
             })
@@ -111,7 +109,6 @@ function PersonalInfor(props) {
     }
 
     const onDeleteRequest = (e) => {
-        console.log('da vao xóa')
         var idUserInQueue = e.target.attributes.getNamedItem('iduser').value
         fetch(`${BASE_URL}api/requestFriend/deny/${idUserInQueue}`,
             {

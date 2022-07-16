@@ -40,7 +40,6 @@ function PostModal(props) {
     // submit form
     const handleSubmitPost = (e) => {
         e.preventDefault();
-        console.log(postContent, postVideo, postImages);
 
         var formData = new FormData();
         formData.append('postContent', postContent);
