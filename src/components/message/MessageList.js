@@ -42,7 +42,7 @@ function MessageList(props) {
 
             {conversation &&
                 conversation.slice(0, 5).map(item => (
-                    <div key={item.conversationId._id} className='d-flex mt-2 cursor-pointer'>
+                    <div key={item.conversationId._id} className='d-flex mt-2 p-1 cursor-pointer msg-hover'>
                         <div className='message-user-avatar'>
                             <img alt='user avatar' src={item?.senderId?.picture} onClick={() => { chatWithOther(item?.senderId) }}></img>
                         </div>

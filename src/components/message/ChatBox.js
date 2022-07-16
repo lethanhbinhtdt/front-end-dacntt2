@@ -21,16 +21,17 @@ function ChatBox(props) {
                 <div className='cursor-pointer'><FontAwesomeIcon icon={faPenToSquare} /></div>
             </div>
 
-            <div className='mb-2'>
+            {/* <div className='mb-2'>
                 <form className='d-flex rounded-pill search-bar px-1'>
                     <FontAwesomeIcon icon={faSearch} className='mx-2 my-auto' />
                     <input type='text' className='search-input py-2 pe-3' placeholder='Tìm tin nhắn...'></input>
                 </form>
-            </div>
+            </div> */}
 
             {/* lựa chọn */}
-            <div className='options d-flex justify-content-around'>
+            <div className='options d-flex justify-content-around border'>
                 <div className='cursor-pointer active'>Tin nhắn</div>
+                <div>|</div>
                 <div className='cursor-pointer' onClick={() => { navigate('/chat', { replace: true }); }}>Xem tất cả</div>
             </div>
 
