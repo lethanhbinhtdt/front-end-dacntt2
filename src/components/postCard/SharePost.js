@@ -1,14 +1,19 @@
 
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Dropdown } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import '../../css/SharePost.css';
 function SharePost(props) {
-    const [postShare, setPostShare] = useState()
     const {infoPostShare} = props
+    
+    const navigate = useNavigate();
+    
+    const [postShare, setPostShare] = useState()
+
+    const navigateToOther = (id) => {
+        navigate(`/personal/${id}/post/`, { replace: true, state: { 'id': id } });
+    }
+
     useEffect(()=>{
         setPostShare(infoPostShare)
     }, [infoPostShare])
@@ -36,9 +41,9 @@ function SharePost(props) {
                             src={postShare?.createdBy?.picture}
                             alt='Avatar user'></img>
                         <div className='flex-column ms-2'>
-                            <Link to='/user/profile/' className='post-auth-name'>
+                            <div className='post-auth-name' onClick={() => navigateToOther(postShare?.createdBy?._id)}>
                                 <b>{postShare?.createdBy?.fullname} </b>
-                            </Link>
+                            </div>
                             <p className='text-secondary fs-small'>
                                 {postShare?.createdBy?.createdAt}
                             </p>
