@@ -45,3 +45,10 @@ input::placeholder {
 .over-y-auto{
     overflow-y: auto;
 }
+
+/* breakpoint lg of bootstrap */
+@media only screen and (max-width: 992px) {
+    .md-hide {
+        display: none;
+    }
+}

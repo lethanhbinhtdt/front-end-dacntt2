@@ -2,8 +2,15 @@
     background: white;
     border-radius: 8px;
     position: fixed;
+    z-index: 100;
 }
 
+.sidebar .sidebar-title {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 8px;
+    margin-left: 8px;
+}
 
 .sidebar .menu-item {
     display: flex;
@@ -23,7 +30,8 @@
 
 .sidebar svg {
     font-size: 24px;
-    margin-left: 32px;
+    margin-left: 18px;
+    margin-right: 16px;
     position: relative;
     color: grey;
 }
@@ -37,7 +45,7 @@
     padding: 2px 6px;
     position: absolute;
     top: 8px;
-    left: 46px;
+    left: 36px;
 }
 
 .sidebar h5 {
@@ -88,14 +96,14 @@
     border-radius: 16px;
 }
 
-.notifications-popup{
+.notifications-popup {
     height: 190px;
     max-width: 380px;
     overflow: auto;
 }
 
 .popup-arrow {
-    color: rgb(156, 97, 223);
+    color: rgb(49, 115, 146);
 }
 
 
@@ -125,10 +133,10 @@
 } */
 
 
-.notification-button{
- margin-left: 10px;
+.notification-button {
+    margin-left: 10px;
 }
 
-.backgroun-noti{
+.backgroun-noti {
     background-color: cornsilk;
 }

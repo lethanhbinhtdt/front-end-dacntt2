@@ -105,9 +105,9 @@ function FriendRequestBox(props) {
                         </div>
                     </div>
 
-                    <div>
-                        <button iduser={friendRequest[i]?.userRequest?._id} type='button' className='btn btn-primary rounded-pill' onClick={onAcceptRequest}>Chấp nhận</button>
-                        <button iduser={friendRequest[i]?.userRequest?._id} type='button' className='btn btn-refuse rounded-pill' onClick={onDeleteRequest}>Xóa</button>
+                    <div className='text-center'>
+                        <button iduser={friendRequest[i]?.userRequest?._id} type='button' className='btn btn-primary rounded-pill me-2 mt-1' onClick={onAcceptRequest}>Chấp nhận</button>
+                        <button iduser={friendRequest[i]?.userRequest?._id} type='button' className='btn btn-refuse rounded-pill ms-0 me-2 mt-1' onClick={onDeleteRequest}>Xóa</button>
                     </div>
                 </div>
             )

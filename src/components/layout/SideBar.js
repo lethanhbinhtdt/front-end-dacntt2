@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
 
@@ -17,28 +17,32 @@ import io from "socket.io-client";
 const socket = io.connect(BASE_URL);
 
 function SideBar(props) {
-    const {numberNotification, currUserInfo} = props
+    const { numberNotification, currUserInfo } = props
+
+    const token = getCookieToken()
     const navigate = useNavigate();
-    const [socketdata, setSocketData] = useState()
+
+    const [activeItem, setActiveItem] = useState('')
     const [numberNotiNotChecked, setNumberNotiNotChecked] = useState(0)
 
     const [notificationInfos, setNotificationInfo] = useState()
     const [lenNotification, setlenNotification] = useState(0)
 
+    const resetActive = () => {
+        setActiveItem('');
+    }
+
+    const setActive = (item) => {
+        setActiveItem(item);
+    }
+
     useEffect(() => {
-        
-        // console.log("da vao nef ")
-        // socket.on("receive_message", (data) => {
-        //           console.log("hhahahahaahahah", data)
-        //           setNumberNotiNotChecked(1)
-        //         });
-        
-        setNumberNotiNotChecked(numberNotiNotChecked+1)
+        setNumberNotiNotChecked(numberNotiNotChecked + 1)
 
     }, [numberNotification]);
 
-    const token = getCookieToken()
-    useEffect(()=>{ // chỗ này để mới vào nó fetch để lấy ra dữ liệu cho số lượng noti
+
+    useEffect(() => { // chỗ này để mới vào nó fetch để lấy ra dữ liệu cho số lượng noti
         {
             fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
                 method: 'GET',
@@ -54,22 +58,22 @@ function SideBar(props) {
                 }).then(notification => {
                     setNotificationInfo(notification)
                     setlenNotification(notification?.length)
-                    var numberNotCheck = 0 
-                    for(var i = 0; i<=notification?.length; i++){
-                        if(!notification[i]?.isChecked){
-                            numberNotCheck = numberNotCheck +1
+                    var numberNotCheck = 0
+                    for (var i = 0; i <= notification?.length; i++) {
+                        if (!notification[i]?.isChecked) {
+                            numberNotCheck = numberNotCheck + 1
                         }
                     }
                     setNumberNotiNotChecked(numberNotCheck)
-    
+
                 })
                 .catch(err => {
                     console.error(err)
                 })
         }
-    },[])
+    }, [])
 
-    const showNoti= () => {
+    const showNoti = () => {
         // bấm vào hình chuông luôn fetch lại để lấy cái mới nhất
         fetch(`${BASE_URL}api/notification/?skip=0`, {
             method: 'GET',
@@ -85,10 +89,10 @@ function SideBar(props) {
             }).then(notification => {
                 setNotificationInfo(notification)
                 setlenNotification(lenNotification + notification.length)// length này dùng để fetch lấy thêm dữ liệu 
-                var numberNotCheck = 0 
-                for(var i = 0; i<=notification?.length; i++){
-                    if(!notification[i]?.isChecked){
-                        numberNotCheck = numberNotCheck +1
+                var numberNotCheck = 0
+                for (var i = 0; i <= notification?.length; i++) {
+                    if (!notification[i]?.isChecked) {
+                        numberNotCheck = numberNotCheck + 1
                     }
                 }
                 // setNumberNotiNotChecked(numberNotCheck)
@@ -99,53 +103,54 @@ function SideBar(props) {
             })
     }
 
-    const logout = () =>{
+    const logout = () => {
         removeCookieToken();
-        socket.emit("disconnect_session", currUserInfo._id)
+        socket.emit("disconnect_session", currUserInfo._id);
         navigate('/login', { replace: true });
     }
-    // var numberNotCheck = 0 
 
-    // useEffect(()=>{
-       
-    // },[numberNotiNotChecked])
+
     return (
         <div className='sidebar cursor-pointer'>
             {/* trang chủ */}
-            <div className='menu-item'>
-                <span><FontAwesomeIcon icon={faHouse} /></span><h5>Trang chủ</h5>
+            <div className={activeItem ? 'menu-item' : 'menu-item active'}>
+                <FontAwesomeIcon icon={faHouse} /><div className='md-hide sidebar-title'>Trang chủ</div>
             </div>
 
             {/* thông báo */}
             <Popup
                 trigger={
-                    <div className='menu-item active' id='notifications'>
-                        <span><FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small> </span><h5>Thông báo</h5>
+                    <div className={activeItem === 'noti' ? 'menu-item active' : 'menu-item'} id='notifications'>
+                        <FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small><div className='md-hide sidebar-title' onClick={showNoti}>Thông báo</div>
                     </div>
                 }
+                onOpen={() => setActive('noti')}
+                onClose={resetActive}
                 position='right center'
             >
-                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos = {notificationInfos} numberNotiNotChecked = {numberNotiNotChecked}  setNumberNotiNotChecked = {setNumberNotiNotChecked}/>
+                <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos={notificationInfos} numberNotiNotChecked={numberNotiNotChecked} setNumberNotiNotChecked={setNumberNotiNotChecked} />
 
             </Popup>
 
             {/* tin nhắn */}
-            <div className='menu-item' id='message-notifications' onClick={() => {navigate('/chat', { replace: true });}}>
-                <span><FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small> </span><h5>Tin nhắn</h5>
+            <div className='menu-item' id='message-notifications' onClick={() => { navigate('/chat', { replace: true }); }}>
+                <FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small><div className='md-hide sidebar-title'>Tin nhắn</div>
             </div>
-            
+
             {/* cài đặt */}
             <Popup
                 trigger={
-                    <div className='menu-item'>
-                        <span><FontAwesomeIcon icon={faGear} /></span><h5>Cài đặt</h5>
+                    <div className={activeItem === 'setting' ? 'menu-item active' : 'menu-item'}>
+                        <FontAwesomeIcon icon={faGear} /><div className='md-hide sidebar-title'>Cài đặt</div>
                     </div>
                 }
+                onOpen={() => setActive('setting')}
+                onClose={resetActive}
                 position='right center'
                 nested
             >
                 <div className='menu-popup d-flex flex-column'>
-                    <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Chỉnh sửa thông tin cá nhân</Link></button>
+                    <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Sửa thông tin cá nhân</Link></button>
                     <button type='button' className='btn btn-danger' onClick={logout}>Đăng xuất</button>
                 </div>
             </Popup>
