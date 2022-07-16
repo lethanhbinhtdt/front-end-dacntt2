@@ -48,7 +48,8 @@ function NavBar(props) {
 
     const findFriend = (e) => {
         e.preventDefault();
-        navigate(`/search/?name=${nameUserFind}`, { state: { "currentUserId": currUserInfo?._id } }, { replace: true });
+        if(nameUserFind?.length>0)
+            navigate(`/search/?name=${nameUserFind}`, { state: { "currentUserId": currUserInfo?._id } }, { replace: true });
     }
 
     return (
