@@ -5,6 +5,7 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import axios from '../../middlewares/axios';
 import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
+import { BASE_URL } from '../../middlewares/constant';
 
 function MessageList(props) {
     const { currUserInfo } = props;
@@ -16,19 +17,39 @@ function MessageList(props) {
 
     useEffect(() => {
         // get all conversation
-        axios.get(CHAT_URL,
-            {
-                headers: {
-                    'Authorization': `Bearer ${token}`
+        // axios.get(CHAT_URL,
+        //     {
+        //         headers: {
+        //             'Authorization': `Bearer ${token}`
+        //         }
+        //     })
+        //     .then(res => {
+        //         if (res.status === 200)
+        //             setConversation(res.data);
+        //         setLoading(false)
+        //     })
+        //     .catch(err => {
+        //         console.error(err);
+        //     })
+
+        fetch(`${BASE_URL}${CHAT_URL}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                if (res.ok) {
+                    return res.json()
                 }
             })
-            .then(res => {
-                if (res.status === 200)
-                    setConversation(res.data);
+            .then(data=>{
+                setConversation(data);
                 setLoading(false)
             })
             .catch(err => {
-                console.error(err);
+                console.error(err)
             })
     }, [])
 
