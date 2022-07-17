@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom'
 import Popup from 'reactjs-popup';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell, faEnvelope, faHouse, faGear, faCirclePlus  } from '@fortawesome/free-solid-svg-icons'
+import { faBell, faEnvelope, faHouse, faGear, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
 
 import { BASE_URL } from '../../middlewares/constant';
 import NotificationList from '../notification/NotificationList';
@@ -21,6 +22,8 @@ function SideBar(props) {
     const token = getCookieToken()
     const navigate = useNavigate();
 
+    const [loadingNoti, setLoadingNoti] = useState(true);
+    const [loadingNotiList, setLoadingNotiList] = useState(true);
     const [activeItem, setActiveItem] = useState('')
     const [openModal, setOpenModal] = useState(false);
 
@@ -69,6 +72,7 @@ function SideBar(props) {
                         }
                     }
                     setNumberNotiNotChecked(numberNotCheck)
+                    setLoadingNoti(false)
 
                 })
                 .catch(err => {
@@ -99,6 +103,7 @@ function SideBar(props) {
                         numberNotCheck = numberNotCheck + 1
                     }
                 }
+                setLoadingNotiList(false)
                 // setNumberNotiNotChecked(numberNotCheck)
 
             })
@@ -120,6 +125,7 @@ function SideBar(props) {
                 <img src={currUserInfo?.picture} className='rounded-circle sidebar-avatar' alt='avatar'></img>
                 <div className='fw-bold my-auto md-hide ms-3'> {currUserInfo?.fullname}</div>
             </div>
+
             <div className='c-border menu'>
                 {/* trang chủ */}
                 <div className={activeItem ? 'menu-item' : 'menu-item active'}>
@@ -127,19 +133,31 @@ function SideBar(props) {
                 </div>
 
                 {/* thông báo */}
-                <Popup
-                    trigger={
-                        <div className={activeItem === 'noti' ? 'menu-item active' : 'menu-item'} id='notifications'>
-                            <FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small><div className='md-hide sidebar-title' onClick={showNoti}>Thông báo</div>
-                        </div>
-                    }
-                    onOpen={() => setActive('noti')}
-                    onClose={resetActive}
-                    position='right center'
-                >
-                    <NotificationList setNotificationInfo={setNotificationInfo} lenNotification={lenNotification} noifiInfos={notificationInfos} numberNotiNotChecked={numberNotiNotChecked} setNumberNotiNotChecked={setNumberNotiNotChecked} />
 
-                </Popup>
+                {loadingNoti ?
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loadingNoti={loadingNoti} size={48} /></div>
+                    :
+                    <Popup
+                        trigger={
+                            <div className={activeItem === 'noti' ? 'menu-item active' : 'menu-item'} id='notifications'>
+                                <FontAwesomeIcon onClick={showNoti} icon={faBell} /> <small className='notification-count'>{numberNotiNotChecked}</small><div className='md-hide sidebar-title' onClick={showNoti}>Thông báo</div>
+                            </div>
+                        }
+                        onOpen={() => setActive('noti')}
+                        onClose={resetActive}
+                        position='right center'
+                    >
+                        <NotificationList 
+                            loadingNotiList={loadingNotiList} 
+                            setNotificationInfo={setNotificationInfo} 
+                            lenNotification={lenNotification} 
+                            noifiInfos={notificationInfos} 
+                            numberNotiNotChecked={numberNotiNotChecked} 
+                            setNumberNotiNotChecked={setNumberNotiNotChecked} 
+                        />
+
+                    </Popup>
+                }
 
                 {/* tin nhắn */}
                 <div className='menu-item' id='message-notifications' onClick={() => { navigate('/chat', { replace: true }); }}>
@@ -165,6 +183,7 @@ function SideBar(props) {
                 </Popup>
                 {/*  */}
             </div>
+
 
             {/* Tạo bài viết */}
             <div className='mt-3 c-border btn-post' onClick={() => setOpenModal(o => !o)}>

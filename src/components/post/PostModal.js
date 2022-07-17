@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Popup from 'reactjs-popup';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { POST_URL } from '../../middlewares/constant';
@@ -13,6 +15,8 @@ function PostModal(props) {
     const { onCreatePost, onUpdatePost, oldPost, openModal, setOpenModal, currUserInfo } = props
 
     const isUpdate = oldPost ? true : false;
+
+    const [loading, setLoading] = useState(false);
 
     // thông tin bài đăng: postContent, postVideo, postImages
     const [postContent, setPostContent] = useState(oldPost?.content ? oldPost.content : '');
@@ -40,7 +44,7 @@ function PostModal(props) {
     // submit form
     const handleSubmitPost = (e) => {
         e.preventDefault();
-
+        setLoading(true);
         var formData = new FormData();
         formData.append('postContent', postContent);
         formData.append('postVideo', postVideo);
@@ -57,6 +61,7 @@ function PostModal(props) {
                 })
                 .then(res => {
                     onUpdatePost(res.data);
+                    setLoading(false);
                     setOpenModal(false);
                 })
                 .catch(err => {
@@ -73,6 +78,7 @@ function PostModal(props) {
                 .then(res => {
                     onCreatePost(res.data);
                     resetForm();
+                    setLoading(false);
                     setOpenModal(false);
                 })
                 .catch(err => {
@@ -102,10 +108,11 @@ function PostModal(props) {
                 nested
             >
                 <div className='post-modal'>
+
                     {/* header */}
                     <div className='header d-flex justify-content-between'>
                         <div> </div>
-                        <h4 className='text-center'>{isUpdate ? 'Cập nhật':'Tạo'} bài viết</h4>
+                        <h4 className='text-center'>{isUpdate ? 'Cập nhật' : 'Tạo'} bài viết</h4>
                         <button className='close-button text-right' onClick={() => setOpenModal(false)}>
                             &times;
                         </button>
@@ -121,49 +128,53 @@ function PostModal(props) {
                     </div>
 
                     {/* content */}
-                    <div className='content mb-3'>
-                        <textarea
-                            rows='4'
-                            className='w-100'
-                            placeholder='Bạn đang nghĩ gì?'
-                            name='postContent'
-                            value={postContent}
-                            onChange={(e) => setPostContent(e.target.value)}>
-                        </textarea>
 
-                        {/* Hiển thị hình ảnh/video upload */}
-                        {/* TODO: hiển thị 1 lúc nhiều hình ảnh */}
-                        <div className='text-center mt-2'>
-                            {(img != null && img.length > 0) && <img src={img} width='75%' alt='Blog img' className='rounded'></img>}
-                        </div>
+                    {loading ?
+                        <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={48} /></div>
+                        :
+                        <div className='content mb-3'>
+                            <textarea
+                                rows='4'
+                                className='w-100'
+                                placeholder='Bạn đang nghĩ gì?'
+                                name='postContent'
+                                value={postContent}
+                                onChange={(e) => setPostContent(e.target.value)}>
+                            </textarea>
 
-                        <div className='text-center mt-2'>
-                            {
-                                (idYtb.length > 0) &&
-                                <iframe title='post ytb video' src={'https://www.youtube.com/embed/' + idYtb} frameBorder='0' allowFullScreen className='rounded'></iframe>
-                            }
-                        </div>
-
-                        {/* button upload img, video */}
-                        <div className='d-flex justify-content-between border border-secondary rounded px-3 py-1'>
-                            <div className='my-auto'>Thêm vào bài viết</div>
-                            <div className='d-flex flex-row'>
-                                {/* img */}
-                                <div>
-                                    <label htmlFor='input-img' className='cursor-pointer btn-upload btn-img'><FontAwesomeIcon icon='fa-solid fa-images' className='mx-auto w-100' /></label>
-                                    <input hidden onChange={onImageChange} type='file' id='input-img' accept='image/*'></input>
-                                </div>
-                                {/* video youtube */}
-                                <PopupYtb setIdYtb={setIdYtb} setPostVideo={setPostVideo} getIdLinkYoutube={getIdLinkYoutube} />
+                            {/* Hiển thị hình ảnh/video upload */}
+                            {/* TODO: hiển thị 1 lúc nhiều hình ảnh */}
+                            <div className='text-center mt-2'>
+                                {(img != null && img.length > 0) && <img src={img} width='75%' alt='Blog img' className='rounded'></img>}
                             </div>
+
+                            <div className='text-center mt-2'>
+                                {
+                                    (idYtb.length > 0) &&
+                                    <iframe title='post ytb video' src={'https://www.youtube.com/embed/' + idYtb} frameBorder='0' allowFullScreen className='rounded'></iframe>
+                                }
+                            </div>
+
+                            {/* button upload img, video */}
+                            <div className='d-flex justify-content-between border border-secondary rounded px-3 py-1'>
+                                <div className='my-auto'>Thêm vào bài viết</div>
+                                <div className='d-flex flex-row'>
+                                    {/* img */}
+                                    <div>
+                                        <label htmlFor='input-img' className='cursor-pointer btn-upload btn-img'><FontAwesomeIcon icon='fa-solid fa-images' className='mx-auto w-100' /></label>
+                                        <input hidden onChange={onImageChange} type='file' id='input-img' accept='image/*'></input>
+                                    </div>
+                                    {/* video youtube */}
+                                    <PopupYtb setIdYtb={setIdYtb} setPostVideo={setPostVideo} getIdLinkYoutube={getIdLinkYoutube} />
+                                </div>
+                            </div>
+                            {/* END upload img, video */}
+
                         </div>
-                        {/* END upload img, video */}
-
-                    </div>
-
+                    }
                     {/* footer */}
                     <div>
-                        <button onClick={handleSubmitPost} type='button' className='btn btn-primary w-100 fw-bold'>{isUpdate ? 'Cập nhật':'Đăng'}</button>
+                        <button onClick={handleSubmitPost} type='button' className='btn btn-primary w-100 fw-bold'>{isUpdate ? 'Cập nhật' : 'Đăng'}</button>
                     </div>
                 </div>
             </Popup>

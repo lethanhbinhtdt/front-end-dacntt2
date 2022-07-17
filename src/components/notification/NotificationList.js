@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import InfiniteScroll from 'react-infinite-scroll-component';
+
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 function NotificationList(props) {
-    const { noifiInfos, setNoifiInfo, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
+    const { noifiInfos, loadingNotiList, setNoifiInfo, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
     const [backgroundColor, setBackgroundColor] = useState(noifiInfos?.isChecked ? 'd-flex mb-2' : 'd-flex mb-2 background-noti')
     const [isChangeStatusNoti, setIsChangeStatusNoti] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true);
@@ -17,6 +19,7 @@ function NotificationList(props) {
 
 
     const fetchMoreData = () => {
+        console.log(lenNotification)
         fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
             method: 'GET',
             headers: {
@@ -28,8 +31,9 @@ function NotificationList(props) {
                 if (res.ok) {
                     return res.json()
                 }
+                setHasMorePost(false);
             }).then(notification => {
-                if (notification?.length == 0) {
+                if (notification?.length < 5) {
                     setHasMorePost(false);
                     return;
                 }
@@ -148,7 +152,11 @@ function NotificationList(props) {
                 loader={<p className='text-info'>Đang tải thông báo...</p>}
                 scrollableTarget='scrollableDiv'
             >
-                {listNoti}
+                {loadingNotiList ?
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loadingNotiList} size={48} /></div>
+                    :
+                    listNoti
+                }
 
                 {/* {notificationInfos && notificationInfos.map((item) => (
                     <div className='d-flex mb-2'>

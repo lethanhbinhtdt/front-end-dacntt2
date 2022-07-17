@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostCard from '../postCard/PostCard';
 import SideBar from '../layout/SideBar';
@@ -28,6 +29,8 @@ function HomePage(props) {
 
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
+
+    const [loading, setLoading] = useState(true);
 
     const fetchDataOnScroll = () => {
         fetch(`${BASE_URL}api/post/friend/${page}`, {
@@ -106,8 +109,6 @@ function HomePage(props) {
                 }
             }
         }
-
-
     }, [checkHaveNewComment])
 
     useEffect(() => {
@@ -125,6 +126,7 @@ function HomePage(props) {
                 }
             }).then(dataPost => {
                 setPostInfo(dataPost)
+                setLoading(false)
 
             }).catch(err => {
                 console.error(err)
@@ -201,20 +203,24 @@ function HomePage(props) {
                 <div className='col-md-6 order-md-1'>
                     <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} currUserInfo={currUserInfo} /></div>
+                    {loading ?
+                        <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={96} /></div>
+                        :
+                        <InfiniteScroll
+                            dataLength={postInfo?.length || 0} //This is important field to render the next data
+                            next={fetchDataOnScroll}
+                            hasMore={hasMorePost}
+                            loader={<p className='text-info'>Đang tải...</p>}
+                            endMessage={
+                                <p className='text-center text-info'>
+                                    <b>---Bạn đã xem hết bài viết---</b>
+                                </p>
+                            }
+                        >
+                            {listPost}
+                        </InfiniteScroll>
+                    }
 
-                    <InfiniteScroll
-                        dataLength={postInfo?.length || 0} //This is important field to render the next data
-                        next={fetchDataOnScroll}
-                        hasMore={hasMorePost}
-                        loader={<p className='text-info'>Đang tải...</p>}
-                        endMessage={
-                            <p className='text-center text-info'>
-                                <b>...Hết bài viết...</b>
-                            </p>
-                        }
-                    >
-                        {listPost}
-                    </InfiniteScroll>
                 </div>
 
             </div>

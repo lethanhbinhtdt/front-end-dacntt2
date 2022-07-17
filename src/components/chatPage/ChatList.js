@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext, useRef } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -17,6 +18,8 @@ function ChatList(props) {
 
     const messageRef = useRef(null)
     const socket = useContext(SocketContext);
+
+    const [loading, setLoading] = useState(true);
 
     var token = getCookieToken()
 
@@ -53,6 +56,7 @@ function ChatList(props) {
                 .then(messData => {
                     setMess(messData)
                     setnumberMess(numberMess + messData?.length)
+                    setLoading(false)
                 })
         }
     }, [conversationId])
@@ -117,7 +121,11 @@ function ChatList(props) {
     return (
         <>
             <div className='flex-grow-1 over-y-auto'>
-                {listMess}
+                {loading ?
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={48} /></div>
+                    :
+                    listMess
+                }
                 <div ref={messageRef} />
             </div>
 

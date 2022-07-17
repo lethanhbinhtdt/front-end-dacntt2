@@ -98,13 +98,14 @@ function ChatPage(props) {
             <div className='content-row d-flex'>
                 {/* Box3 danh sách bạn bè */}
                 <div className='third-box over-y-auto'>
-                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} chatWithUser={chatWithUser}/>
+                    <ConversationList currUserInfo={currUserInfo} handleChatWithOther={handleChatWithOther} chatWithUser={chatWithUser} />
                 </div>
 
                 {/* Box4 hiển thị tin nhắn */}
                 <div className='fourth-box d-flex flex-column'>
-                    <ChatList conversationId={conversationId} currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
-
+                    {conversationId?.length > 0 &&
+                        <ChatList conversationId={conversationId} currUserInfo={currUserInfo} chatWithUser={chatWithUser} />
+                    }
                 </div>
             </div>
         </div>
