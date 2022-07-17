@@ -164,7 +164,7 @@ function HomePage(props) {
     }, [checkShowMess]);
 
     var listPost = []
-    for (let i = 0; i <= postInfo?.length; i++) {
+    for (let i = 0; i < postInfo?.length; i++) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
