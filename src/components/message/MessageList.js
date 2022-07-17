@@ -32,7 +32,7 @@ function MessageList(props) {
         //         console.error(err);
         //     })
 
-        fetch(`${BASE_URL}/${CHAT_URL}`, {
+        fetch(`${BASE_URL}${CHAT_URL}`, {
             method: 'GET',
             headers: {
                 'Content-type': 'application/json',
