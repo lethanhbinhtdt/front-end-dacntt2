@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostCard from '../postCard/PostCard';
 import SideBar from '../layout/SideBar';
@@ -28,6 +29,8 @@ function HomePage(props) {
 
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
+
+    const [loading, setLoading] = useState(true);
 
     const fetchDataOnScroll = () => {
         fetch(`${BASE_URL}api/post/friend/${page}`, {
@@ -55,7 +58,6 @@ function HomePage(props) {
     }
     useEffect(() => {
         socket.on("receiveMessageNoti", (data) => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -63,7 +65,6 @@ function HomePage(props) {
         });
 
         socket.on('receiveMessageLike', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -71,7 +72,6 @@ function HomePage(props) {
         })
 
         socket.on('receiveMessageShare', data => {
-            console.log(data)
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -91,7 +91,7 @@ function HomePage(props) {
 
 
         })
-        socket.on('receiveFriendRequestInfo', data=>{
+        socket.on('receiveFriendRequestInfo', data => {
             setMessage(data)
             setCheckShowMess(true)
             setNumberNotiRealTime(numberNotiRealTime + 1)
@@ -102,18 +102,13 @@ function HomePage(props) {
         // console.log("beforre", postInfo, newCommentRealTime)
         if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
-                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
-                    console.log("asdfsdf", postInfo[i]?.commentPost)
                     postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
-                    console.log("after", postInfo[i]?.commentPost)
                     setPostInfo(postInfo)
                     break
                 }
             }
         }
-
-
     }, [checkHaveNewComment])
 
     useEffect(() => {
@@ -131,6 +126,7 @@ function HomePage(props) {
                 }
             }).then(dataPost => {
                 setPostInfo(dataPost)
+                setLoading(false)
 
             }).catch(err => {
                 console.error(err)
@@ -173,8 +169,7 @@ function HomePage(props) {
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
             <div className='mb-3 mx-2'>
-                {postInfo[i]?._id}
-                <PostCard key = {postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
+                <PostCard key={postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
                     currUserInfo={currUserInfo}
                     setMess={setMessage}
                     setCheckShowMessage={setCheckShowMess}
@@ -187,43 +182,44 @@ function HomePage(props) {
         )
     }
     return (
-        <div className='container'>
+        <div className='homepage container'>
             {/* Welcome {user.username}!<br /><br /> - Need Login Demo */}
             {/* <input type='button' onClick={handleLogout} value='Logout' /> */}
             <div className='row mt-3'>
-                <div className='col-md-1'></div>
+
                 <div className='col-md-2'>
+                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} onCreatePost={onCreatePost} />
+                </div>
 
-                    <SideBar currUserInfo={currUserInfo} numberNotification={numberNotiRealTime} />
+                <div className='col-md-4 order-md-2 mb-5'>
+                    <ChatBox currUserInfo={currUserInfo} />
+                    <FriendRequestBox
+                        setMess={setMessage}
+                        setCheckShowMessage={setCheckShowMess}
+                        currUserInfo={currUserInfo} />
+                </div>
+
+                <div className='col-md-6 order-md-1'>
                     <div className='notification'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
-                </div>
-                <div className='col-md-5'>
                     <div className='mb-3'><PostBox onCreatePost={onCreatePost} currUserInfo={currUserInfo} /></div>
+                    {loading ?
+                        <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={96} /></div>
+                        :
+                        <InfiniteScroll
+                            dataLength={postInfo?.length || 0} //This is important field to render the next data
+                            next={fetchDataOnScroll}
+                            hasMore={hasMorePost}
+                            loader={<p className='text-info'>Đang tải...</p>}
+                            endMessage={
+                                <p className='text-center text-info'>
+                                    <b>---Bạn đã xem hết bài viết---</b>
+                                </p>
+                            }
+                        >
+                            {listPost}
+                        </InfiniteScroll>
+                    }
 
-                    <InfiniteScroll
-                        dataLength={postInfo?.length || 0} //This is important field to render the next data
-                        next={fetchDataOnScroll}
-                        hasMore={hasMorePost}
-                        loader={<p className='text-info'>Đang tải...</p>}
-                        endMessage={
-                            <p className='text-center text-info'>
-                                <b>...Hết bài viết...</b>
-                            </p>
-                        }
-                    >
-                        {listPost}
-                    </InfiniteScroll>
-
-
-                    {/* {postInfo && postInfo.map((item) => (
-             
-                        <div className='mb-3 mx-2'><PostCard setMess={setMessage} setCheckShowMessage={setCheckShowMess} indexId={item._id} dataPostInfo={item} deletePost={deletePost} /></div>
-                    ))} */}
-
-                </div>
-                <div className='col-md-4'>
-                    <ChatBox currUserInfo = {currUserInfo}/>
-                    <FriendRequestBox />
                 </div>
 
             </div>

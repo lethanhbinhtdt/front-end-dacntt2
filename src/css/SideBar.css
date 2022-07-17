@@ -1,9 +1,24 @@
 .sidebar {
-    background: white;
-    border-radius: 8px;
     position: fixed;
+    z-index: 100;
 }
 
+.sidebar .c-border {
+    background: white;
+    border-radius: 8px;
+}
+
+.sidebar .sidebar-avatar {
+    width: 36px;
+    height: 36px;
+}
+
+.sidebar .sidebar-title {
+    font-weight: bold;
+    font-size: large;
+    margin-right: 8px;
+    margin-left: 8px;
+}
 
 .sidebar .menu-item {
     display: flex;
@@ -13,18 +28,28 @@
     position: relative;
 }
 
-.sidebar .active {
-    background: #EDF2F7;
-}
-
+.sidebar .active,
+.sidebar .user-info:hover,
 .sidebar .menu-item:hover {
     background: #EDF2F7;
 }
 
+.sidebar .btn-post {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: #5239AC;
+    color: whitesmoke;
+}
+
 .sidebar svg {
     font-size: 24px;
-    margin-left: 32px;
+    margin-left: 18px;
+    margin-right: 16px;
     position: relative;
+}
+.sidebar .menu svg {
     color: grey;
 }
 
@@ -37,7 +62,7 @@
     padding: 2px 6px;
     position: absolute;
     top: 8px;
-    left: 46px;
+    left: 36px;
 }
 
 .sidebar h5 {
@@ -47,7 +72,7 @@
 
 .sidebar .active svg,
 .sidebar .active h5 {
-    color: blueviolet;
+    color: #5239AC;
 }
 
 .sidebar .active::before {
@@ -56,7 +81,7 @@
     width: 8px;
     height: 100%;
     position: absolute;
-    background: blueviolet;
+    background: #5239AC;
 }
 
 .sidebar .menu-item:first-child.active {
@@ -68,6 +93,7 @@
     border-bottom-left-radius: 8px;
     overflow: hidden;
 }
+
 
 .menu-popup {
     background-color: white;
@@ -88,47 +114,20 @@
     border-radius: 16px;
 }
 
-.notifications-popup{
+.notifications-popup {
     height: 190px;
     max-width: 380px;
     overflow: auto;
 }
 
 .popup-arrow {
-    color: rgb(156, 97, 223);
+    color: rgb(49, 115, 146);
 }
 
-
-/* .sidebar .notifications-popup {
-    position: absolute;
-    top: 0;
-    left: 110%;
-    width: 480px;
-    background: white;
-    border-radius: 8px;
-    padding: 16px;
-    box-shadow: 0 0 32px hsl(271, 70%, 91%);
-    z-index: 8;
-    display: none;
+.notifications-popup .notification-button {
+    margin-left: 10px;
 }
 
-.sidebar .notifications-popup::before{
-    content: "";
-    width: 18px;
-    height: 18px;
-    display: block;
-    background: white;
-    position: absolute;
-    top: 16px;
-    left: -8px;
-    transform: rotate(45deg);
-} */
-
-
-.notification-button{
- margin-left: 10px;
-}
-
-.backgroun-noti{
+.notifications-popup .background-noti {
     background-color: cornsilk;
 }

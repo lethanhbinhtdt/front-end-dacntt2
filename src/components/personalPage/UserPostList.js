@@ -1,27 +1,30 @@
 import React, { useState, useEffect, useContext } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import { BASE_URL, POST_URL } from '../../middlewares/constant';
-import { getCookieToken, getCookieUser } from '../../middlewares/common'
+import { getCookieToken, getCookieUser } from '../../middlewares/common';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostCard from '../postCard/PostCard';
 import SideBar from '../layout/SideBar';
 import ChatBox from '../message/ChatBox';
 import FriendRequestBox from '../friend/FriendRequestBox';
-import PostBox from '../post/PostBox'
+import PostBox from '../post/PostBox';
 import { Alert } from 'react-bootstrap';
 import { SocketContext } from '../../middlewares/socket';
-import '../../css/alert.css'
+import '../../css/alert.css';
 
 function UserPostList(props) {
-    const { userID, currUserInfo } = props
-    const token = getCookieToken()
+    const { userID, currUserInfo } = props;
+    const token = getCookieToken();
 
-    const [postInfo, setPostInfo] = useState()
-    const [checkShowMess, setCheckShowMess] = useState(false)
-    const [message, setMessage] = useState('')
-    const [checkHaveNewComment, setCheckHaveNewComment] = useState(false)
-    const [newCommentRealTime, setNewCommentRealtime] = useState(false)
+    const [loading, setLoading] = useState(true);
+
+    const [postInfo, setPostInfo] = useState();
+    const [checkShowMess, setCheckShowMess] = useState(false);
+    const [message, setMessage] = useState('');
+    const [checkHaveNewComment, setCheckHaveNewComment] = useState(false);
+    const [newCommentRealTime, setNewCommentRealtime] = useState(false);
 
     const [page, setPage] = useState(1);
     const [hasMorePost, setHasMorePost] = useState(true);
@@ -29,30 +32,23 @@ function UserPostList(props) {
     const socket = useContext(SocketContext);
     useEffect(() => {
         socket.on("receiveMessageNoti", (data) => {
-            console.log(data)
-            setMessage(data)
-            setCheckShowMess(true)
+            setMessage(data);
+            setCheckShowMess(true);
 
         });
 
         socket.on('receiveMessageLike', data => {
-            console.log(data)
-            setMessage(data)
-            setCheckShowMess(true)
-
-
+            setMessage(data);
+            setCheckShowMess(true);
         })
 
         socket.on('receiveMessageShare', data => {
-            console.log(data)
-            setMessage(data)
-            setCheckShowMess(true)
-
-
+            setMessage(data);
+            setCheckShowMess(true);
         })
         socket.on('receiveCommentInfo', data => {
-            setCheckHaveNewComment(true)
-            setNewCommentRealtime(data)
+            setCheckHaveNewComment(true);
+            setNewCommentRealtime(data);
             // for(var i = 0 ; i< postInfo?.length; i++){
             //     if(postInfo[i]?._id.toString() === data.postId){
             //         console.log( "beforre",  postInfo[i]?.dataComment)
@@ -77,18 +73,18 @@ function UserPostList(props) {
         })
             .then(res => {
                 if (res.ok) {
-                    return res.json()
+                    return res.json();
                 }
             }).then(dataPost => {
                 if (dataPost.length === 0) {
                     setHasMorePost(false);
                 } else {
                     setPage(page + 1);
-                    setPostInfo([...postInfo, ...dataPost])
+                    setPostInfo([...postInfo, ...dataPost]);
                 }
 
             }).catch(err => {
-                console.error(err)
+                console.error(err);
             })
     }
 
@@ -103,13 +99,14 @@ function UserPostList(props) {
         })
             .then(res => {
                 if (res.ok) {
-                    return res.json()
+                    return res.json();
                 }
             }).then(dataPost => {
-                setPostInfo(dataPost)
+                setPostInfo(dataPost);
+                setLoading(false);
 
             }).catch(err => {
-                console.error(err)
+                console.error(err);
             })
     }, [userID])
 
@@ -135,14 +132,11 @@ function UserPostList(props) {
     useEffect(() => {
         if (checkHaveNewComment) {
             for (var i = 0; i < postInfo?.length; i++) {
-                console.log("beforre", postInfo[i]?.commentPost, postInfo[i]?._id)
                 if (postInfo[i]?._id === newCommentRealTime?.postId) {
-                    console.log("asdfsdf", postInfo[i]?.commentPost)
                     // postInfo[i].commentPost.pop()
-                    postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost]
-                    console.log("after", postInfo[i]?.commentPost)
-                    setPostInfo(postInfo)
-                    break
+                    postInfo[i].commentPost = [...[newCommentRealTime], ...postInfo[i]?.commentPost];
+                    setPostInfo(postInfo);
+                    break;
                 }
             }
         }
@@ -193,19 +187,22 @@ function UserPostList(props) {
                             <div className='mb-3'><PostBox onCreatePost={onCreatePost} currUserInfo={currUserInfo} /></div>
                         </>)
                     }
-                    <InfiniteScroll
-                        dataLength={postInfo?.length || 0} //This is important field to render the next data
-                        next={fetchDataOnScroll}
-                        hasMore={hasMorePost}
-                        loader={<p className='text-info'>Đang tải...</p>}
-                        endMessage={
-                            <p className='text-center text-info'>
-                                <b>...Hết bài viết...</b>
-                            </p>
-                        }
-                    >
-                        {listPost}
-                        {/* {postInfo && postInfo.map((item) => (
+                    {loading ?
+                        <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={96} /></div>
+                        :
+                        <InfiniteScroll
+                            dataLength={postInfo?.length || 0} //This is important field to render the next data
+                            next={fetchDataOnScroll}
+                            hasMore={hasMorePost}
+                            loader={<p className='text-info'>Đang tải...</p>}
+                            endMessage={
+                                <p className='text-center text-info'>
+                                    <b>...Hết bài viết...</b>
+                                </p>
+                            }
+                        >
+                            {listPost}
+                            {/* {postInfo && postInfo.map((item) => (
                             <div className='mb-3 mx-2'>
                                 <PostCard
                                     indexId={item._id}
@@ -215,8 +212,8 @@ function UserPostList(props) {
                                 />
                             </div>
                         ))} */}
-                    </InfiniteScroll>
-
+                        </InfiniteScroll>
+                    }
 
                 </div>
                 {(currUserInfo?._id === userID) &&

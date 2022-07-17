@@ -14,15 +14,6 @@
 
 }
 
-.menu-item-friend {
-  width: auto;
-  height: auto;
-  padding: 5px;
-  height: 28px;
-  border-radius: 10%;
-  border-bottom: 1px solid rgb(187, 187, 187);
-  color: black;
-}
 /* .personal-friend .menu-item-friend {
   width: auto;
   height: auto;
@@ -31,9 +22,7 @@
   border-radius: 10%;
   border-bottom: 1px solid rgb(187, 187, 187);
 } */
-.menu-item-friend:hover {
-  background-color: darkgrey;
-}
+
 /* .personal-friend .menu-item-friend:hover {
   background-color: darkgrey;
 } */

@@ -27,7 +27,7 @@
 }
 
 .message-box .active {
-    color: blueviolet;
+    color: #5239AC;
 }
 
 .message-box .message-user-avatar {
@@ -55,4 +55,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 256px;
+}
+.message-box .msg-hover:hover{
+    background-color: #EDF2F7;
+    border-radius: 4px;
 }

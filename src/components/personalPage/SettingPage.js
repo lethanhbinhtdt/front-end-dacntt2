@@ -106,7 +106,6 @@ function SettingPage(props) {
     }
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(phone, gender, picture)
         const formData = new FormData()
         formData.append('image', picture)
         formData.append('familyName', familyName)

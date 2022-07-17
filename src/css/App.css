@@ -45,3 +45,14 @@ input::placeholder {
 .over-y-auto{
     overflow-y: auto;
 }
+
+/* breakpoint lg of bootstrap */
+@media only screen and (max-width: 992px) {
+    .md-hide {
+        display: none;
+    }
+}
+/* blur background when show popup */
+.popup-overlay{
+    background-color: rgba(200, 200, 200, 0.4) ;
+}

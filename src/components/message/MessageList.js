@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
 
 import axios from '../../middlewares/axios';
 import { CHAT_URL } from '../../middlewares/constant';
@@ -10,6 +11,7 @@ function MessageList(props) {
     const token = getCookieToken();
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(true);
     const [conversation, setConversation] = useState();
 
     useEffect(() => {
@@ -23,6 +25,7 @@ function MessageList(props) {
             .then(res => {
                 if (res.status === 200)
                     setConversation(res.data);
+                setLoading(false)
             })
             .catch(err => {
                 console.error(err);
@@ -39,17 +42,18 @@ function MessageList(props) {
 
     return (
         <div>
-
-            {conversation &&
+            {loading ?
+                <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={48} /></div>
+                :
+                conversation &&
                 conversation.slice(0, 5).map(item => (
-                    <div key={item.conversationId._id} className='d-flex mt-2 cursor-pointer'>
+                    <div key={item.conversationId?._id} className='d-flex mt-2 p-1 cursor-pointer msg-hover'>
                         <div className='message-user-avatar'>
-                            <img alt='user avatar' src={item?.senderId?.picture} onClick={() => { chatWithOther(item?.senderId) }}></img>
+                            <img alt='user avatar' src={item.senderId?.picture} onClick={() => { chatWithOther(item.senderId) }}></img>
                         </div>
-
                         <div className='message-content w-100'>
-                            <div onClick={() => { navigateToOther(item?.senderId?._id) }}><b>{item?.senderId?.fullname}</b></div>
-                            <div className='message-content' onClick={() => { chatWithOther(item?.senderId) }}>{item?.text}</div>
+                            <div onClick={() => { navigateToOther(item.senderId?._id) }}><b>{item.senderId?.fullname}</b></div>
+                            <div className='message-content' onClick={() => { chatWithOther(item.senderId) }}>{item.text}</div>
                         </div>
                     </div>
 

@@ -13,11 +13,12 @@ import { getCookieToken } from '../../middlewares/common'
 import '../../css/PostCard.css';
 
 function PostCard(props) {
-    var dataPostInfo = props.dataPostInfo
-    const { setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment, currUserInfo } = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
+    const { dataPostInfo, setCheckShowMessage, setMess, checkHaveNewComment, setCheckHaveNewComment, currUserInfo } = props // setMess  ở đây dùng để hiển thị thông báo cho người share bài biết là bài đã share thành công hay chưa
 
     const { onDeletePost, onUpdatePost } = props
     const [commentInfo, setCommentInfo] = useState(props?.dataPostInfo?.commentPost)
+
+    const [hasMoreComment, setHasMoreComment] = useState(commentInfo?.length === 2)
     const [numberComment, setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
     const [isLiked, setIsLike] = useState(dataPostInfo ? dataPostInfo.isLikePost : false);
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
@@ -31,13 +32,11 @@ function PostCard(props) {
     // setState({...state, dataComment:}) // laays duwx lieeuj mowis gawn vao dong comemnt cu se chayj theo state dduwocj 
     // var dataCommentAferLoadMore =""
     const token = getCookieToken()
-    // console.log("dfdfdfdfdf", postId, dataPostInfo?.content, dataPostInfo?._id)
     useEffect(() => {
         setCommentInfo(dataPostInfo?.commentPost)
         setNumberComment(dataPostInfo?.commentPost?.length)
         setCheckHaveNewComment(false)
     }, [checkHaveNewComment])
-    // console.log("commentInfo", commentInfo)
     // const  postId = postInfo?._id
     const handleLikePost = () => {
         fetch(`${BASE_URL}api/post/${postId}/like`, {
@@ -75,9 +74,11 @@ function PostCard(props) {
                 }
             })
             .then(data => {
+                if (data?.length < 5)
+                    setHasMoreComment(false);
+
                 setNumberComment(numberComment + data?.length)
                 setCommentInfo([...commentInfo, ...data])
-
             })
             .catch(e => {
                 console.error(e)
@@ -151,7 +152,6 @@ function PostCard(props) {
 
         <div>
             <div className='post-card'>
-                {postId}
                 {/* Người đăng */}
                 <AuthorPost
                     currUserInfo={currUserInfo}
@@ -164,11 +164,25 @@ function PostCard(props) {
                 <ContentPost dataPostInfo={dataPostInfo} />
 
                 {/* like/comment/share */}
-                <ReactionPost handleSharePost={handleSharePost} handleLikePost={handleLikePost} isLiked={isLiked} totolLike={totolLike} setDisplayComment={setDisplayComment}/>
+                <ReactionPost 
+                    handleSharePost={handleSharePost} 
+                    handleLikePost={handleLikePost} 
+                    isLiked={isLiked} 
+                    totolLike={totolLike} 
+                    setDisplayComment={setDisplayComment} 
+                />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
-                { displayComment &&
-                    (<Comments onLoadAfterDeleteComment={onLoadAfterDeleteComment} onloadmoreComment={onloadmoreComment} dataComment={commentInfo} postId={postId} userId={userIdOfPost} />)
+                {displayComment &&
+                    (<Comments 
+                        currUserInfo={currUserInfo} 
+                        onLoadAfterDeleteComment={onLoadAfterDeleteComment} 
+                        onloadmoreComment={onloadmoreComment} 
+                        dataComment={commentInfo} 
+                        postId={postId} 
+                        userId={userIdOfPost} 
+                        hasMoreComment={hasMoreComment}
+                    />)
                 }
                 {/* modal update post */}
                 <PostModal
