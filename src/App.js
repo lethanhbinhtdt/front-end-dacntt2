@@ -1,5 +1,6 @@
-import React, { useState, useEffect, Fragment, useContext } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Helmet } from "react-helmet";
 
 import LoginPage from './components/loginPage/LoginPage';
 import HomePage from './components/homePage/HomePage';
@@ -18,13 +19,13 @@ import './css/App.css';
 // import io from "socket.io-client";
 
 // const socket = io.connect(BASE_URL);
-import {SocketContext, socket} from './middlewares/socket';
+import { SocketContext, socket } from './middlewares/socket';
 
 function App() {
   const [currUserInfo, setCurrUserInfo] = useState()
   const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("Current user information", currUserInfo)
   }, [])
 
@@ -34,20 +35,20 @@ function App() {
   //   if (userId) {
   //     socketio.emit("newUser", userId);
   //   }
-    // socketio.on("receiveMessageNoti", (data) => {
-    //   setSocketData(data)
-    //   setNumberNotiRealTime(numberNotiRealTime+1)
-    // });
-    
-    // socketio.on('receiveMessageLike', data=>{
-    //   setSocketData(data)
-    //   setNumberNotiRealTime(numberNotiRealTime+1)
-    // })
-    
-    // socketio.on('receiveMessageShare', data=>{
-    //   setSocketData(data)
-    //   setNumberNotiRealTime(numberNotiRealTime+1)
-    // })
+  // socketio.on("receiveMessageNoti", (data) => {
+  //   setSocketData(data)
+  //   setNumberNotiRealTime(numberNotiRealTime+1)
+  // });
+
+  // socketio.on('receiveMessageLike', data=>{
+  //   setSocketData(data)
+  //   setNumberNotiRealTime(numberNotiRealTime+1)
+  // })
+
+  // socketio.on('receiveMessageShare', data=>{
+  //   setSocketData(data)
+  //   setNumberNotiRealTime(numberNotiRealTime+1)
+  // })
 
   // }, [socketio, userId, numberNotiRealTime]);
 
@@ -56,34 +57,37 @@ function App() {
   }, []);
   return (
     <SocketContext.Provider value={socket}>
-    <div className='App'>
- 
-      <BrowserRouter>
-        <Fragment>
-          <div>
-            <div className='content'>
-              <Routes>
+      <div className='App'>
+        <Helmet>
+          <meta charSet='utf-8' />
+          <title>MXH TDTU</title>
+        </Helmet>
+        <BrowserRouter>
+          <Fragment>
+            <div>
+              <div className='content'>
+                <Routes>
 
-                <Route element={<PublicRoute />}>
-                  <Route path='/login' element={<LoginPage setCurrUserInfo={setCurrUserInfo}/>} />
-                </Route>
+                  <Route element={<PublicRoute />}>
+                    <Route path='/login' element={<LoginPage setCurrUserInfo={setCurrUserInfo} />} />
+                  </Route>
 
-                <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}>
-                  <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
-                  <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} numberNoti={numberNotiRealTime}/>}></Route>
-                  <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
-                  <Route path='/search/' element={<FindFriend />}> </Route>
-                  <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo}/>}> </Route>
-                </Route>
+                  <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo} />}>
+                    <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo} />} />
+                    <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} numberNoti={numberNotiRealTime} />}></Route>
+                    <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
+                    <Route path='/search/' element={<FindFriend />}> </Route>
+                    <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo} />}> </Route>
+                  </Route>
 
-                <Route path='*' element={<ErrorPage />} />
-              </Routes>
+                  <Route path='*' element={<ErrorPage />} />
+                </Routes>
+              </div>
             </div>
-          </div>
-        </Fragment>
-      </BrowserRouter>
+          </Fragment>
+        </BrowserRouter>
 
-    </div>
+      </div>
     </SocketContext.Provider>
   );
 }
