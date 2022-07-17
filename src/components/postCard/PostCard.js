@@ -152,7 +152,6 @@ function PostCard(props) {
 
         <div>
             <div className='post-card'>
-                {postId}
                 {/* Người đăng */}
                 <AuthorPost
                     currUserInfo={currUserInfo}
