@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8080/' // port api
+const BASE_URL = 'https://social-network-backend-tdt.herokuapp.com/' // port api
 const LOGIN_URL = 'api/account/login'
 const OAUTH2_URL = 'api/account/oauth2'
 const POST_URL = 'api/post'
