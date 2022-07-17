@@ -70,7 +70,7 @@ function NavBar(props) {
 
                     <form className='d-flex rounded-pill px-3 search-bar' onSubmit={findFriend}>
                         {/* <FontAwesomeIcon icon={faSearch} className='mx-3 my-auto'/> */}
-                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm...' onChange={(e) => { setNameUserFind(e.target.value) }}></input>
+                        <input type='text' className='search-input py-2' placeholder='Tìm kiếm bạn bè...' onChange={(e) => { setNameUserFind(e.target.value) }}></input>
                         <button type="submit" className="btn"><FontAwesomeIcon icon={faSearch} className='my-auto' /></button>
                     </form>
 

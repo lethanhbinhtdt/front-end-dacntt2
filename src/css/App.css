@@ -52,3 +52,7 @@ input::placeholder {
         display: none;
     }
 }
+/* blur background when show popup */
+.popup-overlay{
+    background-color: rgba(200, 200, 200, 0.4) ;
+}

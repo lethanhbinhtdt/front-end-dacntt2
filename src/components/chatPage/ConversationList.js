@@ -38,13 +38,14 @@ function ConversationList(props) {
                             src={item?.senderId?.picture}
                             alt='Avatar user'>
                         </img>
+                        { console.log(item.senderId)}
                         <div className='title-item flex-column ms-2 text-start'>
                             <Link to={`/personal/${item?.senderId?._id}/post/`} className='user-name'>
                                 {item?.senderId?.fullname}
                             </Link>
                             {/* TODO check online?text-success: text-secondary*/}
                             <div className='text-secondary fs-small'>
-                                {item?.senderId?.isOnline? <div className='text-success'>Đang hoạt động</div>:  <div className='text-secondary'>Hoạt động 1 giờ trước</div> }
+                                {item?.senderId?.isOnline? <div className='text-success'>Đang hoạt động</div>:  <div className='text-secondary'>Đang ngoại tuyến</div> }
                                
                             </div>
                         </div>

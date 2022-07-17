@@ -72,7 +72,6 @@ function App() {
                   <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo}/>} />
                   <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} numberNoti={numberNotiRealTime}/>}></Route>
                   <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
-                  <Route path='/friendrequests/' element={<FriendRequestList />}> </Route>
                   <Route path='/search/' element={<FindFriend />}> </Route>
                   <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo}/>}> </Route>
                 </Route>

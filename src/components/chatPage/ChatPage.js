@@ -23,7 +23,6 @@ function ChatPage(props) {
     // mỗi lần click vào 1 cuộc trò chuyện nào đó thì sẽ set conversationId click qua cuộc trò chuyện khác thì sẽ thay đổi conversatioID ứng với từng cái 
 
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
-
     useEffect(() => {
         if (otherUser?._id) {
             const id = otherUser._id
@@ -84,7 +83,10 @@ function ChatPage(props) {
                                     {/* TODO: online?success:secondary */}
                                     <div className='text-secondary fs-small'>
                                         {/* <div className='text-success'>Đang hoạt động</div> */}
-                                        <div className='text-secondary'>Hoạt động 1 giờ trước</div>
+                                        {chatWithUser.isOnline ?
+                                            <div className='text-success'>Đang hoạt động</div>
+                                            :
+                                            <div className='text-secondary'>Đang ngoại tuyến</div>}
                                     </div>
                                 </div>
                             </div>

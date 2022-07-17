@@ -128,8 +128,8 @@ function NotificationList(props) {
                         <div className='fs-smaller text-secondary'>{now - noifiInfos[i]?.createdAt} giờ trước</div>
                     </div>
                     <div className='notification-button'>
-                        {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} /></div>}
-                        <div><FontAwesomeIcon icon={faX} color='red' /></div>
+                        {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} className='p-2 cursor-pointer'/></div>}
+                        {/* <div><FontAwesomeIcon icon={faX} color='red' /></div> */}
                     </div>
 
 
