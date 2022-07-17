@@ -44,7 +44,11 @@ function SideBar(props) {
     }
 
     useEffect(() => {
-        setNumberNotiNotChecked(numberNotiNotChecked + 1)
+        if(numberNotification !== 0){
+            setNumberNotiNotChecked(numberNotiNotChecked + 1)
+        }
+
+
 
     }, [numberNotification]);
 
@@ -67,7 +71,7 @@ function SideBar(props) {
                     setlenNotification(notification?.length)
                     var numberNotCheck = 0
                     for (var i = 0; i <= notification?.length; i++) {
-                        if (!notification[i]?.isChecked) {
+                        if (notification[i]?.isChecked === false) {
                             numberNotCheck = numberNotCheck + 1
                         }
                     }
@@ -99,7 +103,7 @@ function SideBar(props) {
                 setlenNotification(lenNotification + notification.length)// length này dùng để fetch lấy thêm dữ liệu 
                 var numberNotCheck = 0
                 for (var i = 0; i <= notification?.length; i++) {
-                    if (!notification[i]?.isChecked) {
+                    if (notification[i]?.isChecked === false) {
                         numberNotCheck = numberNotCheck + 1
                     }
                 }
@@ -161,7 +165,8 @@ function SideBar(props) {
 
                 {/* tin nhắn */}
                 <div className='menu-item' id='message-notifications' onClick={() => { navigate('/chat', { replace: true }); }}>
-                    <FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'>3</small><div className='md-hide sidebar-title'>Tin nhắn</div>
+                    {/* <FontAwesomeIcon icon={faEnvelope} /> <small className='notification-count'></small><div className='md-hide sidebar-title'>Tin nhắn</div> */}
+                    <FontAwesomeIcon icon={faEnvelope} /><div className='md-hide sidebar-title'>Tin nhắn</div>
                 </div>
 
                 {/* cài đặt */}
