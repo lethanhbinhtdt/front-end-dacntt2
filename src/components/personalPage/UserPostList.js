@@ -76,7 +76,7 @@ function UserPostList(props) {
                     return res.json();
                 }
             }).then(dataPost => {
-                if (dataPost.length === 0) {
+                if (dataPost?.length < 5) {
                     setHasMorePost(false);
                 } else {
                     setPage(page + 1);
@@ -102,6 +102,8 @@ function UserPostList(props) {
                     return res.json();
                 }
             }).then(dataPost => {
+                if (dataPost?.length < 5)
+                    setHasMorePost(false)
                 setPostInfo(dataPost);
                 setLoading(false);
 
@@ -155,7 +157,7 @@ function UserPostList(props) {
     }, [checkShowMess]);
 
     var listPost = []
-    for (let i = 0; i <= postInfo?.length; i++) {
+    for (let i = 0; i < postInfo?.length; i++) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>

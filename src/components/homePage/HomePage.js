@@ -46,7 +46,7 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                if (dataPost.length === 0) {
+                if (dataPost?.length < 5) {
                     setHasMorePost(false);
                 } else {
                     setPage(page + 1);
@@ -125,6 +125,9 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
+                if (dataPost.length < 5) 
+                    setHasMorePost(false);
+                
                 setPostInfo(dataPost)
                 setLoading(false)
 

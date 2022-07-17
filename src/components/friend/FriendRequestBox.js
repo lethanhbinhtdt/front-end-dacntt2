@@ -32,7 +32,7 @@ function FriendRequestBox(props) {
                 }
             })
             .then(data => {
-                if (data.length > 0)
+                if (data?.length > 0)
                     setFriendRequest(data)
             })
             .catch(err => {
