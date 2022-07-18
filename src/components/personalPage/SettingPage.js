@@ -1,34 +1,40 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 import { Form } from 'react-bootstrap';
 import { Alert } from 'react-bootstrap';
+import axios from '../../middlewares/axios';
 
 import PasswordModal from './PasswordModal';
 
-import axios from '../../middlewares/axios';
-
 function SettingPage(props) {
-    const [currUserInfo, setCurrUserInfo] = useState('')
+    const { currUserInfo, setCurrUserInfo } = props;
 
-    const [familyName, setFamalyName] = useState('')
-    const [givenName, setGivenName] = useState('')
-    const [username, setUsername] = useState('')
-    const [className, setClassName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [info, setInfo] = useState()
-    const [gender, setGender] = useState('')
-    const [picture, setPicture] = useState('')
-    const [faculty, setFaculty] = useState('')
-    const [biography, setBiography] = useState('')
-    const [backgrounPicture, setBackgroundPicture] = useState('')
-    const [birthday, setBirthday] = useState('')
-    const [imageChoosen, setImageChoosen] = useState('')
-    const [backgroundImageChoosen, setBackgroundImageChoosen] = useState('')
+    const [loading, setLoading] = useState(false);
+
+    const [familyName, setFamalyName] = useState(currUserInfo?.familyName)
+    const [givenName, setGivenName] = useState(currUserInfo?.givenName)
+    const [username, setUsername] = useState(currUserInfo?.username)
+    const [className, setClassName] = useState(currUserInfo?.className)
+    const [phone, setPhone] = useState(currUserInfo?.phone)
+    const [gender, setGender] = useState(currUserInfo?.gender)
+    const [picture, setPicture] = useState(currUserInfo?.picture)
+    const [faculty, setFaculty] = useState(currUserInfo?.faculty)
+    const [biography, setBiography] = useState(currUserInfo?.biography)
+    const [backgrounPicture, setBackgroundPicture] = useState(currUserInfo?.backgroundPicture)
+    const [birthday, setBirthday] = useState(currUserInfo?.birthday)
+
+    const [imageChoosen, setImageChoosen] = useState(currUserInfo?.picture)
+    const [backgroundImageChoosen, setBackgroundImageChoosen] = useState(currUserInfo?.backgroundPicture)
+
     const [message, setMessage] = useState('')
     const [checkShowMess, setCheckShowMess] = useState(false)
+
+    // formData.append('image', picture)
     // function handleChange(e) {
     //     // console.log(e.target.value)
     //     setGender(e.target.value)
@@ -36,41 +42,6 @@ function SettingPage(props) {
     let { id } = useParams();
     const token = getCookieToken()
 
-    useEffect(() => {
-        fetch(`${BASE_URL}api/profile/${id}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-                // body: JSON.stringify(yourNewData)
-            }
-
-        )
-            .then((res) => {
-                if (res.ok) {
-                    return res.json()
-                }
-            })
-            .then((data) => {
-                setCurrUserInfo(data)
-                setGender(data?.gender ? data?.gender : 'Nam')
-                setFaculty(data?.faculty ? data?.faculty : 'Công nghệ thông tin')
-                setClassName(data?.className ? data?.className : '')
-                setFamalyName(data?.familyName ? data?.familyName : '')
-                setGivenName(data?.givenName ? data?.givenName : '')
-                setUsername(data?.username ? data?.username : '')
-                setImageChoosen(data?.picture ? data?.picture : '')
-                setBackgroundImageChoosen(data?.backgroundPicture ? data?.backgroundPicture : '')
-                setBiography(data?.biography ? data?.biography : '')
-                setBirthday(data?.birthday ? data?.birthday : '')
-                setPhone(data?.phone ? data?.phone : '')
-            })
-            .catch(err => {
-                console.error(err)
-            })
-    }, [])
 
     function onchanePhone(e) {
         setPhone(e.target.value)
@@ -106,19 +77,20 @@ function SettingPage(props) {
     }
     function handleSubmit(e) {
         e.preventDefault()
+        setLoading(true)
+
         const formData = new FormData()
         formData.append('image', picture)
         formData.append('familyName', familyName)
         formData.append('givenName', givenName)
-        formData.append('username', username)
         formData.append('biography', biography)
         formData.append('className', className)
         formData.append('phone', phone)
         formData.append('gender', gender)
         formData.append('faculty', faculty)
         formData.append('backgroundPicture', backgrounPicture)
-
         formData.append('birthday', birthday)
+
         axios.put(`${BASE_URL}api/account/${id}`, formData,
             {
 
@@ -134,6 +106,7 @@ function SettingPage(props) {
         )
             .then(res => {
                 if (res.status === 200) {
+                    setCurrUserInfo(res.data)
                     setMessage('Cập nhật thông tin thành công')
                     setCheckShowMess(true)
                 }
@@ -141,11 +114,13 @@ function SettingPage(props) {
                     setMessage('Có lỗi xảy ra')
                     setCheckShowMess(true)
                 }
+                setLoading(false)
             })
             .catch(err => {
                 setMessage('Có lỗi xảy ra')
                 setCheckShowMess(true)
                 console.error(err)
+                setLoading(false)
             })
 
 
@@ -157,6 +132,7 @@ function SettingPage(props) {
             }, 3000);
         }
     }, [checkShowMess]);
+
     return (
         <main className='container p-0'>
 
@@ -164,18 +140,20 @@ function SettingPage(props) {
                 {/* <!--icon bar--> */}
 
                 <div className='row mt-3'>
-                    <div className='col-md-9 col-xl-10'>
+                    <div className='col-md-2'></div>
+                    <div className='col-md-8'>
+
                         <div className='tab-pane' id='account'>
                             {/* <!--Phần setting tài khoàn public info--> */}
-                            <div className='card'>
+                            <div className='card my-box-shadow'>
                                 <div className='card-header d-flex justify-content-between'>
                                     <h5 className='card-titl my-auto'>Thông tin cá nhân</h5>
                                     <div>
-                                        <PasswordModal currUserInfo={currUserInfo} setMessage={setMessage} setCheckShowMess={setCheckShowMess}/>
+                                        <PasswordModal currUserInfo={currUserInfo} setMessage={setMessage} setCheckShowMess={setCheckShowMess} />
                                     </div>
                                 </div>
                                 <div className='card-body'>
-
+                                    <div className='w-50'><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
                                     {/* <Form action='/changeProfile1' method='post' encType='multipart/form-data'> */}
                                     <Form onSubmit={handleSubmit}>
                                         <div className='row'>
@@ -263,8 +241,11 @@ function SettingPage(props) {
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <button type='Submit' className='btn btn-primary mt-2 px-3'>Cập nhật</button>
+                                        {loading ?
+                                            <div className='mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={48} /></div>
+                                            :
+                                            <button type='Submit' className='btn btn-primary mt-2 px-3'>Cập nhật</button>
+                                        }
                                     </Form>
 
                                 </div>
@@ -275,9 +256,7 @@ function SettingPage(props) {
 
 
                     </div>
-                    <div className='col-md-3 col-xl-2'>
-                        <div><Alert show={checkShowMess} variant='primary'>{message}</Alert></div>
-                    </div>
+                    <div className='col-md-2'></div>
                 </div>
 
             </div>

@@ -15,7 +15,7 @@ function ChatBox(props) {
     const navigate = useNavigate();
 
     return (
-        <div className='message-box p-3'>
+        <div className='message-box p-3 my-box-shadow'>
             <div className='d-flex justify-content-between mb-3'>
                 <b className='title'>Trò chuyện</b>
                 <div className='cursor-pointer'><FontAwesomeIcon icon={faPenToSquare} /></div>

@@ -123,11 +123,8 @@ function PostCard(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                console.log(dataPost['description'])
                 setCheckShowMessage(true)
                 setMess(dataPost['description'])
-
-
             })
             .catch(err => {
                 console.error(err)
@@ -151,7 +148,7 @@ function PostCard(props) {
     return (
 
         <div>
-            <div className='post-card'>
+            <div className='post-card my-box-shadow'>
                 {/* Người đăng */}
                 <AuthorPost
                     currUserInfo={currUserInfo}
