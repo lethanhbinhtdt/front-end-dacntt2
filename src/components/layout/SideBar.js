@@ -125,12 +125,12 @@ function SideBar(props) {
 
     return (
         <div className='sidebar cursor-pointer'>
-            <div className='d-flex flex-row mb-3 c-border px-3 py-2 user-info' onClick={() => navigateToOther(currUserInfo?._id)}>
+            <div className='d-flex flex-row mb-3 c-border px-3 py-2 user-info my-box-shadow' onClick={() => navigateToOther(currUserInfo?._id)}>
                 <img src={currUserInfo?.picture} className='rounded-circle sidebar-avatar' alt='avatar'></img>
                 <div className='fw-bold my-auto md-hide ms-3'> {currUserInfo?.familyName.split(' ').slice(-1)}</div>
             </div>
 
-            <div className='c-border menu'>
+            <div className='c-border menu my-box-shadow'>
                 {/* trang chủ */}
                 <div className={activeItem ? 'menu-item' : 'menu-item active'}>
                     <FontAwesomeIcon icon={faHouse} /><div className='md-hide sidebar-title'>Trang chủ</div>
@@ -139,7 +139,7 @@ function SideBar(props) {
                 {/* thông báo */}
 
                 {loadingNoti ?
-                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loadingNoti={loadingNoti} size={48} /></div>
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loadingNoti={loadingNoti} size={32} /></div>
                     :
                     <Popup
                         trigger={

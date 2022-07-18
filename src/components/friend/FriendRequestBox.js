@@ -85,7 +85,6 @@ function FriendRequestBox(props) {
                 }
             })
             .then(data => {
-                console.log(data)
                 setFriendRequest(oldList => oldList.filter(item => item._id !== data._id));
                 setMess('Đã từ chối kết bạn')
                 setCheckShowMessage(true)
@@ -103,7 +102,7 @@ function FriendRequestBox(props) {
             {friendRequest?.length > 0 ?
 
                 friendRequest.map(item => (
-                    <div key={item._id} className='request-card py-2 mt-2' >
+                    <div key={item._id} className='request-card py-2 mt-2 my-box-shadow' >
                         {/* <div  className='request-card py-2 mt-2' > */}
                         <div className='d-flex mb-2 cursor-pointer' onClick={() => navigateToOther(item.userRequest?._id)}>
                             <div className='user-avatar'>
@@ -122,7 +121,7 @@ function FriendRequestBox(props) {
                     </div>
                 ))
                 :
-                <div className='request-card py-2 mt-2'>
+                <div className='request-card py-2 mt-2 my-box-shadow'>
                     <div className='d-flex mb-2'>
                         <div>
                             <div><b>Chưa có lời mời kết bạn nào</b></div>
