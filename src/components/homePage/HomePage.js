@@ -46,7 +46,7 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                if (dataPost.length === 0) {
+                if (dataPost?.length < 5) {
                     setHasMorePost(false);
                 } else {
                     setPage(page + 1);
@@ -125,6 +125,9 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
+                if (dataPost.length < 5) 
+                    setHasMorePost(false);
+                
                 setPostInfo(dataPost)
                 setLoading(false)
 
@@ -168,7 +171,7 @@ function HomePage(props) {
         socket.emit('joinRoom', postInfo[i]?._id)
         listPost.push(
             // <div className='mb-3 mx-2'><PostCard dataPostInfo={postInfo[i]} /></div>
-            <div className='mb-3 mx-2'>
+            <div className='mt-3 mx-2'>
                 <PostCard key={postInfo[i]?._id} // một số bài không hiển thị được id mặc dù có id, thêm key vào để hiển thị id
                     currUserInfo={currUserInfo}
                     setMess={setMessage}

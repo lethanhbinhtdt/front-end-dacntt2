@@ -19,7 +19,6 @@ function NotificationList(props) {
 
 
     const fetchMoreData = () => {
-        console.log(lenNotification)
         fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
             method: 'GET',
             headers: {

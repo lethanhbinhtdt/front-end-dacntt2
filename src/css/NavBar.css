@@ -6,7 +6,7 @@
 
 .navbar .search-bar {
     background-color: #EDF2F7;
-    border: none;
+    border: rgb(202, 202, 202) .5px solid;
 }
 
 .navbar .search-input {

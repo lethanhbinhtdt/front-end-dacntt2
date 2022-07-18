@@ -71,7 +71,7 @@ function Friend(props) {
             })
 
     }
-    if (friendInfo?.length == 0) {
+    if (friendInfo?.length === 0) {
         listRow.push(<div className='text-secondary fs-4'>Bạn chưa có người bạn nào, hãy kết bạn thêm nhé</div>)
     }
     else {

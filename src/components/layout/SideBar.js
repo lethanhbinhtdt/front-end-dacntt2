@@ -44,7 +44,7 @@ function SideBar(props) {
     }
 
     useEffect(() => {
-        if(numberNotification !== 0){
+        if (numberNotification !== 0) {
             setNumberNotiNotChecked(numberNotiNotChecked + 1)
         }
 
@@ -54,35 +54,35 @@ function SideBar(props) {
 
 
     useEffect(() => { // chỗ này để mới vào nó fetch để lấy ra dữ liệu cho số lượng noti
-        {
-            fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-                .then(res => {
-                    if (res.ok) {
-                        return res.json()
-                    }
-                }).then(notification => {
-                    setNotificationInfo(notification)
-                    setlenNotification(notification?.length)
-                    var numberNotCheck = 0
-                    for (var i = 0; i <= notification?.length; i++) {
-                        if (notification[i]?.isChecked === false) {
-                            numberNotCheck = numberNotCheck + 1
-                        }
-                    }
-                    setNumberNotiNotChecked(numberNotCheck)
-                    setLoadingNoti(false)
 
-                })
-                .catch(err => {
-                    console.error(err)
-                })
-        }
+        fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
+            method: 'GET',
+            headers: {
+                'Content-type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(res => {
+                if (res.ok) {
+                    return res.json()
+                }
+            }).then(notification => {
+                setNotificationInfo(notification)
+                setlenNotification(notification?.length)
+                var numberNotCheck = 0
+                for (var i = 0; i <= notification?.length; i++) {
+                    if (notification[i]?.isChecked === false) {
+                        numberNotCheck = numberNotCheck + 1
+                    }
+                }
+                setNumberNotiNotChecked(numberNotCheck)
+                setLoadingNoti(false)
+
+            })
+            .catch(err => {
+                console.error(err)
+            })
+
     }, [])
 
     const showNoti = () => {
@@ -125,12 +125,12 @@ function SideBar(props) {
 
     return (
         <div className='sidebar cursor-pointer'>
-            <div className='d-flex flex-row mb-3 c-border px-3 py-2 user-info' onClick={() => navigateToOther(currUserInfo?._id)}>
+            <div className='d-flex flex-row mb-3 c-border px-3 py-2 user-info my-box-shadow' onClick={() => navigateToOther(currUserInfo?._id)}>
                 <img src={currUserInfo?.picture} className='rounded-circle sidebar-avatar' alt='avatar'></img>
-                <div className='fw-bold my-auto md-hide ms-3'> {currUserInfo?.fullname}</div>
+                <div className='fw-bold my-auto md-hide ms-3'> {currUserInfo?.familyName.split(' ').slice(-1)}</div>
             </div>
 
-            <div className='c-border menu'>
+            <div className='c-border menu my-box-shadow'>
                 {/* trang chủ */}
                 <div className={activeItem ? 'menu-item' : 'menu-item active'}>
                     <FontAwesomeIcon icon={faHouse} /><div className='md-hide sidebar-title'>Trang chủ</div>
@@ -139,7 +139,7 @@ function SideBar(props) {
                 {/* thông báo */}
 
                 {loadingNoti ?
-                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loadingNoti={loadingNoti} size={48} /></div>
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loadingNoti={loadingNoti} size={32} /></div>
                     :
                     <Popup
                         trigger={
@@ -151,13 +151,13 @@ function SideBar(props) {
                         onClose={resetActive}
                         position='right center'
                     >
-                        <NotificationList 
-                            loadingNotiList={loadingNotiList} 
-                            setNotificationInfo={setNotificationInfo} 
-                            lenNotification={lenNotification} 
-                            noifiInfos={notificationInfos} 
-                            numberNotiNotChecked={numberNotiNotChecked} 
-                            setNumberNotiNotChecked={setNumberNotiNotChecked} 
+                        <NotificationList
+                            loadingNotiList={loadingNotiList}
+                            setNotificationInfo={setNotificationInfo}
+                            lenNotification={lenNotification}
+                            noifiInfos={notificationInfos}
+                            numberNotiNotChecked={numberNotiNotChecked}
+                            setNumberNotiNotChecked={setNumberNotiNotChecked}
                         />
 
                     </Popup>

@@ -75,7 +75,7 @@ function App() {
                   <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo} />}>
                     <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo} />} />
                     <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} numberNoti={numberNotiRealTime} />}></Route>
-                    <Route path='/account/:id/setting' element={<SettingPage />}> </Route>
+                    <Route path='/account/:id/setting' element={<SettingPage currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}> </Route>
                     <Route path='/search/' element={<FindFriend />}> </Route>
                     <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo} />}> </Route>
                   </Route>

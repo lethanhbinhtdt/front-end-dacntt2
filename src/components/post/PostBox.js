@@ -9,7 +9,7 @@ function PostBox(props) {
     const { onCreatePost, currUserInfo } = props
     const [openModal, setOpenModal] = useState(false);
     return (
-        <div className='post-box'>
+        <div className='post-box my-box-shadow'>
             <div className='d-flex'>
                 <div className='user-avatar'>
                     <img alt='user avatar' src={currUserInfo?.picture}></img>

@@ -70,7 +70,7 @@ function ChatList(props) {
     }
     const handleSendMessage = (e) => {
         e.preventDefault();
-        if (message.length > 0) {
+        if (message?.length > 0) {
             fetch(`${BASE_URL}api/message`,
                 {
                     method: 'POST',
