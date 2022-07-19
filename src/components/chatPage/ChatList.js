@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState, useContext, useRef } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
@@ -39,6 +40,7 @@ function ChatList(props) {
     }, [checkHaveNewMessage])
 
     useEffect(() => {
+        setLoading(true)
         if (conversationId) {
             fetch(`${BASE_URL}api/conversation/${conversationId}/message`, {
                 method: 'GET',
@@ -52,6 +54,7 @@ function ChatList(props) {
                     if (res.ok) {
                         return res.json()
                     }
+                    setLoading(false)
                 })
                 .then(messData => {
                     setMess(messData)

@@ -7,7 +7,6 @@ import HomePage from './components/homePage/HomePage';
 import PersonalPage from './components/personalPage/PersonalPage';
 import ErrorPage from './components/ErrorPage';
 import SettingPage from './components/personalPage/SettingPage';
-import FriendRequestList from './components/friend/FriendRequestList'
 import FindFriend from './components/friend/FindFriend';
 import PublicRoute from './middlewares/PublicRoute';
 import PrivateRoute from './middlewares/PrivateRoute';
@@ -23,11 +22,10 @@ import { SocketContext, socket } from './middlewares/socket';
 
 function App() {
   const [currUserInfo, setCurrUserInfo] = useState()
-  const [numberNotiRealTime, setNumberNotiRealTime] = useState(0)
 
   useEffect(() => {
     console.log("Current user information", currUserInfo)
-  }, [])
+  }, [currUserInfo])
 
   // const socketio = useContext(SocketContext);
 
@@ -73,8 +71,8 @@ function App() {
                   </Route>
 
                   <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo} />}>
-                    <Route path='/' element={<HomePage numberNoti={numberNotiRealTime} currUserInfo={currUserInfo} />} />
-                    <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} numberNoti={numberNotiRealTime} />}></Route>
+                    <Route path='/' element={<HomePage currUserInfo={currUserInfo} />} />
+                    <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} />}></Route>
                     <Route path='/account/:id/setting' element={<SettingPage currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}> </Route>
                     <Route path='/search/' element={<FindFriend />}> </Route>
                     <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo} />}> </Route>

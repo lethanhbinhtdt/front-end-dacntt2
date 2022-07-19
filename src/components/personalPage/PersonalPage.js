@@ -2,10 +2,10 @@ import React from 'react';
 import PersonalInfor from './PersonalInfor'
 
 function PersonalPage(props) {
-    const { numberNoti, setNumberNotiRealTime, currUserInfo } = props
+    const { currUserInfo } = props
     return (
         <div>
-          <PersonalInfor currUserInfo={currUserInfo} numberNoti={numberNoti}/>
+          <PersonalInfor currUserInfo={currUserInfo}/>
         </div>
     );
 }

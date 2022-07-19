@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect, useContext } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { BASE_URL, POST_URL } from '../../middlewares/constant';
+import { BASE_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
 
 import PostCard from '../postCard/PostCard';
@@ -147,7 +149,7 @@ function HomePage(props) {
 
     const onUpdatePost = (newPost) => {
         const newItems = postInfo.map(post => {
-            if (newPost._id == post._id) {
+            if (newPost._id === post._id) {
                 return { ...post, content: newPost.content, image: newPost.image, video: newPost.video };
             }
             return post;
