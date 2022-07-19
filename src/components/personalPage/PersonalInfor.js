@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, Link, useLocation, useParams, useNavigate } from 'react-router-dom';
+import { Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
 
 import { BASE_URL, CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common'
@@ -8,9 +8,6 @@ import axios from '../../middlewares/axios';
 import Friend from './Friend'
 import Infor from './Infor'
 import UserPostList from './UserPostList';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 
 import '../../css/PersonalInfor.css';
 

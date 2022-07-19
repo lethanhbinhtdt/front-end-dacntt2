@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { BASE_URL } from '../../middlewares/constant';
-import { getCookieToken } from '../../middlewares/common'
+import { BASE_URL, CHAT_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common';
+import axios from '../../middlewares/axios';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 
 import ConversationList from './ConversationList';
 import ChatList from './ChatList';
-import '../../css/ChatPage.css'
+import ModalListFriend from '../friend/ModalListFriend';
+
+import '../../css/ChatPage.css';
 
 function ChatPage(props) {
     const { currUserInfo } = props
@@ -21,11 +23,11 @@ function ChatPage(props) {
 
     const [conversationId, setConversationId] = useState('')
     // mỗi lần click vào 1 cuộc trò chuyện nào đó thì sẽ set conversationId click qua cuộc trò chuyện khác thì sẽ thay đổi conversatioID ứng với từng cái 
-
     const [chatWithUser, setChatWithUser] = useState(otherUser ? otherUser : '') // người đang nhắn tin cùng
+    
     useEffect(() => {
-        if (otherUser?._id) {
-            const id = otherUser._id
+        if (chatWithUser) {
+            const id = chatWithUser._id
             fetch(`${BASE_URL}api/conversation/${id}`,
                 {
                     method: 'GET',
@@ -34,7 +36,6 @@ function ChatPage(props) {
                         'Authorization': `Bearer ${token}`
                     }
                 }
-
             )
                 .then((res) => {
                     if (res.ok) {
@@ -42,17 +43,35 @@ function ChatPage(props) {
                     }
                 })
                 .then(data => {
-                    setConversationId(data._id)
+                    if(data?.length>0)
+                        return setConversationId(data._id)
+                    return createConversation(id)
+                    
                 })
                 .catch(err => {
                     console.error(err)
                 })
         }
-    }, [])
+    }, [chatWithUser])
 
     const handleChatWithOther = (user, conversationId) => {
         setChatWithUser(user);
         setConversationId(conversationId)
+    }
+
+    const createConversation = async (receiverId) => {
+        try {
+            const response = await axios.post(CHAT_URL, JSON.stringify({ receiverId: receiverId }),
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+            setConversationId(response?.data?._id);
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     return (
@@ -63,7 +82,8 @@ function ChatPage(props) {
                 <div className='first-box d-flex justify-content-between'>
                     <div></div>
                     <div className='title-item'>{currUserInfo?.fullname}</div>
-                    <div className='title-item cursor-pointer'><FontAwesomeIcon icon={faPenToSquare} /></div>
+                    <div className='my-auto'><ModalListFriend currUserInfo={currUserInfo}  setChatWithUser={setChatWithUser}/></div>
+                    
                 </div>
 
                 {/* Box2 thông tin other user */}

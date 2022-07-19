@@ -1,10 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons'
-
 import MessageList from './MessageList';
+import ModalListFriend from '../friend/ModalListFriend';
 
 import '../../css/ChatBox.css'
 
@@ -15,9 +13,9 @@ function ChatBox(props) {
 
     return (
         <div className='message-box p-3 my-box-shadow'>
-            <div className='d-flex justify-content-between mb-3'>
+            <div className='d-flex justify-content-between mb-1'>
                 <b className='title'>Trò chuyện</b>
-                <div className='cursor-pointer'><FontAwesomeIcon icon={faPenToSquare} /></div>
+                <ModalListFriend currUserInfo={currUserInfo} popupPosition={'bottom right'}/>
             </div>
 
             {/* <div className='mb-2'>
@@ -38,6 +36,7 @@ function ChatBox(props) {
             <div>
                 <MessageList currUserInfo={currUserInfo} />
             </div>
+
 
         </div>
     );

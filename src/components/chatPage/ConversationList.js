@@ -6,7 +6,7 @@ import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
 
 function ConversationList(props) {
-    const { currUserInfo, handleChatWithOther, chatWithUser } = props;
+    const { handleChatWithOther, chatWithUser } = props;
     const token = getCookieToken();
     const [conversation, setConversation] = useState();
 
@@ -33,20 +33,20 @@ function ConversationList(props) {
             {conversation &&
                 conversation.map(item => (
                     // hiển thị member có id khác currUserInfo
-                    <div key={item?.conversationId._id} className={chatWithUser?._id === item?.senderId?._id ? 'friend-info active-chat' : 'friend-info'} onClick={() => handleChatWithOther(item.senderId, item.conversationId._id)}>
+                    <div 
+                        key={item?.conversationId._id} 
+                        className={chatWithUser?._id === item?.senderId?._id ? 'friend-info active-chat' : 'friend-info'} 
+                        onClick={() => handleChatWithOther(item.senderId, item.conversationId._id)}
+                    >
                         <img className='title-item user-img rounded-circle'
                             src={item?.senderId?.picture}
                             alt='Avatar user'>
                         </img>
-                        { console.log(item.senderId)}
                         <div className='title-item flex-column ms-2 text-start'>
-                            <Link to={`/personal/${item?.senderId?._id}/post/`} className='user-name'>
-                                {item?.senderId?.fullname}
-                            </Link>
+                            <div>{item?.senderId?.fullname}</div>
                             {/* TODO check online?text-success: text-secondary*/}
                             <div className='text-secondary fs-small'>
                                 {item?.senderId?.isOnline? <div className='text-success'>Đang hoạt động</div>:  <div className='text-secondary'>Đang ngoại tuyến</div> }
-                               
                             </div>
                         </div>
                     </div>
