@@ -60,3 +60,8 @@ input::placeholder {
 .my-box-shadow {
     box-shadow: 0 0 8px hsl(0, 0%, 85%);
 }
+
+
+.svg-20 svg {
+    font-size: 20px;
+}

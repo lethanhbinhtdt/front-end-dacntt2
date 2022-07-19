@@ -2,13 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import axios from '../../middlewares/axios';
 import { CHAT_URL } from '../../middlewares/constant';
 import { getCookieToken } from '../../middlewares/common';
 import { BASE_URL } from '../../middlewares/constant';
 
 function MessageList(props) {
-    const { currUserInfo } = props;
     const token = getCookieToken();
     const navigate = useNavigate();
 

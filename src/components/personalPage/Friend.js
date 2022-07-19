@@ -1,11 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/fontawesome-free-solid';
 import { getCookieToken } from '../../middlewares/common'
 import { BASE_URL } from '../../middlewares/constant';
-import { Dropdown, IconButton } from 'rsuite';
 import Popup from 'reactjs-popup';
 
 import '../../css/Friend.css';
@@ -113,9 +113,9 @@ function Friend(props) {
             )
         }
         for (var index = 0; index < listFriend?.length; index++) {
-            if (index % 2 == 0) {
+            if (index % 2 === 0) {
                 var firstColumn = listFriend[index]
-                if (index == listFriend?.length - 1) {
+                if (index === listFriend?.length - 1) {
                     listRow.push(
                         <div className='row'>
                             <div className='d-flex justify-content-center'>

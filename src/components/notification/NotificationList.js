@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useEffect, useState } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -8,8 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck, faX } from '@fortawesome/free-solid-svg-icons'
 
 function NotificationList(props) {
-    const { noifiInfos, loadingNotiList, setNoifiInfo, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
-    const [backgroundColor, setBackgroundColor] = useState(noifiInfos?.isChecked ? 'd-flex mb-2' : 'd-flex mb-2 background-noti')
+    const { noifiInfos, loadingNotiList, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
     const [isChangeStatusNoti, setIsChangeStatusNoti] = useState(false)
     const [hasMorePost, setHasMorePost] = useState(true);
     const now = new Date();
@@ -73,7 +74,7 @@ function NotificationList(props) {
             }).then(notification => {
 
                 for (var i = 0; i <= noifiInfos?.length; i++) {
-                    if (noifiInfos[i]?._id == notification?._id) {
+                    if (noifiInfos[i]?._id === notification?._id) {
                         noifiInfos[i] = notification
                         setIsChangeStatusNoti(true)
                         setNumberNotiNotChecked(numberNotiNotChecked - 1)
