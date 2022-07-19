@@ -110,7 +110,7 @@ function ChatPage(props) {
                                     </div>
                                 </div>
                             </div>
-                            <div className='title-item cursor-pointer text-secondary'><FontAwesomeIcon icon={faCircleInfo} /></div>
+                            {/* <div className='title-item cursor-pointer text-secondary'><FontAwesomeIcon icon={faCircleInfo} /></div> */}
                         </>
                     }
 
