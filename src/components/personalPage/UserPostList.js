@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import React, { useState, useEffect, useContext } from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 
-import { BASE_URL, POST_URL } from '../../middlewares/constant';
-import { getCookieToken, getCookieUser } from '../../middlewares/common';
+import { BASE_URL } from '../../middlewares/constant';
+import { getCookieToken } from '../../middlewares/common';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import PostCard from '../postCard/PostCard';
-import SideBar from '../layout/SideBar';
 import ChatBox from '../message/ChatBox';
 import FriendRequestBox from '../friend/FriendRequestBox';
 import PostBox from '../post/PostBox';
@@ -123,7 +124,7 @@ function UserPostList(props) {
 
     const onUpdatePost = (newPost) => {
         const newItems = postInfo.map(post => {
-            if (newPost._id == post._id) {
+            if (newPost._id === post._id) {
                 return { ...post, content: newPost.content, image: newPost.image, video: newPost.video };
             }
             return post;
