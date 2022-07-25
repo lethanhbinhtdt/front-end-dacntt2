@@ -127,7 +127,7 @@ function HomePage(props) {
                     return res.json()
                 }
             }).then(dataPost => {
-                if (dataPost.length < 5) 
+                if (dataPost?.length < 5) 
                     setHasMorePost(false);
                 
                 setPostInfo(dataPost)
