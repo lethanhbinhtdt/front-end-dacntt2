@@ -6,15 +6,17 @@ import { BASE_URL } from '../../middlewares/constant';
 import {getCookieToken} from '../../middlewares/common'
 
 function ReactionPost(props) {
-    const {handleLikePost,totolLike, isLiked, handleSharePost, setDisplayComment} = props
+    const {handleLikePost,totolLike, isLiked, handleSharePost, setDisplayComment, likeByImage} = props
     const [text, setText] = useState('');
     const [infoCurrentUser, setInfoCurrentUser] = useState()
     const [isLikedPost, setIsLike] = useState(isLiked? isLiked:false);
+    const [likeByImageUser, setLikedByImageUser] = useState(likeByImage? likeByImage:[])
     const [totolLikeInChild, setTotolLike] = useState(totolLike?totolLike*1:0)
 
     useEffect(() => {
         setTotolLike(totolLike?totolLike:0)
         setIsLike(isLiked? isLiked:false)
+        setLikedByImageUser(likeByImage?likeByImage:[])
     });
     var infoTotalLikeByUser = ""
 
@@ -54,7 +56,19 @@ function ReactionPost(props) {
 
 
     // }
-
+    var listImageUserLikes = []
+    for(var i =0 ; i<likeByImageUser?.length; i++){
+        console.log("likeByImageUser", likeByImageUser[i])
+        if(i ===0){
+            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white'></img>)
+        }
+        else if(i ===1){
+            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--8'></img>)
+        }
+        else if(i===3){
+            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--16'></img>)
+        }
+    }
 
     return (
         <div>
@@ -82,9 +96,12 @@ function ReactionPost(props) {
             </div>
 
             <div className='d-flex flew-row post-cmt-info'>
-                <img src='http://via.placeholder.com/20x20' alt='Blog user comments' className='border rounded-circle border-2 border-white'></img>
-                <img src='http://via.placeholder.com/20x20' alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--8'></img>
-                <img src='http://via.placeholder.com/20x20' alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--16'></img>
+                <>
+                {listImageUserLikes}
+                </>
+
+    
+    
                 <div className='fs-smaller ms-2 transfer-x--16'>
                     
                     {/* <b className='text-link'

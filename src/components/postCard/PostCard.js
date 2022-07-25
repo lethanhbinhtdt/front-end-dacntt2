@@ -24,6 +24,7 @@ function PostCard(props) {
     const [numberComment, setNumberComment] = useState(props?.dataPostInfo?.commentPost?.length)
     const [isLiked, setIsLike] = useState(dataPostInfo ? dataPostInfo.isLikePost : false);
     const [totolLike, setTotolLike] = useState(dataPostInfo?.likedBy.length)
+    const [likeByImage, setLikedByImage] = useState(dataPostInfo?.likedBy)
     const postId = dataPostInfo?._id;
     const userIdOfPost = dataPostInfo?.createdBy?._id;
 
@@ -57,6 +58,7 @@ function PostCard(props) {
             .then(infoLike => {
                 setIsLike(infoLike?.status)
                 setTotolLike(infoLike?.length)
+                setLikedByImage(infoLike?.likedBy)
             })
     }
 
@@ -169,6 +171,7 @@ function PostCard(props) {
                     isLiked={isLiked} 
                     totolLike={totolLike} 
                     setDisplayComment={setDisplayComment} 
+                    likeByImage = {likeByImage}
                 />
 
                 {/* comments temp đã lấy được và gắn được data nhưng chưa biết vì sao props ko nhân giá trị mới của state*/}
