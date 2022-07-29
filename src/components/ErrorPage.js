@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { TDT_LOGO_NONE_BG_URL } from '../../middlewares/constant'
+
 function ErrorPage() {
     return (
         <div>
             <div className='row'>
                 <div className='col-12'>
                     <div className='text-center mt-3 text-primary'>
-                        <img src='http://via.placeholder.com/128x128' alt='logo'></img>
+                        <img src={TDT_LOGO_NONE_BG_URL} width='128px' height='128px' alt='logo'></img>
                         <h1>SINH VIÊN ĐẠI HỌC TÔN ĐỨC THẮNG</h1>
                     </div>
                     <div className='text-center mt-5'>
