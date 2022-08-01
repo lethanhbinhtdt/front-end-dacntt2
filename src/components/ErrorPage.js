@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { TDT_LOGO_NONE_BG_URL } from '../../middlewares/constant'
+import { TDT_LOGO_NONE_BG_URL } from '../middlewares/constant'
 
 function ErrorPage() {
     return (
