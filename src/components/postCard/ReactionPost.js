@@ -57,15 +57,15 @@ function ReactionPost(props) {
 
     // }
     var listImageUserLikes = []
-    for(var i =0 ; i<likeByImageUser?.length; i++){
+    for(var i =0 ; (i<likeByImageUser?.length) && (i<3); i++){
         console.log("likeByImageUser", likeByImageUser[i])
-        if(i ===0){
-            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white' width='20px'></img>)
+        if(i === 0){
+            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white' width='20px' height='20px'></img>)
         }
-        else if(i ===1){
+        else if(i === 1){
             listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--8' width='20px' height='20px'></img>)
         }
-        else if(i===3){
+        else if(i === 2){
             listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--16' width='20px' height='20px'></img>)
         }
     }
