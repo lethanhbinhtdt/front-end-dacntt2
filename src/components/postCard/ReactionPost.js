@@ -18,7 +18,7 @@ function ReactionPost(props) {
         setIsLike(isLiked? isLiked:false)
         setLikedByImageUser(likeByImage?likeByImage:[])
     });
-    var infoTotalLikeByUser = ""
+    var infoTotalLikeByUser = ''
 
     if(totolLikeInChild-1 > 0){
         if(isLikedPost){
@@ -41,7 +41,7 @@ function ReactionPost(props) {
     }
     // const handleShowCurrentUserLike = ()=>{
 
-        // console.log("da bam vao ")
+        // console.log('da bam vao ')
         // if(!isLiked){
         //     setIsLike(true)
         // }
@@ -50,22 +50,22 @@ function ReactionPost(props) {
         //     showCurrentUserLike = <b className='text-link' onClick={() => setText('Xem 1 người thích')}> <span>Bạn</span>    </b>
         // }
         // else{
-        //     showCurrentUserLike = ""
+        //     showCurrentUserLike = ''
         // }
 
 
 
     // }
     var listImageUserLikes = []
-    for(var i =0 ; i<likeByImageUser?.length; i++){
-        console.log("likeByImageUser", likeByImageUser[i])
-        if(i ===0){
-            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white' width='20px'></img>)
+    for(var i =0 ; (i<likeByImageUser?.length) && (i<3); i++){
+        console.log('likeByImageUser', likeByImageUser[i])
+        if(i === 0){
+            listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white' width='20px' height='20px'></img>)
         }
-        else if(i ===1){
+        else if(i === 1){
             listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--8' width='20px' height='20px'></img>)
         }
-        else if(i===3){
+        else if(i === 2){
             listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white transfer-x--16' width='20px' height='20px'></img>)
         }
     }
@@ -78,7 +78,7 @@ function ReactionPost(props) {
                 <button
                     className='btn btn-outline-dark border-0 rounded-circle fs-larger'
                     onClick={handleLikePost}>
-                        {isLiked?     <FontAwesomeIcon icon="fa-solid fa-heart" />  :  <FontAwesomeIcon icon={faHeart} />}
+                        {isLiked?     <FontAwesomeIcon icon='fa-solid fa-heart' />  :  <FontAwesomeIcon icon={faHeart} />}
      
                 </button>
                 {/* comment button */}
@@ -100,16 +100,8 @@ function ReactionPost(props) {
                 {listImageUserLikes}
                 </>
 
-    
-    
-                <div className='fs-smaller ms-2 transfer-x--16'>
-                    
-                    {/* <b className='text-link'
-                        onClick={() => setText('Xem tất cả người thích')}>
-                        <span>{dataReactionPost?.likedBy.length-1}</span> người khác
-                    </b> */}
+                <div className={`fs-smaller ms-2 ${likeByImageUser?.length>2 ? 'transfer-x--16' : likeByImageUser?.length===2 ? 'transfer-x--8' : ''}`}>
                     {infoTotalLikeByUser}
-            
                 </div>
             </div>
 
