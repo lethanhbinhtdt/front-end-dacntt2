@@ -119,7 +119,8 @@ function LoginPage(props) {
                                     <input className='login-checkbox me-1' id='rememberCheckbox' type='checkbox' checked={checkbox} onChange={() => setCheckbox(!checkbox)} />
                                     <label htmlFor='rememberCheckbox'>Nhớ tài khoản</label>
                                 </div>
-                                <Link to='/forgot'>Quên mật khẩu?</Link>
+                                {/* <Link to='/forgot'>Quên mật khẩu?</Link> */}
+                                <div> </div>
                             </div>
 
                             <div className='form-group mt-4'>
