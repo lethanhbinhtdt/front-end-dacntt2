@@ -55,14 +55,14 @@ function ChatList(props) {
 
     useEffect(() => {
         socket.on('receiveNewMess', data => {
-            console.log(conversationId, data?.conversationId?._id)
-                setCheckHaveNewMessage(true)
-                setNewMess(data)
+            setCheckHaveNewMessage(true)
+            setNewMess(data)
         })
-    }, [socket, conversationId])
+    }, [socket])
 
     useEffect(() => {
-        if (checkHaveNewMessage && mess?.length > 0) {
+        // đk cuối cùng để tránh việc react tự động nhận dữ liệu 2 lần ( dữ liệu bị lặp lại ) 
+        if (checkHaveNewMessage && mess?.length > 0 && newMess?._id !== mess[0]?._id) {
             setMess([...[newMess], ...mess])
         }
         setCheckHaveNewMessage(false)
