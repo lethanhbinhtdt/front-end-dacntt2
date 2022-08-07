@@ -16,31 +16,20 @@ function ChatList(props) {
     const [message, setMessage] = useState('')// message này ở trong ô input type để hiện thị chữ khi nhập  va lấy giá trị nhập vào 
     const [checkHaveNewMessage, setCheckHaveNewMessage] = useState(false)
     const [newMess, setNewMess] = useState()
-
+    
     const messageRef = useRef(null)
     const socket = useContext(SocketContext);
-
+    const [conversationIdState, setConversationIdState] = useState(conversationId?conversationId:"")
     const [loading, setLoading] = useState(true);
 
     var token = getCookieToken()
 
     var listMess = []
     useEffect(() => {
-        socket.on('receiveNewMess', data => {
-            setCheckHaveNewMessage(true)
-            setNewMess(data)
-        })
-    }, [socket])
+        socket.emit("leaveroom", conversationIdState)
+        setConversationIdState(conversationId)
+        socket.emit("joinRoom", conversationId)
 
-    useEffect(() => {
-        if (checkHaveNewMessage && mess?.length > 0) {
-            setMess([...[newMess], ...mess])
-        }
-        setCheckHaveNewMessage(false)
-    }, [checkHaveNewMessage])
-
-    useEffect(() => {
-        setLoading(true)
         if (conversationId) {
             fetch(`${BASE_URL}api/conversation/${conversationId}/message`, {
                 method: 'GET',
@@ -63,6 +52,21 @@ function ChatList(props) {
                 })
         }
     }, [conversationId])
+
+    useEffect(() => {
+        socket.on('receiveNewMess', data => {
+            console.log(conversationId, data?.conversationId?._id)
+                setCheckHaveNewMessage(true)
+                setNewMess(data)
+        })
+    }, [socket, conversationId])
+
+    useEffect(() => {
+        if (checkHaveNewMessage && mess?.length > 0) {
+            setMess([...[newMess], ...mess])
+        }
+        setCheckHaveNewMessage(false)
+    }, [checkHaveNewMessage])
 
     useEffect(() => {
         messageRef.current?.scrollIntoView() // tự động scroll xuống cuối 
