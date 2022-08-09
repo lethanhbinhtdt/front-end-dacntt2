@@ -55,9 +55,8 @@ function ChatList(props) {
 
     useEffect(() => {
         socket.on('receiveNewMess', data => {
-            console.log(conversationId, data?.conversationId?._id)
-                setCheckHaveNewMessage(true)
-                setNewMess(data)
+            setCheckHaveNewMessage(true)
+            setNewMess(data)
         })
     }, [socket, conversationId])
 
