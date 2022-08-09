@@ -21,6 +21,7 @@ function ChatList(props) {
     const socket = useContext(SocketContext);
     const [conversationIdState, setConversationIdState] = useState(conversationId?conversationId:"")
     const [loading, setLoading] = useState(true);
+    const [loadingSend, setLoadingSend] = useState(false);
 
     var token = getCookieToken()
 
@@ -31,6 +32,8 @@ function ChatList(props) {
         socket.emit("joinRoom", conversationId)
 
         if (conversationId) {
+            setLoading(true)
+
             fetch(`${BASE_URL}api/conversation/${conversationId}/message`, {
                 method: 'GET',
                 headers: {
@@ -77,6 +80,7 @@ function ChatList(props) {
     }
     const handleSendMessage = (e) => {
         e.preventDefault();
+        setLoadingSend(true)
         if (message?.length > 0) {
             fetch(`${BASE_URL}api/message`,
                 {
@@ -95,10 +99,16 @@ function ChatList(props) {
                     if (res.ok) {
                         return res.json()
                     }
+                    setLoadingSend(false)
                 })
                 .then((newMess) => {
 
+                    setLoadingSend(false)
                     setMess([...[newMess], ...mess])
+                })
+                .catch(err => {
+                    console.log(err)
+                    setLoadingSend(false)
                 })
         }
     }
@@ -139,7 +149,12 @@ function ChatList(props) {
             <form className='border border-secondary rounded-pill px-3 d-flex send-message bg-light my-3 me-3' onSubmit={handleSendMessage}>
                 <FontAwesomeIcon icon={faComment} className='mx-2 my-auto' />
                 <input onChange={handleInputChange} value={message} type='text' className='message-input py-2 pe-3' placeholder='Nhập tin nhắn...'></input>
-                <button type='submit' className='btn'><FontAwesomeIcon icon={faPaperPlane} className='my-auto' /></button>
+                {loadingSend ?
+                    <div className='w-100 text-center mt-3'><ClipLoader color={'#5239AC'} loading={loading} size={24} /></div>
+                    :
+                    <button type='submit' className='btn'><FontAwesomeIcon icon={faPaperPlane} className='my-auto' /></button>
+                }
+                
             </form>
 
         </>
