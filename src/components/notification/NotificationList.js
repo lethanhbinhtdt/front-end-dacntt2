@@ -12,12 +12,14 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons'
 function NotificationList(props) {
     const { noifiInfos, loadingNotiList, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
     const [isChangeStatusNoti, setIsChangeStatusNoti] = useState(false)
-    const [hasMorePost, setHasMorePost] = useState(true);
+    const [hasMorePost, setHasMorePost] = useState(lenNotification>0);
     const now = new Date();
 
     const token = getCookieToken()
     var listNoti = []
 
+    if (lenNotification===0)
+        listNoti.push(<p className='text-info'>Không có thông báo</p>)
 
     const fetchMoreData = () => {
         fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
