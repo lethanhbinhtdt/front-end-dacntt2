@@ -23,9 +23,9 @@ import { SocketContext, socket } from './middlewares/socket';
 function App() {
   const [currUserInfo, setCurrUserInfo] = useState()
 
-  useEffect(() => {
-    console.log("Current user information", currUserInfo)
-  }, [currUserInfo])
+  // useEffect(() => {
+  //   console.log("Current user information", currUserInfo)
+  // }, [currUserInfo])
 
   // const socketio = useContext(SocketContext);
 
@@ -73,7 +73,7 @@ function App() {
                   <Route element={<PrivateRoute currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo} />}>
                     <Route path='/' element={<HomePage currUserInfo={currUserInfo} />} />
                     <Route path='/personal/:id/*' element={<PersonalPage currUserInfo={currUserInfo} />}></Route>
-                    <Route path='/account/:id/setting' element={<SettingPage currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}> </Route>
+                    <Route path='/account/setting' element={<SettingPage currUserInfo={currUserInfo} setCurrUserInfo={setCurrUserInfo}/>}> </Route>
                     <Route path='/search/' element={<FindFriend />}> </Route>
                     <Route path='/chat' element={<ChatPage currUserInfo={currUserInfo} />}> </Route>
                   </Route>

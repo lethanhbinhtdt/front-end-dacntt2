@@ -14,18 +14,21 @@ import PasswordModal from './PasswordModal';
 function SettingPage(props) {
     const { currUserInfo, setCurrUserInfo } = props;
 
+    const [id, setId] = useState(currUserInfo?._id);
+    const token = getCookieToken()
+
     const [loading, setLoading] = useState(false);
 
-    const [familyName, setFamalyName] = useState(currUserInfo?.familyName)
+    const [familyName, setFamilyName] = useState(currUserInfo?.familyName)
     const [givenName, setGivenName] = useState(currUserInfo?.givenName)
-    const [username, setUsername] = useState(currUserInfo?.username)
     const [className, setClassName] = useState(currUserInfo?.className)
+    const [username, setUsername] = useState(currUserInfo?.username)
     const [phone, setPhone] = useState(currUserInfo?.phone)
     const [gender, setGender] = useState(currUserInfo?.gender)
     const [picture, setPicture] = useState(currUserInfo?.picture)
     const [faculty, setFaculty] = useState(currUserInfo?.faculty)
     const [biography, setBiography] = useState(currUserInfo?.biography)
-    const [backgrounPicture, setBackgroundPicture] = useState(currUserInfo?.backgroundPicture)
+    const [backgroundPicture, setBackgroundPicture] = useState(currUserInfo?.backgroundPicture)
     const [birthday, setBirthday] = useState(currUserInfo?.birthday)
 
     const [imageChoosen, setImageChoosen] = useState(currUserInfo?.picture)
@@ -39,8 +42,22 @@ function SettingPage(props) {
     //     // console.log(e.target.value)
     //     setGender(e.target.value)
     // }
-    let { id } = useParams();
-    const token = getCookieToken()
+    useEffect(() => {
+        setFamilyName(currUserInfo?.familyName)
+        setGivenName(currUserInfo?.givenName)
+        setClassName(currUserInfo?.className)
+        setUsername(currUserInfo?.username)
+        setPhone(currUserInfo?.phone)
+        setGender(currUserInfo?.gender)
+        setPicture(currUserInfo?.picture)
+        setFaculty(currUserInfo?.faculty)
+        setBiography(currUserInfo?.biography)
+        setBackgroundPicture(currUserInfo?.backgroundPicture)
+        setBirthday(currUserInfo?.birthday)
+        setImageChoosen(currUserInfo?.picture)
+        setBackgroundImageChoosen(currUserInfo?.backgroundPicture)
+        setId(currUserInfo?._id)
+    },[currUserInfo])
 
 
     function onchanePhone(e) {
@@ -49,14 +66,11 @@ function SettingPage(props) {
     const onchangeClassName = (e) => {
         setClassName(e.target.value)
     }
-    const onchangeUserName = (e) => {
-        setUsername(e.target.value)
-    }
     const onchangeGivenName = (e) => {
         setGivenName(e.target.value)
     }
     const onchangeFamalyName = (e) => {
-        setFamalyName(e.target.value)
+        setFamilyName(e.target.value)
     }
     const onchaneGender = (e) => {
         setGender(e.target.value)
@@ -80,16 +94,25 @@ function SettingPage(props) {
         setLoading(true)
 
         const formData = new FormData()
+
         formData.append('image', picture)
-        formData.append('familyName', familyName)
-        formData.append('givenName', givenName)
-        formData.append('biography', biography)
-        formData.append('className', className)
-        formData.append('phone', phone)
-        formData.append('gender', gender)
-        formData.append('faculty', faculty)
-        formData.append('backgroundPicture', backgrounPicture)
-        formData.append('birthday', birthday)
+        formData.append('backgroundPicture', backgroundPicture)
+        if (familyName)
+            formData.append('familyName', familyName)
+        if (givenName)
+            formData.append('givenName', givenName)
+        if(biography)
+            formData.append('biography', biography)
+        if(className)
+            formData.append('className', className)
+        if(phone)
+            formData.append('phone', phone)
+        if(gender)
+            formData.append('gender', gender)
+        if(faculty)
+            formData.append('faculty', faculty)
+        if(birthday)
+            formData.append('birthday', birthday)
 
         axios.put(`${BASE_URL}api/account/${id}`, formData,
             {
@@ -168,7 +191,7 @@ function SettingPage(props) {
                                                 </Form.Group>
                                                 <Form.Group>
                                                     <Form.Label className='fw-bold'>Email/ Tài khoản</Form.Label>
-                                                    <Form.Control type='text' value={username} disabled onChange={onchangeUserName} />
+                                                    <Form.Control type='text' value={username} disabled />
                                                 </Form.Group>
                                                 <Form.Group>
                                                     <Form.Label className='fw-bold'>Lớp</Form.Label>
@@ -220,24 +243,30 @@ function SettingPage(props) {
                                             <div className='col-md-4'>
                                                 <h4>Thay đổi ảnh đại diện </h4>
                                                 <div className='text-center'>
-                                                    <img alt='Chris Wood' src={imageChoosen} width='128' height='128'></img>
+                                                    <img alt='avatar' src={imageChoosen} width='128' height='128'></img>
                                                     <div className='mt-2'>
                                                         {/* <!-- lồng 2 button thành 1 --> */}
                                                         {/* <!--<input type='button' className=' btn btn-primary' id='my-button' value='Upload image'>className='d-none'  --> */}
-                                                        <input type='file' name='image' id='my-file' accept='.jpg, .jpeg, .png' onChange={onchangePicture} ></input>
+                                                        <div className='w-100'>
+                                                            <label htmlFor='input-avt' className='w-100'><div className='btn btn-success w-75'>Chọn hình ảnh</div></label>
+                                                            <input hidden onChange={onchangePicture} id='input-avt' type='file' accept='image/*'></input>
+                                                        </div>
+                                                        {/* <input type='file' name='image' id='my-file' accept='.jpg, .jpeg, .png' onChange={onchangePicture} ></input> */}
                                                     </div>
-                                                    <small>For best results, use an image at least 128px by 128px in .jpg format</small>
                                                 </div>
 
                                                 <h4>Thay đổi ảnh bìa</h4>
                                                 <div className='text-center'>
-                                                    <img alt='Chris Wood' src={backgroundImageChoosen} width='160' height='80'></img>
+                                                    <img alt='background' src={backgroundImageChoosen} width='160' height='80'></img>
                                                     <div className='mt-2'>
                                                         {/* <!-- lồng 2 button thành 1 --> */}
                                                         {/* <!--<input type='button' className=' btn btn-primary' id='my-button' value='Upload image'>className='d-none'  --> */}
-                                                        <input type='file' name='image' id='my-file' accept='.jpg, .jpeg, .png' onChange={onchangeBackgroundPicture}></input>
+                                                        <div className='w-100'>
+                                                            <label htmlFor='input-bg' className='w-100'><div className='btn btn-success w-75'>Chọn hình ảnh</div></label>
+                                                            <input hidden onChange={onchangeBackgroundPicture} id='input-bg' type='file' accept='image/*'></input>
+                                                        </div>
+                                                        {/* <input type='file' name='image' id='my-file' accept='.jpg, .jpeg, .png' onChange={onchangeBackgroundPicture}></input> */}
                                                     </div>
-                                                    <small>For best results, use an image at least 128px by 128px in .jpg format</small>
                                                 </div>
                                             </div>
                                         </div>

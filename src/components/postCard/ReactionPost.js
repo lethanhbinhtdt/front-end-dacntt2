@@ -58,7 +58,6 @@ function ReactionPost(props) {
     // }
     var listImageUserLikes = []
     for(var i =0 ; (i<likeByImageUser?.length) && (i<3); i++){
-        console.log('likeByImageUser', likeByImageUser[i])
         if(i === 0){
             listImageUserLikes.push(<img src={likeByImageUser[i]?.picture} alt='Blog user comments' className='border rounded-circle border-2 border-white' width='20px' height='20px'></img>)
         }
