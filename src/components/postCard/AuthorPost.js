@@ -31,7 +31,7 @@ function AuthorPost(props) {
                             <b> {author?.fullname}</b>
                         </Link>
                         <div className='text-secondary fs-small'>
-                            {formatTime(author?.createdAt)}
+                            {author?.createdAt ? formatTime(author?.createdAt):''}
                         </div>
                     </div>
                 </div>
