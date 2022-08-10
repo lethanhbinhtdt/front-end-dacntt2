@@ -101,7 +101,7 @@ function Comments(props) {
                         <div>
                             <Link to={`/personal/${datacommentState[i]?.createdBy?._id}/post/`} state={{ "id": datacommentState[i]?.createdBy?._id }} className='text-dark text-decoration-none'><b>{datacommentState[i]?.createdBy?.fullname}</b></Link>
                             <div className='text-secondary fs-smaller'>
-                                {formatTime(datacommentState[i]?.createdAt)}
+                                {datacommentState[i]?.createdAt ? formatTime(datacommentState[i]?.createdAt):''}
                             </div>
                         </div>
 

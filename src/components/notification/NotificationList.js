@@ -100,7 +100,7 @@ function NotificationList(props) {
                             </div>
                             <div className='notification-content'>
                                 <div><b>{noifiInfos[i]?.userIdGuest?.fullname}</b> {noifiInfos[i]?.content}</div>
-                                <div className='fs-smaller text-secondary'>{formatTime(noifiInfos[i]?.createdAt)} giờ trước</div>
+                                <div className='fs-smaller text-secondary'>{noifiInfos[i]?.createdAt ? formatTime(noifiInfos[i]?.createdAt):''} giờ trước</div>
                             </div>
                             <div className='notification-button'>
                                 {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} /></div>}
@@ -127,7 +127,7 @@ function NotificationList(props) {
                     </div>
                     <div className='notification-content'>
                         <div><b>{noifiInfos[i]?.userIdGuest?.fullname}</b> {noifiInfos[i]?.content}</div>
-                        <div className='fs-smaller text-secondary'>{formatTime(noifiInfos[i]?.createdAt)}</div>
+                        <div className='fs-smaller text-secondary'>{noifiInfos[i]?.createdAt ? formatTime(noifiInfos[i]?.createdAt):''}</div>
                     </div>
                     <div className='notification-button'>
                         {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} className='p-2 cursor-pointer'/></div>}
