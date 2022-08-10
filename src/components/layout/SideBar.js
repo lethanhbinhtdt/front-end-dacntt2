@@ -101,16 +101,18 @@ function SideBar(props) {
                     return res.json()
                 }
             }).then(notification => {
-                setNotificationInfo(notification)
-                setlenNotification(lenNotification + notification.length)// length này dùng để fetch lấy thêm dữ liệu 
-                var numberNotCheck = 0
-                for (var i = 0; i <= notification?.length; i++) {
-                    if (notification[i]?.isChecked === false) {
-                        numberNotCheck = numberNotCheck + 1
+                if (notification.length>0){
+                    setNotificationInfo(notification)
+                    setlenNotification(lenNotification + notification.length)// length này dùng để fetch lấy thêm dữ liệu 
+                    var numberNotCheck = 0
+                    for (var i = 0; i <= notification?.length; i++) {
+                        if (notification[i]?.isChecked === false) {
+                            numberNotCheck = numberNotCheck + 1
+                        }
                     }
+                    // setNumberNotiNotChecked(numberNotCheck)
                 }
                 setLoadingNotiList(false)
-                // setNumberNotiNotChecked(numberNotCheck)
 
             })
             .catch(err => {
@@ -155,6 +157,7 @@ function SideBar(props) {
                     >
                         <NotificationList
                             loadingNotiList={loadingNotiList}
+
                             setNotificationInfo={setNotificationInfo}
                             lenNotification={lenNotification}
                             noifiInfos={notificationInfos}
@@ -184,7 +187,7 @@ function SideBar(props) {
                     nested
                 >
                     <div className='menu-popup d-flex flex-column'>
-                        <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/${currUserInfo?._id}/setting`}>Sửa thông tin cá nhân</Link></button>
+                        <button type='button' className='btn btn-success mb-2'><Link className='btn-link-text' to={`/account/setting`}>Sửa thông tin cá nhân</Link></button>
                         <button type='button' className='btn btn-danger' onClick={logout}>Đăng xuất</button>
                     </div>
                 </Popup>

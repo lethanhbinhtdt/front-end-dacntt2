@@ -31,7 +31,7 @@ function AuthorPost(props) {
                             <b> {author?.fullname}</b>
                         </Link>
                         <div className='text-secondary fs-small'>
-                            {author?.createdAt}
+                            {formatTime(author?.createdAt)}
                         </div>
                     </div>
                 </div>
@@ -52,6 +52,12 @@ function AuthorPost(props) {
 
         </div>
     );
+}
+
+const formatTime = (time) => {
+    let date = time.slice(0,10)
+    let dateArr = date.split("-")
+    return dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0]
 }
 
 export default AuthorPost;

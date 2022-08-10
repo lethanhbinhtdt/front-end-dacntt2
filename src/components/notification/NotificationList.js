@@ -12,12 +12,14 @@ import { faCheck, faX } from '@fortawesome/free-solid-svg-icons'
 function NotificationList(props) {
     const { noifiInfos, loadingNotiList, lenNotification, setNotificationInfo, setNumberNotiNotChecked, numberNotiNotChecked } = props
     const [isChangeStatusNoti, setIsChangeStatusNoti] = useState(false)
-    const [hasMorePost, setHasMorePost] = useState(true);
+    const [hasMorePost, setHasMorePost] = useState(lenNotification>0);
     const now = new Date();
 
     const token = getCookieToken()
     var listNoti = []
 
+    if (lenNotification===0)
+        listNoti.push(<p className='text-info'>Không có thông báo</p>)
 
     const fetchMoreData = () => {
         fetch(`${BASE_URL}api/notification/?skip=${lenNotification}`, {
@@ -98,7 +100,7 @@ function NotificationList(props) {
                             </div>
                             <div className='notification-content'>
                                 <div><b>{noifiInfos[i]?.userIdGuest?.fullname}</b> {noifiInfos[i]?.content}</div>
-                                <div className='fs-smaller text-secondary'>{now - noifiInfos[i]?.createdAt} giờ trước</div>
+                                <div className='fs-smaller text-secondary'>{formatTime(noifiInfos[i]?.createdAt)} giờ trước</div>
                             </div>
                             <div className='notification-button'>
                                 {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} /></div>}
@@ -125,7 +127,7 @@ function NotificationList(props) {
                     </div>
                     <div className='notification-content'>
                         <div><b>{noifiInfos[i]?.userIdGuest?.fullname}</b> {noifiInfos[i]?.content}</div>
-                        <div className='fs-smaller text-secondary'>{now - noifiInfos[i]?.createdAt} giờ trước</div>
+                        <div className='fs-smaller text-secondary'>{formatTime(noifiInfos[i]?.createdAt)}</div>
                     </div>
                     <div className='notification-button'>
                         {noifiInfos[i]?.isChecked ? <></> : <div><FontAwesomeIcon notiid={noifiInfos[i]?._id} icon={faCheck} color='green' onClick={handleChangeStatus} className='p-2 cursor-pointer'/></div>}
@@ -172,6 +174,12 @@ function NotificationList(props) {
             </InfiniteScroll>
         </div>
     );
+}
+
+const formatTime = (time) => {
+    let date = time.slice(0,10)
+    let dateArr = date.split("-")
+    return dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0]
 }
 
 export default NotificationList;

@@ -45,7 +45,7 @@ function SharePost(props) {
                                 <b>{postShare?.createdBy?.fullname} </b>
                             </div>
                             <p className='text-secondary fs-small'>
-                                {postShare?.createdBy?.createdAt}
+                                {formatTime(postShare?.createdBy?.createdAt)}
                             </p>
                         </div>
                     </div>
@@ -65,5 +65,9 @@ function SharePost(props) {
 
     )
 }
-
+const formatTime = (time) => {
+    let date = time.slice(0,10)
+    let dateArr = date.split("-")
+    return dateArr[2]+"-"+dateArr[1]+"-"+dateArr[0]
+}
 export default SharePost;
