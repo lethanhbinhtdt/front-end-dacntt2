@@ -45,7 +45,7 @@ function SharePost(props) {
                                 <b>{postShare?.createdBy?.fullname} </b>
                             </div>
                             <p className='text-secondary fs-small'>
-                                {formatTime(postShare?.createdBy?.createdAt)}
+                                {postShare?.createdBy?.createdAt ? formatTime(postShare?.createdBy?.createdAt):''}
                             </p>
                         </div>
                     </div>
